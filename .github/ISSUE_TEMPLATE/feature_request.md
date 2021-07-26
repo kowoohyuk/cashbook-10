@@ -1,10 +1,9 @@
 ---
 name: Feature Request
 about: 추가해야 할 기능 제안
-title: ''
+title: ""
 labels: feature
-assignees: HobinLee, jonghopark95
-
+assignees: HobinLee, kowoohyuk
 ---
 
 ## :hammer: 기능 설명

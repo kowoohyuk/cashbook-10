@@ -1,10 +1,9 @@
 ---
 name: Bug Report
 about: 버그 제보
-title: ''
+title: ""
 labels: bug
-assignees: HobinLee, jonghopark95
-
+assignees: HobinLee, kowoohyuk
 ---
 
 ## ⚠️ 버그 설명
