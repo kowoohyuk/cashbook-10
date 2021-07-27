@@ -1,0 +1,47 @@
+@mixin title($size: 'small') {
+  margin: 0px 4px;
+  font-family: 'Do Hyeon';
+  @if $size == small {
+    font-size: 24px;
+    line-height: 24px;
+  } @else {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}
+
+@mixin content($size: 'medium') {
+  font-weight: 400;
+  @if $size == regular {
+    font-size: 16px;
+    line-height: 24px;
+  } @else if $size == small {
+    font-size: 18px;
+    line-height: 24px;
+  } @else {
+    font-size: 22px;
+    line-height: 32px;
+  }
+}
+
+@mixin bold($size: 'medium') {
+  font-weight: 500;
+  @if $size == regular {
+    font-size: 12px;
+    line-height: 16px;
+  } @else if $size == small {
+    font-size: 14px;
+    line-height: 24px;
+  } @else {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@mixin lineLimit($numLine) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $numLine;
+  -webkit-box-orient: vertical;
+}
