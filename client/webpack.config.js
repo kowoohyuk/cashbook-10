@@ -44,18 +44,7 @@ module.exports = {
         options: {
           name: 'assets/[name].[ext]?[hash]',
         },
-      },
-      {
-        test: /\.(svg)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            name: '[name].[ext]?[hash]',
-            publicPath: './dist/',
-            limit: 10000 // 10kb
-          }
-        }
-      }      
+      },  
     ],
   },
   plugins: [
