@@ -1,1 +1,6 @@
-@import './reset.scss';
+@import './reset';
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500&display=swap');
+
+* {
+  font-family: 'Noto Sans KR';
+}
