@@ -29,6 +29,7 @@ export default class Calendar {
   private _$target: HTMLElement | null;
   private _options: ICalendarOptions;
   private _selected: Date | null;
+  private _dateObject: TDateObject;
 
   constructor(
     target = null,
@@ -41,6 +42,14 @@ export default class Calendar {
     this._options = options;
     this._$target = target;
     this._selected = null;
+    this._dateObject = this.getDateObject();
+  }
+
+  getDateObject(): TDateObject {
+    return {
+      year: this._date.getFullYear(),
+      month: this._date.getMonth() + 1,
+    };
   }
 
   get target(): HTMLElement | null {
@@ -57,6 +66,9 @@ export default class Calendar {
 
   set date(date: Date) {
     this._date = date;
+    if (this._$target) {
+      this.rerender();
+    }
   }
 
   get options(): ICalendarOptions {
