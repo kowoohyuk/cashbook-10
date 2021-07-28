@@ -45,6 +45,32 @@ export default class Calendar {
     this._dateObject = this.getDateObject();
   }
 
+  render() {
+    if (!this._$target) {
+      return new Error(ERROR.target);
+    }
+    this._$target.insertAdjacentHTML('afterend', this.getTemplate());
+  }
+
+  rerender() {
+    if (!this._$target) {
+      return new Error(ERROR.target);
+    }
+    this._$target.querySelector('.woowa-calendar')?.remove();
+    this._$target.insertAdjacentHTML('afterend', this.getTemplate());
+  }
+
+  getTemplate(): string {
+    return 'return template';
+  }
+
+  getSelected(type: string = 'date'): Date | string | null {
+    if (!this._selected) return null;
+    return type === 'date'
+      ? this._selected
+      : convertDateToString(this._selected);
+  }
+
   getDateObject(): TDateObject {
     return {
       year: this._date.getFullYear(),
