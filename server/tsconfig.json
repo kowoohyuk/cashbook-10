@@ -9,6 +9,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "outDir": "dist",
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
       "*": [
