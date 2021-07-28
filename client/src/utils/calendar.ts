@@ -78,6 +78,34 @@ export default class Calendar {
     };
   }
 
+  getMonth(): number {
+    return this._dateObject.month;
+  }
+
+  setNextMonth(next = this._dateObject.month) {
+    this._date.setMonth(next);
+    this.rerender();
+  }
+
+  setPrevMonth(prev = this._dateObject.month - 1) {
+    this._date.setMonth(prev);
+    this.rerender();
+  }
+
+  getYear(): number {
+    return this._dateObject.year;
+  }
+
+  setNextYear(next = this._dateObject.year + 1) {
+    this._date.setFullYear(next);
+    this.rerender();
+  }
+
+  setPrevYear(prev = this._dateObject.year - 1) {
+    this._date.setFullYear(prev);
+    this.rerender();
+  }
+
   get target(): HTMLElement | null {
     return this._$target;
   }
