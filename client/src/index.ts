@@ -1,6 +1,4 @@
-import './styles/index.scss';
+import { App } from './lib/woowact/index';
+import ExamplePage from './pages/ExamplePage';
 
-const root = document.getElementById('root');
-if (root) {
-  root.innerHTML = '가게부 만들기 스타트!';
-}
+new App(new ExamplePage());
