@@ -1,25 +1,9 @@
 import { Router } from 'express';
+import { getUser, postUser } from '../../controllers/user.controller';
 
 const userRouter = Router();
 
-userRouter.get('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
-
-userRouter.post('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
-
-userRouter.put('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
-
-userRouter.delete('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
+userRouter.get('/', getUser);
+userRouter.post('/', postUser);
 
 export default userRouter;
