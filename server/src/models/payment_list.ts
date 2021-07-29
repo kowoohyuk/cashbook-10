@@ -5,6 +5,7 @@ import {
   ForeignKey,
   DataType,
   PrimaryKey,
+  AllowNull,
 } from 'sequelize-typescript';
 import Payment from './payment';
 import User from './user';
@@ -22,13 +23,16 @@ export default class PaymentList extends Model<IPaymentList> {
   @Column(DataType.INTEGER)
   id: number;
 
+  @AllowNull(false)
   @Column(DataType.STRING)
   name: string;
 
+  @AllowNull(false)
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   userId: number;
 
+  @AllowNull(false)
   @ForeignKey(() => Payment)
   @Column(DataType.INTEGER)
   paymentId: number;

@@ -7,6 +7,7 @@ import {
   DataType,
   HasMany,
   PrimaryKey,
+  AllowNull,
 } from 'sequelize-typescript';
 import History from './history';
 import PaymentList from './payment_list';
@@ -25,9 +26,11 @@ export default class User extends Model<IUser> {
   id: number;
 
   @Unique
+  @AllowNull(false)
   @Column(DataType.STRING)
   email: string;
 
+  @AllowNull(false)
   @Column(DataType.STRING)
   pw: string;
 

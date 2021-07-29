@@ -22,6 +22,7 @@ export default class Payment extends Model<IPayment> {
   id: number;
 
   @Unique
+  @AllowNull(false)
   @Column(DataType.STRING)
   name: string;
 

@@ -65,6 +65,7 @@ export default class Category extends Model<ICategory> {
   @Column(DataType.STRING)
   name: string;
 
+  @AllowNull(false)
   @Column(DataType.BOOLEAN)
   isIncome: boolean;
 
