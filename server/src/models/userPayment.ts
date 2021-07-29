@@ -6,6 +6,7 @@ import {
   DataType,
   PrimaryKey,
   AllowNull,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import Payment from './payment';
 import User from './user';
@@ -20,6 +21,7 @@ export interface IUserPayment {
 @Table
 export default class UserPayment extends Model<IUserPayment> {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id: number;
 

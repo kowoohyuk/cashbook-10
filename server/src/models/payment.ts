@@ -7,10 +7,11 @@ import {
   DataType,
   HasMany,
   PrimaryKey,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import UserPayment from './userPayment';
 
-export interface IPayment extends Document {
+export interface IPayment {
   id?: number;
   name: string;
 }
@@ -18,6 +19,7 @@ export interface IPayment extends Document {
 @Table
 export default class Payment extends Model<IPayment> {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id: number;
 

@@ -8,11 +8,12 @@ import {
   HasMany,
   PrimaryKey,
   AllowNull,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import History from './history';
 import UserPayment from './userPayment';
 
-export interface IUser extends Document {
+export interface IUser {
   id?: number;
   email: string;
   pw: string;
@@ -22,6 +23,7 @@ export interface IUser extends Document {
 @Table
 export default class User extends Model<IUser> {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id: number;
 
