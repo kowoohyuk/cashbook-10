@@ -10,7 +10,7 @@ import {
 import Payment from './payment';
 import User from './user';
 
-export interface IPaymentList extends Document {
+export interface IUserPayment extends Document {
   id?: number;
   userId: number;
   paymentId: number;
@@ -18,7 +18,7 @@ export interface IPaymentList extends Document {
 }
 
 @Table
-export default class PaymentList extends Model<IPaymentList> {
+export default class UserPayment extends Model<IUserPayment> {
   @PrimaryKey
   @Column(DataType.INTEGER)
   id: number;

@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize-typescript';
 import User from './user';
 import Category, { DEFAULT_CATEGORY } from './category';
 import Payment from './payment';
-import PaymentList from './payment_list';
+import UserPayment from './userPayment';
 import History from './history';
 
 dotenv.config();
@@ -12,7 +12,7 @@ export const sequelize = new Sequelize({
   dialect: 'mysql',
   username: process.env.USER,
   password: process.env.PASSWORD,
-  models: [User, Category, Payment, PaymentList, History],
+  models: [User, Category, Payment, UserPayment, History],
 });
 
 const init = () => {

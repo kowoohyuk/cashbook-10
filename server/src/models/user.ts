@@ -10,7 +10,7 @@ import {
   AllowNull,
 } from 'sequelize-typescript';
 import History from './history';
-import PaymentList from './payment_list';
+import UserPayment from './userPayment';
 
 export interface IUser extends Document {
   id?: number;
@@ -40,6 +40,6 @@ export default class User extends Model<IUser> {
   @HasMany(() => History)
   histories: History[];
 
-  @HasMany(() => PaymentList)
-  paymentLists: PaymentList[];
+  @HasMany(() => UserPayment)
+  UserPayments: UserPayment[];
 }

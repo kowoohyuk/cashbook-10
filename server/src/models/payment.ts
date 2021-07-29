@@ -8,7 +8,7 @@ import {
   HasMany,
   PrimaryKey,
 } from 'sequelize-typescript';
-import PaymentList from './payment_list';
+import UserPayment from './userPayment';
 
 export interface IPayment extends Document {
   id?: number;
@@ -26,6 +26,6 @@ export default class Payment extends Model<IPayment> {
   @Column(DataType.STRING)
   name: string;
 
-  @HasMany(() => PaymentList)
-  paymentLists: PaymentList[];
+  @HasMany(() => UserPayment)
+  UserPayments: UserPayment[];
 }
