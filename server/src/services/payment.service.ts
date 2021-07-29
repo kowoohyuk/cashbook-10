@@ -11,12 +11,25 @@ const insertOrSelectPayment = async (name: string) => {
 };
 
 export const insertUserPayment = async (userId: number, name: string) => {
-  const [payment, isCreated] = await insertOrSelectPayment(name);
+  const [payment] = await insertOrSelectPayment(name);
+  const isExist = await checkExistUserPayment(userId, name);
+  if (isExist) return null;
   const insertUserPaymentResult = await UserPayment.create({
     userId,
     name,
     paymentId: payment.id,
   });
+  return insertUserPaymentResult;
+};
+
+const checkExistUserPayment = async (userId: number, name: string) => {
+  const data = await UserPayment.findOne({
+    where: {
+      userId,
+      name,
+    },
+  });
+  return !!data;
 };
 
 export const selectUserPayment = async (userId: number) => {
@@ -27,9 +40,9 @@ export const selectUserPayment = async (userId: number) => {
   return userPayments;
 };
 
-export const destroyCategory = async (id: number) => {
+export const destroyCategory = async (userId: number, id: number) => {
   const destroyResult = await UserPayment.destroy({
-    where: { id },
+    where: { userId, id },
   });
   return destroyResult;
 };
