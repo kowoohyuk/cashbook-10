@@ -17,7 +17,6 @@ export interface IUser {
   id?: number;
   email: string;
   pw: string;
-  createdAt: Date;
 }
 
 @Table
@@ -35,9 +34,6 @@ export default class User extends Model<IUser> {
   @AllowNull(false)
   @Column(DataType.STRING)
   pw: string;
-
-  @CreatedAt
-  createdAt: Date;
 
   @HasMany(() => History)
   histories: History[];
