@@ -12,9 +12,9 @@ export const insertUser = async (email: string, pw: string) => {
   return insertUserResult;
 };
 
-export const selectUser = async (id: string, pw: string) => {
+export const selectUser = async (email: string, pw: string) => {
   const user: User = await User.findOne({
-    where: { id, pw },
+    where: { email, pw },
     attributes: ['id', 'email', 'name'],
   });
   return user;
