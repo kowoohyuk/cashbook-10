@@ -1,6 +1,7 @@
 import ExampleComponent from '../components/ExampleComponent';
 import { Component } from '../lib/woowact/index';
 import { numberStore } from '../models/Number';
+import { getArrayN } from '../utils/array';
 
 type ExamplePageState = {
   count: number;
@@ -45,8 +46,7 @@ export default class ExamplePage extends Component<{}, ExamplePageState> {
   }
 
   generateList(): string {
-    const count = this.state.count;
-    return Array.from(Array(count).keys())
+    return getArrayN(this.state.count)
       .map(
         i =>
           `<li key = ${i}>${Component._(
