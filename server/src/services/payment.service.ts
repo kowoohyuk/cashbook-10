@@ -9,7 +9,7 @@ const insertOrSelectPayment = async (name: string) => {
   return executeResult;
 };
 
-export const insertUserPayment = async ({ userId, name }: UserPayment) => {
+export const insertUserPayment = async (userId: number, name: string) => {
   const [payment, isCreated] = await insertOrSelectPayment(name);
   const insertUserPaymentResult = await UserPayment.create({
     userId,
