@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize-typescript';
 import User from './user';
 import Category, { DEFAULT_CATEGORY } from './category';
-import Payment from './payment';
+import Payment, { DEFAULT_PAYMENT } from './payment';
 import UserPayment from './userPayment';
 import History from './history';
 
@@ -21,6 +21,13 @@ const init = () => {
 
     if (categories.length === DEFAULT_CATEGORY.length) return;
     Category.bulkCreate(DEFAULT_CATEGORY);
+  });
+
+  Payment.sync().then(async () => {
+    const payments = await Payment.findAll();
+
+    if (payments.length > DEFAULT_PAYMENT.length) return;
+    Payment.bulkCreate(DEFAULT_PAYMENT);
   });
 };
 

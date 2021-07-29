@@ -1,5 +1,25 @@
 import UserPayment from '../models/userPayment';
-import Payment from '../models/payment';
+import Payment, { DEFAULT_PAYMENT } from '../models/payment';
+import { Op } from 'sequelize';
+
+export const insertInitPayment = async (userId: number) => {
+  const payments: Payment[] = await Payment.findAll({
+    where: {
+      id: {
+        [Op.lte]: DEFAULT_PAYMENT.length,
+      },
+    },
+  });
+  const initPayments = payments.map(payment => ({
+    userId: userId,
+    paymentId: payment.id,
+    name: payment.name,
+  }));
+  UserPayment.sync().then(async () => {
+    UserPayment.bulkCreate(initPayments);
+  });
+  return true;
+};
 
 const insertOrSelectPayment = async (name: string) => {
   const executeResult: [Payment, boolean] = await Payment.findOrCreate({
