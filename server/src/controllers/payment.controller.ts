@@ -3,7 +3,7 @@ import { HttpResponse, STATUS } from '.';
 import {
   selectUserPayment,
   insertUserPayment,
-  destroyCategory,
+  destroyPayment,
 } from '../services/payment.service';
 
 const MESSAGE = {
@@ -63,7 +63,7 @@ export const deleteUserPayment = async (
 ) => {
   try {
     const { userId, id } = req.body;
-    const data = await destroyCategory(Number(userId), Number(id));
+    const data = await destroyPayment(Number(userId), Number(id));
     if (!data) {
       throw new Error();
     }
