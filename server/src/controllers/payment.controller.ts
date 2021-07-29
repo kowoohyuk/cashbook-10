@@ -36,7 +36,6 @@ export const postUserPayment = async (
   try {
     const { userId, name } = req.body;
     const data = await insertUserPayment(Number(userId), name);
-    console.log('결과', data);
     HttpResponse(res, STATUS.SUCCESS, {});
   } catch (e) {
     HttpResponse(res, STATUS.FAIL, {

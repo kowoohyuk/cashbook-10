@@ -16,7 +16,9 @@ export interface IPayment {
   name: string;
 }
 
-@Table
+@Table({
+  timestamps: false,
+})
 export default class Payment extends Model<IPayment> {
   @PrimaryKey
   @AutoIncrement

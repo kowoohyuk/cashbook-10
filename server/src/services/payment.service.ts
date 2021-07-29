@@ -3,6 +3,7 @@ import Payment from '../models/payment';
 
 const insertOrSelectPayment = async (name: string) => {
   const executeResult: [Payment, boolean] = await Payment.findOrCreate({
+    defaults: { name },
     where: { name },
     attributes: ['id', 'name'],
   });
@@ -16,8 +17,6 @@ export const insertUserPayment = async (userId: number, name: string) => {
     name,
     paymentId: payment.id,
   });
-  console.log('payment 만들기');
-  console.log(isCreated, insertUserPaymentResult);
 };
 
 export const selectUserPayment = async (userId: number) => {
