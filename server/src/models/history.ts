@@ -6,18 +6,19 @@ import {
   DataType,
   PrimaryKey,
   AllowNull,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import Payment from './payment';
 import Category from './category';
 import User from './user';
 
-export interface IHistory extends Document {
+export interface IHistory {
   id?: number;
   content: string;
   amount: number;
   paymentDate: Date;
   isIncome: boolean;
-  isDeleted: boolean;
+  userId: number;
   paymentId: number;
   categoryId: number;
 }
@@ -25,6 +26,7 @@ export interface IHistory extends Document {
 @Table
 export default class History extends Model<IHistory> {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id: number;
 
@@ -43,10 +45,6 @@ export default class History extends Model<IHistory> {
   @AllowNull(false)
   @Column(DataType.BOOLEAN)
   isIncome: boolean;
-
-  @AllowNull(false)
-  @Column(DataType.BOOLEAN)
-  isDeleted: boolean;
 
   @AllowNull(false)
   @ForeignKey(() => User)
