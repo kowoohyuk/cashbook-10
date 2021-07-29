@@ -10,7 +10,7 @@ import {
 import Payment from './payment';
 import User from './user';
 
-export interface IUserPayment extends Document {
+export interface IUserPayment {
   id?: number;
   userId: number;
   paymentId: number;
