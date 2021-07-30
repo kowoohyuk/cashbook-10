@@ -13,7 +13,7 @@ const Method = {
 
 type Method = typeof Method[keyof typeof Method];
 
-const END_POINT = 'http://localhost:8000';
+const END_POINT = 'http://localhost:8000/api';
 
 const useFetch = async (url: string, method: Method, body?: {}) => {
   const option = {
@@ -21,7 +21,6 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
     body: body ? JSON.stringify(body) : undefined,
   };
 
@@ -34,19 +33,20 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
 
     statusCode = res.status;
 
-    const data = await res.json();
+    const result = await res.json();
 
     switch (statusCode) {
       case RES_FAIL:
-        throw new Error(data.message);
+        throw new Error(result.message);
       case RES_FAIL_REDIRECTION:
         //window.location.href = `#${Path.signIn}`;
-        throw new Error(data.message);
+        throw new Error(result.message);
       case RES_FAIL_ALERT:
-        alert(data.message);
-        throw new Error(data.message);
+        //
+        alert(result.message);
+        throw new Error(result.message);
       case RES_SUCCESS:
-        return data;
+        return result.data;
     }
   } catch (e) {
     console.error(e);
