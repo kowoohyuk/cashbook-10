@@ -1,25 +1,14 @@
 import { Router } from 'express';
+import {
+  getUserPayment,
+  postUserPayment,
+  deleteUserPayment,
+} from '../../controllers/payment.controller';
 
 const paymentRouter = Router();
 
-paymentRouter.get('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
-
-paymentRouter.post('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
-
-paymentRouter.put('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
-
-paymentRouter.delete('/', (req, res) => {
-  console.log(req.method);
-  res.status(200).json({ message: '' });
-});
+paymentRouter.get('/', getUserPayment);
+paymentRouter.post('/', postUserPayment);
+paymentRouter.delete('/', deleteUserPayment);
 
 export default paymentRouter;

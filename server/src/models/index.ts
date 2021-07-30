@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize-typescript';
 import User from './user';
 import Category, { DEFAULT_CATEGORY } from './category';
-import Payment from './payment';
-import PaymentList from './payment_list';
+import Payment, { DEFAULT_PAYMENT } from './payment';
+import UserPayment from './userPayment';
 import History from './history';
 
 dotenv.config();
@@ -12,7 +12,7 @@ export const sequelize = new Sequelize({
   dialect: 'mysql',
   username: process.env.USER,
   password: process.env.PASSWORD,
-  models: [User, Category, Payment, PaymentList, History],
+  models: [User, Category, Payment, UserPayment, History],
 });
 
 const init = () => {
@@ -21,6 +21,13 @@ const init = () => {
 
     if (categories.length === DEFAULT_CATEGORY.length) return;
     Category.bulkCreate(DEFAULT_CATEGORY);
+  });
+
+  Payment.sync().then(async () => {
+    const payments = await Payment.findAll();
+
+    if (payments.length > DEFAULT_PAYMENT.length) return;
+    Payment.bulkCreate(DEFAULT_PAYMENT);
   });
 };
 
