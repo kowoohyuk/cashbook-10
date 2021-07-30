@@ -1,4 +1,4 @@
 import { App } from './lib/woowact/index';
-import ExamplePage from './pages/ExamplePage';
+import MainPage from './pages/MainPage';
 
-new App(new ExamplePage());
+new App(new MainPage());
