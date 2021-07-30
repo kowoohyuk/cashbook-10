@@ -36,9 +36,16 @@ export type THistoryGetParams = {
   month: string;
 };
 
+const getIHistoryList = (histories: History[]): IHistory[] => {
+  return histories.map((history: any) => {
+    history.dataValues.amount = parseInt(history.dataValues.amount);
+    return history.dataValues;
+  });
+};
+
 export const getHistoryList = async (
   params: THistoryGetParams,
-): Promise<History[] | Error> => {
+): Promise<IHistory[] | Error> => {
   const { year, month, ...where } = params;
 
   const yearNumber = parseInt(year);
@@ -60,7 +67,8 @@ export const getHistoryList = async (
     },
   });
 
-  return historyList;
+  const h = getIHistoryList(historyList);
+  return h;
 };
 
 export const updateHistory = async (params: IHistory): Promise<boolean> => {

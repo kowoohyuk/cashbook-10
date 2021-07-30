@@ -16,6 +16,7 @@ const MESSAGE = {
   POST_FAIL: '히스토리 생성에 실패했습니다.',
   UPDATE_FAIL: '유저 혹은 히스토리의 정보가 잘 못 입력되었습니다.',
   INVALID_DATE: '날짜 형식이 잘못 되었습니다.',
+  HISTORY_ID_NOT_EXIST: '히스토리 아이디가 잘 못 입력되었습니다.',
 };
 
 export const getHistory = async (
@@ -43,7 +44,6 @@ export const getHistory = async (
 
     HttpResponse(res, STATUS.SUCCESS, { data: history });
   } catch (e) {
-    console.error(e);
     HttpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
@@ -109,9 +109,13 @@ export const deleteHistory = async (
   res: express.Response,
 ) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기
+    const userId: number = 0; // TODO: 유저 id 가지고 오기c
 
-    const result: boolean = await removeHistory(userId, 11);
+    const historyId: number = parseInt(req.query.historyId as string);
+
+    if (isNaN(historyId)) throw new Error(MESSAGE.HISTORY_ID_NOT_EXIST);
+
+    const result: boolean = await removeHistory(userId, historyId);
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
