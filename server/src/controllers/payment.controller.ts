@@ -40,9 +40,7 @@ export const postUserPayment = async (
     const data = await insertUserPayment(Number(userId), name);
     if (!data) {
       return HttpResponse(res, STATUS.SUCCESS, {
-        data: {
-          message: MESSAGE.POST_EXIST,
-        },
+        message: MESSAGE.POST_EXIST,
       });
     }
     HttpResponse(res, STATUS.SUCCESS, {
@@ -68,9 +66,7 @@ export const deleteUserPayment = async (
       throw new Error();
     }
     HttpResponse(res, STATUS.SUCCESS, {
-      data: {
-        message: MESSAGE.DELETE_SUCCESS,
-      },
+      message: MESSAGE.DELETE_SUCCESS,
     });
     HttpResponse(res, STATUS.SUCCESS, {});
   } catch (e) {
