@@ -1,23 +1,15 @@
-import HistoryItem from '../components/History/historyItem';
+import HistoryItem from '../components/History/HistoryItem';
 import { Component } from '../lib/woowact/index';
-import { historyStore } from '../models/History';
+import { historyStore } from '../stores/History';
 import { getArrayN } from '../utils/array';
 
 export default class MainPage extends Component<{}, {}> {
-  $list: {
-    [key: string]: Component;
-  } = {};
-
   constructor() {
     super({});
 
     historyStore.subscribe(this);
 
     this.init();
-  }
-
-  componentDidMount() {
-    historyStore.initHistories();
   }
 
   generateList(): string {
@@ -38,7 +30,7 @@ export default class MainPage extends Component<{}, {}> {
     <div>
       <ul>
         ${this.generateList()}
-        </ul>
+      </ul>
     </div>
     `;
   }
