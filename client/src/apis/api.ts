@@ -50,7 +50,7 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     }
   } catch (e) {
     console.error(e);
-    return null;
+    return false;
   }
 };
 export const GET = async (url: string) => {

@@ -1,6 +1,6 @@
 import { IHistory, removeHistoryAPI } from '../../apis/historyAPI';
 import { Component } from '../../lib/woowact/index';
-import { INIT_HISTORY } from '../../models/History';
+import { DELETE_HISTORY, historyStore } from '../../stores/History';
 import { toWonForm } from '../../utils/money';
 import { $ } from '../../utils/selector';
 
@@ -32,46 +32,27 @@ export default class HistoryItem extends Component<
     const $editConrifmBTN = $('.confirm-btn', this.$element);
     const $cancelBTN = $('.cancel-btn', this.$element);
 
-    if ($editBTN) {
-      $editBTN.addEventListener('click', () =>
-        this.setState({
-          editMode: true,
-        }),
-      );
-    }
-    if ($editConrifmBTN) {
-      $editConrifmBTN.addEventListener('click', () =>
-        this.setState({
-          editMode: false,
-        }),
-      );
-    }
-    if ($deleteBTN) {
-      $deleteBTN.addEventListener('click', async () => this.removeHistory());
-    }
-    if ($cancelBTN) {
-      $cancelBTN.addEventListener('click', () =>
-        this.setState({ editMode: false }),
-      );
-    }
-  }
-
-  async removeHistory() {
-    const id = this.props.history.id;
-
-    if (id) {
-      const result = await removeHistoryAPI(id);
-
-      if (result) this.$element.remove();
-    }
+    $editBTN?.addEventListener('click', () =>
+      this.setState({
+        editMode: true,
+      }),
+    );
+    $editConrifmBTN?.addEventListener('click', () =>
+      this.setState({
+        editMode: false,
+      }),
+    );
+    $deleteBTN?.addEventListener('click', () =>
+      historyStore.dispatch(DELETE_HISTORY, this.props.history.id),
+    );
+    $cancelBTN?.addEventListener('click', () =>
+      this.setState({ editMode: false }),
+    );
   }
 
   async updateHistory() {}
 
   componentDidMount() {
-    this.addEvents();
-  }
-  componentDidUpdate() {
     this.addEvents();
   }
 

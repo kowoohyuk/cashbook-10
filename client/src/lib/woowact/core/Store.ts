@@ -35,7 +35,8 @@ export abstract class Store<Data extends IData> {
       const updatedData = this.actions[action](args);
 
       if (updatedData instanceof Promise) {
-        this.updateStore(action, await updatedData);
+        const data = await this.actions[action](args);
+        this.updateStore(action, data);
       } else {
         this.updateStore(action, updatedData);
       }
@@ -54,9 +55,7 @@ export abstract class Store<Data extends IData> {
   };
 
   private updateSubscribers = () => {
-    this.subscribers.forEach((subscriber: Component) =>
-      subscriber.updateBy(this._data),
-    );
+    this.subscribers.forEach((subscriber: Component) => subscriber.updateBy());
   };
 
   get data(): Data {

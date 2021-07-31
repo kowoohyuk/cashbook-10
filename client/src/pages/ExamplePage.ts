@@ -1,6 +1,6 @@
 import ExampleComponent from '../components/ExampleComponent';
 import { Component } from '../lib/woowact/index';
-import { numberStore } from '../models/Number';
+import { numberStore } from '../stores/Number';
 import { getArrayN } from '../utils/array';
 
 type ExamplePageState = {
