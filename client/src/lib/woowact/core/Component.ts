@@ -103,11 +103,7 @@ export default class Component<
     this.update();
   }
 
-  public updateBy(partialState?: Partial<S>) {
-    if (partialState) {
-      this.setState(partialState);
-    }
-
+  public updateBy() {
     this.update();
   }
 
