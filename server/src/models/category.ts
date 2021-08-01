@@ -58,7 +58,9 @@ export interface ICategory {
   isIncome: boolean;
 }
 
-@Table
+@Table({
+  timestamps: false,
+})
 export default class Category extends Model<ICategory> {
   @AllowNull(false)
   @Unique

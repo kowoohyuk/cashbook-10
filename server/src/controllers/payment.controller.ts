@@ -1,4 +1,4 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import { HttpResponse, STATUS } from '.';
 import {
   selectUserPayment,
@@ -14,10 +14,7 @@ const MESSAGE = {
   DELETE_SUCCESS: '유저 결제수단 삭제 성공',
 };
 
-export const getUserPayment = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const getUserPayment = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.query.userId as string);
     const data = await selectUserPayment(userId);
@@ -31,10 +28,7 @@ export const getUserPayment = async (
   }
 };
 
-export const postUserPayment = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const postUserPayment = async (req: Request, res: Response) => {
   try {
     const { userId, name } = req.body;
     const data = await insertUserPayment(Number(userId), name);
@@ -55,10 +49,7 @@ export const postUserPayment = async (
   }
 };
 
-export const deleteUserPayment = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const deleteUserPayment = async (req: Request, res: Response) => {
   try {
     const { userId, id } = req.body;
     const data = await destroyPayment(Number(userId), Number(id));

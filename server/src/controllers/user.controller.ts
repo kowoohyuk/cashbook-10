@@ -1,5 +1,5 @@
 import { insertUser, selectUser } from '../services/user.service';
-import express from 'express';
+import { Request, Response } from 'express';
 import { HttpResponse, STATUS } from '.';
 
 const MESSAGE = {
@@ -9,7 +9,7 @@ const MESSAGE = {
   POST_FAIL_VALIDATION: '유효하지 않은 이메일 입니다.',
 };
 
-export const getUser = async (req: express.Request, res: express.Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const { email, pw } = req.query;
     const data = await selectUser(email as string, pw as string);
@@ -23,7 +23,7 @@ export const getUser = async (req: express.Request, res: express.Response) => {
   }
 };
 
-export const postUser = async (req: express.Request, res: express.Response) => {
+export const postUser = async (req: Request, res: Response) => {
   try {
     const { email, pw } = req.body;
     const data = await insertUser(email as string, pw as string);

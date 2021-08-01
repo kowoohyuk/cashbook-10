@@ -1,4 +1,4 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import {
   getHistoryList,
   createHistory,
@@ -19,10 +19,7 @@ const MESSAGE = {
   HISTORY_ID_NOT_EXIST: '히스토리 아이디가 잘 못 입력되었습니다.',
 };
 
-export const getHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const getHistory = async (req: Request, res: Response) => {
   try {
     let { userId, year, month, ...query } = req.query;
 
@@ -50,10 +47,7 @@ export const getHistory = async (
   }
 };
 
-export const postHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const postHistory = async (req: Request, res: Response) => {
   try {
     const userId: number = 0; // TODO: 유저 id 가지고 오기
 
@@ -77,10 +71,7 @@ export const postHistory = async (
   }
 };
 
-export const putHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const putHistory = async (req: Request, res: Response) => {
   try {
     const userId: number = 0; // TODO: 유저 id 가지고 오기
 
@@ -104,10 +95,7 @@ export const putHistory = async (
   }
 };
 
-export const deleteHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const deleteHistory = async (req: Request, res: Response) => {
   try {
     const userId: number = 0; // TODO: 유저 id 가지고 오기c
 
