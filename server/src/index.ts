@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { sequelize } from './models';
 import APIRouter from './routers/index';
-import authRouter from './routers/apis/authRouter';
+import authMiddleWare from './middlewares/auth.middleware';
 
 dotenv.config();
 sequelize.sync();
@@ -28,7 +28,7 @@ app.all('/*', function (req, res, next) {
   next();
 });
 
-app.use(authRouter);
+app.use(authMiddleWare);
 
 app.use('/api/', APIRouter);
 
