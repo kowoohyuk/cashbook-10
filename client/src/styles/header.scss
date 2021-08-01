@@ -1,0 +1,31 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .date-picker {
+    width: 10rem;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .date-picker__date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .date-picker__year {
+        font-size: 1.2rem;
+      }
+      .date-picker__month {
+        font-size: 5rem;
+      }
+    }
+    button {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+}
