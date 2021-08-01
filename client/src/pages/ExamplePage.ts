@@ -34,6 +34,9 @@ export default class ExamplePage extends Component<{}, ExamplePageState> {
   }
 
   componentDidUpdate() {
+    this.$element.addEventListener('click', () => {
+      console.log('AA');
+    });
     if (this.state.count < 30) {
       setTimeout(
         () =>
