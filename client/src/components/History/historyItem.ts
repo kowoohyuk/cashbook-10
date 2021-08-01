@@ -1,4 +1,5 @@
 import { IHistory, removeHistoryAPI } from '../../apis/historyAPI';
+import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { Component } from '../../lib/woowact/index';
 import { DELETE_HISTORY, historyStore } from '../../stores/History';
 import { toWonForm } from '../../utils/money';
@@ -26,39 +27,50 @@ export default class HistoryItem extends Component<
     this.init();
   }
 
+  componentDidMount() {
+    this.addEvents();
+  }
+
+  componentDidUpdate() {
+    this.addEvents();
+  }
+
   addEvents() {
     const $editBTN = $('.edit-btn', this.$element);
     const $deleteBTN = $('.delete-btn', this.$element);
     const $editConrifmBTN = $('.confirm-btn', this.$element);
     const $cancelBTN = $('.cancel-btn', this.$element);
 
-    $editBTN?.addEventListener('click', () =>
-      this.setState({
-        editMode: true,
-      }),
-    );
-    $editConrifmBTN?.addEventListener('click', () =>
-      this.setState({
-        editMode: false,
-      }),
-    );
-    $deleteBTN?.addEventListener('click', () =>
-      historyStore.dispatch(DELETE_HISTORY, this.props.history.id),
-    );
-    $cancelBTN?.addEventListener('click', () =>
-      this.setState({ editMode: false }),
-    );
-  }
+    $editBTN &&
+      eventHandler.addEvent($editBTN, 'click', () =>
+        this.setState({
+          editMode: true,
+        }),
+      );
 
-  async updateHistory() {}
+    $editConrifmBTN &&
+      eventHandler.addEvent($editConrifmBTN, 'click', () =>
+        this.setState({
+          editMode: false,
+        }),
+      );
 
-  componentDidMount() {
-    this.addEvents();
+    $deleteBTN &&
+      eventHandler.addEvent($deleteBTN, 'click', () => {
+        console.log(this.props.history.id);
+        historyStore.dispatch(DELETE_HISTORY, this.props.history.id);
+      });
+
+    $cancelBTN &&
+      eventHandler.addEvent($cancelBTN, 'click', () =>
+        this.setState({ editMode: false }),
+      );
   }
 
   getDateString(date: Date) {
     return date.toString().slice(0, 10);
   }
+
   render() {
     if (this.state.editMode) {
       return `
@@ -88,7 +100,7 @@ export default class HistoryItem extends Component<
       <div>${this.props.history.isIncome ? '입금' : '출금'}
       ${toWonForm(this.props.history.amount)}
     </div>
-      <button class='edit-btn'>수정</button>
+      <button class='edit-confirm-btn'>수정</button>
       <button class='delete-btn'>삭제</button>
     </div>
     `;
