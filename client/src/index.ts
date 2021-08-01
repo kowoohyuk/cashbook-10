@@ -1,4 +1,3 @@
-import { App } from './lib/woowact/index';
-import MainPage from './pages/MainPage';
+import App from './App';
 
-new App(new MainPage());
+new App();
