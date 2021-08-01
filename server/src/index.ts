@@ -1,11 +1,18 @@
-import express from 'express';
-import path from 'path';
+import express, { Request } from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { sequelize } from './models';
 import APIRouter from './routers/index';
 import authMiddleWare from './middlewares/auth.middleware';
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: string;
+    }
+  }
+}
 
 dotenv.config();
 sequelize.sync();
@@ -18,7 +25,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.all('/*', function (req, res, next) {
+app.all('/*', function (req: Request, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.header(
