@@ -5,10 +5,15 @@ dotenv.config();
 
 const SECRET = process.env.SECRET || 'develop';
 
+const BEARER = 'Bearer ';
+
 export const generateToken = (payload: string | object | Buffer) => {
-  return jwt.sign(payload, SECRET, {
-    expiresIn: '2h',
-  });
+  return (
+    BEARER +
+    jwt.sign(payload, SECRET, {
+      expiresIn: '2h',
+    })
+  );
 };
 
 export const verifyToken = (token: string) => {
