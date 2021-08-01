@@ -8,7 +8,7 @@ import {
 } from '../services/history.service';
 import { STATUS, HttpResponse } from '.';
 import { IHistory } from '../models/history';
-import { checkValidDate } from '../../utils/date';
+import { checkValidDate } from '../utils/date';
 
 const MESSAGE = {
   GET_FAIL: '히스토리 조회에 싪패했습니다.',
@@ -68,7 +68,7 @@ export const postHistory = async (
 
     if (!result) throw new Error(MESSAGE.POST_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS);
+    HttpResponse(res, STATUS.SUCCESS, {});
   } catch (e) {
     console.error(e);
     HttpResponse(res, STATUS.FAIL, {
@@ -95,7 +95,7 @@ export const putHistory = async (
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS);
+    HttpResponse(res, STATUS.SUCCESS, {});
   } catch (e) {
     console.error(e);
     HttpResponse(res, STATUS.FAIL, {
@@ -119,7 +119,7 @@ export const deleteHistory = async (
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS);
+    HttpResponse(res, STATUS.SUCCESS, {});
   } catch (e) {
     console.error(e);
     HttpResponse(res, STATUS.FAIL, {
