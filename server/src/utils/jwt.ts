@@ -5,11 +5,11 @@ dotenv.config();
 
 const SECRET = process.env.SECRET || 'develop';
 
-export const generateToken = (payload: string | object | Buffer) =>
-  jwt.sign(payload, SECRET, {
-    algorithm: 'HS256',
+export const generateToken = (payload: string | object | Buffer) => {
+  return jwt.sign(payload, SECRET, {
     expiresIn: '2h',
   });
+};
 
 export const verifyToken = (token: string) => {
   try {

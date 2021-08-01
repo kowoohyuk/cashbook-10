@@ -21,10 +21,7 @@ export const insertUser = async (email: string, pw: string) => {
   if (isExist) return null;
   const insertUserResult = await User.create({ email, pw });
   const insertInitPaymentResult = await insertInitPayment(insertUserResult.id);
-  if (insertInitPaymentResult) {
-    return insertUserResult;
-  }
-  return null;
+  return insertInitPaymentResult && insertUserResult;
 };
 
 export const selectUser = async (email: string, pw: string) => {
