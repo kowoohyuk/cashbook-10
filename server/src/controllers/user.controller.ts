@@ -1,6 +1,7 @@
 import { insertUser, selectUser } from '../services/user.service';
 import { Request, Response } from 'express';
 import { HttpResponse, STATUS } from '.';
+import { generateToken } from '../utils/jwt';
 
 const MESSAGE = {
   GET_FAIL: '유저 로그인 실패',
@@ -9,7 +10,7 @@ const MESSAGE = {
   POST_FAIL_VALIDATION: '유효하지 않은 이메일 입니다.',
 };
 
-export const getUser = async (req: Request, res: Response) => {
+export const postSignInUser = async (req: Request, res: Response) => {
   try {
     const { email, pw } = req.query;
     const data = await selectUser(email as string, pw as string);
@@ -23,19 +24,23 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
-export const postUser = async (req: Request, res: Response) => {
+export const postSignUpUser = async (req: Request, res: Response) => {
   try {
     const { email, pw } = req.body;
     const data = await insertUser(email as string, pw as string);
-    if (!data) {
+    if (data.error) {
       return HttpResponse(res, STATUS.SUCCESS, {
         message: MESSAGE.POST_FAIL_VALIDATION,
       });
     }
+    const accessToken = generateToken({
+      email,
+      pw,
+    });
     HttpResponse(res, STATUS.SUCCESS, {
       data: {
-        id: data.id,
-        email: data.email,
+        email,
+        accessToken,
       },
     });
   } catch (e) {
