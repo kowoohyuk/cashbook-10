@@ -15,10 +15,8 @@ type THistoryData = {
 };
 
 class HistoryStore extends Store<THistoryData> {
-  i: number = 0;
   constructor(historyData: THistoryData) {
     super(historyData);
-    this.i++;
 
     this.dispatch(INIT_HISTORY);
   }
@@ -47,11 +45,13 @@ class HistoryStore extends Store<THistoryData> {
         const histories = this._data.histories.filter(
           (h: IHistory) => h.id !== historyId,
         );
+
         return { histories };
       }
+
+      throw new Error('삭제된 데이터가 없습니다.');
     } catch (e) {
       console.error(e);
-    } finally {
       return { histories: this._data.histories };
     }
   }
