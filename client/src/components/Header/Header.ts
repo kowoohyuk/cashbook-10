@@ -5,7 +5,7 @@ import { DatePicker } from './DatePicker';
 import '../../styles/header.scss';
 import IMGButton from '../Common/IMGButton';
 import { userSVG } from '../../useResource';
-import { LoginModal } from '../Modals/LoginModal';
+import { SigninModal } from '../Modals/SigninModal';
 
 export class Header extends Component {
   $mainLink: Component;
@@ -20,7 +20,7 @@ export class Header extends Component {
       className: 'user-button',
       src: userSVG,
       onclick: () => {
-        new LoginModal();
+        new SigninModal();
       },
     });
 
