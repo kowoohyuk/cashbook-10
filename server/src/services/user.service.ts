@@ -1,14 +1,14 @@
+import { generateToken } from '../utils/jwt';
 import { IAPIResultData } from '.';
 import User from '../models/user';
-import UserPayment from '../models/userPayment';
-import { selectUserPayment } from '../services/payment.service';
 import { insertInitPayment } from './payment.service';
 
 const MESSAGE = {
-  GET_FAIL: '유저 로그인 실패',
-  POST_FAIL: '유저 가입 실패',
-  POST_EXIST: '이미 존재하는 이메일입니다.',
-  POST_FAIL_VALIDATION: '유효하지 않은 이메일 입니다.',
+  SIGNIN_FAIL: '유저 로그인 실패',
+  SIGNUP_FAIL: '유저 가입 실패',
+  DATABASE_FAIL: '서버 연결 오류', // 데이터베이스 연결 에러
+  USER_EXIST: '이미 존재하는 이메일입니다.',
+  SIGNUP_FAIL_VALIDATION: '유효하지 않은 이메일 입니다.',
 };
 
 const validationEmail = (email: string): boolean =>
@@ -23,49 +23,64 @@ const checkExistUser = async (email: string) => {
       },
     });
     result.error = !!data;
+    result.message = MESSAGE.USER_EXIST;
     return result;
   } catch (e) {
     result.error = true;
-    result.message = e.message || MESSAGE.POST_FAIL;
+    result.message = MESSAGE.DATABASE_FAIL;
     return result;
   }
 };
 
-export const insertUser = async (email: string, pw: string) => {
+export const signupUser = async (email: string, pw: string) => {
   const result: IAPIResultData = {};
   try {
     if (validationEmail(email)) {
-      throw new Error(MESSAGE.POST_FAIL_VALIDATION);
+      throw new Error(MESSAGE.SIGNUP_FAIL_VALIDATION);
     }
     const isExist = await checkExistUser(email);
-    if (isExist) {
-      throw new Error(MESSAGE.POST_EXIST);
+    if (isExist.error) {
+      throw new Error(MESSAGE.USER_EXIST);
     }
     const insertUserResult = await User.create({ email, pw });
     const insertInitPaymentResult = await insertInitPayment(
       insertUserResult.id,
     );
     if (insertInitPaymentResult && insertUserResult) {
-      result.data = insertUserResult;
+      const accessToken = generateToken({
+        id: insertUserResult.id,
+        email,
+      });
+      result.data = {
+        token: accessToken,
+        email,
+      };
       return result;
     }
     throw new Error();
   } catch (e) {
     result.error = true;
-    result.message = e.message || MESSAGE.POST_FAIL;
+    result.message = e.message || MESSAGE.DATABASE_FAIL;
     return result;
   }
 };
 
-export const selectUser = async (email: string, pw: string) => {
-  const user: User = await User.findOne({
-    where: { email, pw },
-    attributes: ['id', 'email'],
-  });
-  const payments: UserPayment[] = await selectUserPayment(user.id);
-  return {
-    id: user.id,
-    email: user.email,
-    payments,
-  };
+export const signinUser = async (email: string, pw: string) => {
+  const result: IAPIResultData = {};
+  try {
+    const user: User = await User.findOne({
+      where: { email, pw },
+      attributes: ['id', 'email'],
+    });
+    const accessToken = generateToken(user);
+    result.data = {
+      token: accessToken,
+      email,
+    };
+    return result;
+  } catch (e) {
+    result.error = true;
+    result.message = e.message || MESSAGE.SIGNUP_FAIL;
+    return result;
+  }
 };

@@ -6,7 +6,7 @@ import {
 
 const userRouter = Router();
 
-userRouter.post('/signInUser', postSignInUser);
-userRouter.post('/signUpUser', postSignUpUser);
+userRouter.post('/signin', postSignInUser);
+userRouter.post('/signup', postSignUpUser);
 
 export default userRouter;
