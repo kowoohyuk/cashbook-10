@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { HttpResponse, STATUS } from '.';
 import {
   selectUserPayment,
+  selectPayment,
   insertUserPayment,
   destroyPayment,
 } from '../services/payment.service';
@@ -16,7 +17,10 @@ const MESSAGE = {
 
 export const getUserPayment = async (req: Request, res: Response) => {
   try {
-    const data = await selectUserPayment(Number(req.user.id));
+    const id = Number(req?.user?.id);
+    const data = id
+      ? await selectUserPayment(Number(req.user.id))
+      : await selectPayment();
     HttpResponse(res, STATUS.SUCCESS, {
       data,
     });
