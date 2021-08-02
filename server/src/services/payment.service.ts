@@ -9,6 +9,7 @@ export const insertInitPayment = async (userId: number) => {
         [Op.lte]: DEFAULT_PAYMENT.length,
       },
     },
+    order: [['id', 'ASC']],
   });
   const initPayments = payments.map(payment => ({
     userId: userId,
@@ -56,8 +57,17 @@ export const selectUserPayment = async (userId: number) => {
   const userPayments: UserPayment[] = await UserPayment.findAll({
     where: { userId },
     attributes: ['id', 'name'],
+    order: [['id', 'ASC']],
   });
   return userPayments;
+};
+
+export const selectPayment = async () => {
+  const payments: Payment[] = await Payment.findAll({
+    attributes: ['id', 'name'],
+    order: [['id', 'ASC']],
+  });
+  return payments;
 };
 
 export const destroyPayment = async (userId: number, id: number) => {
