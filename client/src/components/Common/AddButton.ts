@@ -1,5 +1,6 @@
 import IMGButton from './IMGButton';
 import { addSVG } from '../../useResource';
+import { AddHistoryModal } from '../Modals/AddHistoryModal';
 
 export default class AddButton extends IMGButton {
   constructor() {
@@ -12,5 +13,7 @@ export default class AddButton extends IMGButton {
     this.init();
   }
 
-  onclick() {}
+  onclick() {
+    new AddHistoryModal();
+  }
 }

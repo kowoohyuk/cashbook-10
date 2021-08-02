@@ -7,12 +7,11 @@ import './styles/index.scss';
 
 export default class App extends Component {
   $app: HTMLElement;
-  Header: Component;
+  $header: Component;
 
   constructor() {
     super({});
-    this.Header = this.addComponent(Header);
-
+    this.$header = this.addComponent(Header);
     this.$app = this.getRootApp();
     this.init();
   }
@@ -55,8 +54,8 @@ export default class App extends Component {
 
   render(): string {
     return `<div class="app-body">
-    ${this.Header.html}
-    <div class='content'></div>
+      ${this.$header.html}
+      <div class='content'></div>
     </div>`;
   }
 }
