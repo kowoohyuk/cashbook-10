@@ -7,10 +7,15 @@ const SECRET = process.env.SECRET || 'develop';
 
 const BEARER = 'Bearer ';
 
-export const generateToken = (payload: string | object | Buffer) => {
+type user = {
+  id: number;
+  email: string;
+};
+
+export const generateToken = ({ id, email }: user) => {
   return (
     BEARER +
-    jwt.sign(payload, SECRET, {
+    jwt.sign({ id: String(id), email }, SECRET, {
       expiresIn: '2h',
     })
   );
