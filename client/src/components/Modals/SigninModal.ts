@@ -105,7 +105,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
   showEmailValidationMSG() {
     const email = ($('.email-input', this.$element) as HTMLInputElement)?.value;
 
-    !checkPWLength(email) &&
+    !checkEmailValidation(email) &&
       this.setState({ emailMSG: EMAIL_VALIDATION_ERR_MSG });
   }
 
