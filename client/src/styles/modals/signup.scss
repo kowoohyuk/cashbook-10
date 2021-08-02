@@ -18,14 +18,63 @@
   }
 
   .email-input-area {
+    position: relative;
     @include flex(column);
+    width: 17rem;
     height: 4rem;
+
+    input {
+      width: 13rem;
+    }
+
+    .check-button {
+      position: absolute;
+      padding: 0.4rem;
+      transition: 0.3s;
+      font-size: 0.8rem;
+      border-radius: 0.3rem;
+      right: 0;
+
+      &:disabled {
+        border: 1px solid $grey-color2;
+        color: $grey-color2;
+        cursor: default;
+      }
+
+      &:enabled {
+        border: 1px solid $primary-color3;
+        color: $primary-color3;
+        cursor: pointer;
+      }
+    }
+
+    .check-button-confirm {
+      position: absolute;
+      padding: 0.4rem;
+      transition: 0.3s;
+      font-size: 0.8rem;
+      border-radius: 0.3rem;
+      right: 0;
+
+      &:disabled {
+        background-color: $grey-color2;
+        color: white;
+        cursor: default;
+      }
+
+      &:enabled {
+        background-color: $primary-color3;
+        color: white;
+        cursor: default;
+      }
+    }
   }
 
   .pw-input-area {
     @include flex(column);
-    height: 4rem;
     position: relative;
+    overflow: hidden;
+    transform: 0.3s;
     .pw-input {
       padding-right: 2rem;
     }
@@ -50,12 +99,20 @@
     }
   }
 
+  .show {
+    height: 4rem;
+  }
+
+  .hide {
+    height: 0rem;
+  }
+
   small {
     color: $error-color;
     font-size: 0.8rem;
   }
 
-  .signin-button {
+  .signup-button {
     width: 17rem;
     height: 3rem;
     border-radius: 0.3rem;
@@ -72,12 +129,11 @@
     }
   }
 
-  .signup-notification {
-    font-size: 0.8rem;
+  .result-msg-box {
+    height: 1rem;
   }
 
-  .signup-button {
-    color: $primary-color1;
-    cursor: pointer;
+  .signup-notification {
+    font-size: 0.8rem;
   }
 }
