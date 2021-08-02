@@ -3,29 +3,62 @@ header {
   justify-content: center;
   align-items: center;
   .date-picker {
-    width: 10rem;
+    box-sizing: content-box;
+    width: auto;
     text-align: center;
     color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 1rem;
     align-items: center;
+    margin-bottom: -1rem;
 
     .date-picker__date {
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 5.5rem;
 
       .date-picker__year {
         font-size: 1.2rem;
+        @media (max-width: 480px) {
+          font-size: 0.4rem;
+          margin-bottom: -0.2rem;
+        }
       }
       .date-picker__month {
         font-size: 5rem;
+        @media (max-width: 480px) {
+          font-size: 2.5rem;
+        }
+      }
+      @media (max-width: 480px) {
+        margin-bottom: -0.4rem;
       }
     }
     button {
-      width: 1rem;
-      height: 1rem;
+      box-sizing: content-box;
+      width: 5rem;
+      height: 5rem;
+      background-color: none;
+      transition: 0.5s;
+      opacity: 0;
+      cursor: pointer;
+
+      img {
+        margin: 0 auto;
+        margin-top: 1rem;
+        width: 1.4rem;
+        height: auto;
+      }
+    }
+
+    &:hover {
+      button {
+        opacity: 1;
+      }
     }
   }
 }

@@ -1,0 +1,194 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.history-content {
+  height: 100%;
+  overflow-y: scroll;
+}
+.history-section {
+  width: 20vw;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .history-list {
+    .history-list__date {
+      color: #aaa;
+      font-size: 1.2rem;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+
+      li {
+        height: 4rem;
+        border-bottom: 1px solid #eee;
+        position: relative;
+
+        .history-item {
+          height: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .history-item__left {
+            width: 100%;
+            justify-self: felx-start;
+            box-sizing: border-box;
+            height: 100%;
+            padding: 0.5rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-left: 0.5rem;
+
+            .history-item__category {
+              box-sizing: border-box;
+              padding: 0.1rem 0.3rem 0.1rem 0.3rem;
+              font-size: 0.6rem;
+              text-align: center;
+              margin-top: 0.3rem;
+              border-radius: 0.5rem;
+              color: white;
+            }
+          }
+
+          .history-item__right {
+            width: 100%;
+            justify-self: flex-end;
+            box-sizing: border-box;
+            height: 100%;
+            padding: 0.5rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-right: 0.5rem;
+          }
+
+          .outcome {
+            color: $error-color;
+          }
+
+          .income {
+            color: $primary-color3;
+          }
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .history-item__upper {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          align-items: flex-start;
+          height: 2rem;
+
+          .history-item__payment {
+            font-size: 0.8rem;
+            color: #bbb;
+          }
+        }
+
+        button {
+          box-sizing: border-box;
+          width: 2rem;
+          height: 100%;
+          transform: scaleX(0);
+          opacity: 0;
+          transition: 0.5s;
+          img {
+            width: 1rem;
+            filter: invert(100%);
+          }
+        }
+
+        &:hover {
+          button {
+            transform: scaleX(1);
+            width: 3rem;
+            display: flex;
+            align-items: center;
+            opacity: 0.2;
+            padding: 1rem;
+            background-color: $error-color;
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.6;
+            }
+          }
+        }
+
+        .deleted {
+          opacity: 0;
+          transform: translateX(-100%);
+          transition: 0.8s;
+        }
+      }
+    }
+  }
+  .history-empty-notification {
+    text-align: center;
+    margin: auto;
+    height: 100%;
+    max-height: 12rem;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    img {
+      opacity: 0.3;
+      width: 7rem;
+      height: auto;
+    }
+
+    @media (max-height: 450px) {
+      img {
+        display: none;
+      }
+    }
+  }
+}
+
+.category-0 {
+  background-color: $category-color1;
+}
+.category-1 {
+  background-color: $category-color1;
+}
+.category-2 {
+  background-color: $category-color2;
+}
+.category-3 {
+  background-color: $category-color3;
+}
+.category-4 {
+  background-color: $category-color4;
+}
+.category-5 {
+  background-color: $category-color5;
+}
+.category-6 {
+  background-color: $category-color6;
+}
+.category-7 {
+  background-color: $category-color7;
+}
+.category-8 {
+  background-color: $category-color8;
+}
+.category-9 {
+  background-color: $category-color9;
+}
+.category-10 {
+  background-color: $category-color10;
+}

@@ -17,10 +17,12 @@ html {
 header {
   background-color: $primary-color1;
   height: 10rem;
+  @media (max-width: 480px) {
+    height: 4rem;
+  }
 }
 
 section {
-  padding: 0.8rem;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: #ddd 2px 2px 20px;
@@ -39,4 +41,8 @@ section {
 .page {
   width: 100%;
   height: calc(100% - 10rem);
+
+  @media (max-width: 480px) {
+    height: calc(100% - 4rem);
+  }
 }
