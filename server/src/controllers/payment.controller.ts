@@ -18,9 +18,7 @@ const MESSAGE = {
 export const getUserPayment = async (req: Request, res: Response) => {
   try {
     const id = Number(req?.user?.id);
-    const data = id
-      ? await selectUserPayment(Number(req.user.id))
-      : await selectPayment();
+    const data = id ? await selectUserPayment(id) : await selectPayment();
     HttpResponse(res, STATUS.SUCCESS, {
       data,
     });
@@ -41,9 +39,7 @@ export const postUserPayment = async (req: Request, res: Response) => {
       });
     }
     HttpResponse(res, STATUS.SUCCESS, {
-      data: {
-        id: data.id,
-      },
+      data,
     });
   } catch (e) {
     HttpResponse(res, STATUS.FAIL, {
@@ -62,7 +58,6 @@ export const deleteUserPayment = async (req: Request, res: Response) => {
     HttpResponse(res, STATUS.SUCCESS, {
       message: MESSAGE.DELETE_SUCCESS,
     });
-    HttpResponse(res, STATUS.SUCCESS, {});
   } catch (e) {
     HttpResponse(res, STATUS.FAIL, {
       message: MESSAGE.DELETE_FAIL,

@@ -11,7 +11,7 @@ const BEARER = 'Bearer ';
 export const generateToken = ({ id, email }: TUser) => {
   return (
     BEARER +
-    jwt.sign({ user: { id: String(id), email } }, SECRET, {
+    jwt.sign({ id: String(id), email }, SECRET, {
       expiresIn: '2h',
     })
   );
