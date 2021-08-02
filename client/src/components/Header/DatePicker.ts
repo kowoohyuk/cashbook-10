@@ -1,7 +1,5 @@
-import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { Component } from '../../lib/woowact/index';
 import { historyStore, NEXT_MONTH, PREV_MONTH } from '../../stores/History';
-import { $ } from '../../utils/selector';
 import IMGButton from '../Common/IMGButton';
 import { leftArrowSVG, rightArrowSVG } from '../../useResource';
 
