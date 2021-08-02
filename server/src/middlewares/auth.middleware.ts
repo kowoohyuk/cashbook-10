@@ -9,7 +9,7 @@ const MESSAGE = {
   FAIL_VALID: '유효하지 않은 토큰입니다.',
 };
 
-const SKIP_PATH = ['/api/user/signup', '/api/user/signin'];
+const SKIP_PATH = ['/api/user/signup', '/api/user/signin', '/api/auth'];
 const SKIP_METHOD = ['GET'];
 
 const checkSkipVerify = (method: string, path: string): boolean =>
@@ -23,9 +23,7 @@ authMiddleWare.use('/', (req: Request, res: Response, next) => {
     }
     return HttpResponse(res, STATUS.FAIL_ALERT, { message: MESSAGE.FAIL_AUTH });
   }
-
   const verify = verifyToken(authorization.split('Bearer ')[1]);
-  console.log(verify);
   if (verify?.error) {
     return HttpResponse(res, STATUS.FAIL_ALERT, {
       message: MESSAGE.FAIL_VALID,
