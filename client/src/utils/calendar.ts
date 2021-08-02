@@ -19,8 +19,9 @@ const WEEK_TEXTS: TWeekTexts = {
 };
 
 const ERROR = {
-  target:
+  FAIL_TARGET:
     'target 엘리먼트가 지정되어 있지않거나 HTMLElement가 아닙니다.\r\nsetTarget으로 렌더링이 될 target 엘리먼트를 지정해주세요.',
+  FAIL_DATE: '유효한 날짜가 아닙니다.',
 };
 
 export const convertDateToString = (date: Date) =>
@@ -32,8 +33,10 @@ export const getStartWeek = (date: Date, copyDate = new Date(date)) =>
 export const getLastDate = (date: Date, copyDate = new Date(date)) =>
   copyDate.setDate(0) && copyDate.getDate();
 
-export const getDateOfWeek = (date: Date, language = 'ko') =>
-  WEEK_TEXTS[language][date.getDay()];
+export const getDateOfWeek = (date: Date, language = 'ko') => {
+  language = WEEK_TEXTS[language] ? language : 'ko';
+  return WEEK_TEXTS[language][date.getDay()];
+};
 
 export const getDateObject = (date: Date | string): TDateObject => {
   date = new Date(date);
@@ -56,12 +59,12 @@ export default class Calendar {
 
   constructor(
     target = null,
-    date: Date = new Date(),
+    date: Date | string = new Date(),
     options = {
       startWeek: 0,
     },
   ) {
-    this._date = date;
+    this._date = new Date(date);
     this._options = options;
     this._$target = target;
     this._selected = null;
@@ -70,16 +73,17 @@ export default class Calendar {
 
   render() {
     if (!this._$target) {
-      return new Error(ERROR.target);
+      return new Error(ERROR.FAIL_TARGET);
     }
     // return this.getTemplate();
   }
 
   rerender() {
     if (!this._$target) {
-      return new Error(ERROR.target);
+      return new Error(ERROR.FAIL_TARGET);
     }
     this._$target.querySelector('.woowa-calendar')?.remove();
+    console.log(this._dateObject);
     // 리렌더링 관련한 함수 새로 작성
     // this._$target.insertAdjacentHTML('afterend', );
   }
@@ -91,33 +95,44 @@ export default class Calendar {
       : convertDateToString(this._selected);
   }
 
-  getMonth(): number {
-    return this._dateObject.month;
+  getDateObject() {
+    return getDateObject(this._date);
   }
 
   // nextBTN.addEventListener('click', this.setNextMonth);
   // prevBTN.addEventListener('click', this.setNextMonth);
-  setNextMonth(next = this._dateObject.month) {
-    this._date.setMonth(next);
-    this.rerender();
+
+  setMonth(number: number) {
+    this.changeDate('month', number);
   }
 
-  setPrevMonth(prev = this._dateObject.month - 1) {
-    this._date.setMonth(prev);
-    this.rerender();
+  setNextMonth() {
+    this.changeDate('month', 0, 1);
   }
 
-  getYear(): number {
-    return this._dateObject.year;
+  setPrevMonth() {
+    this.changeDate('month', 0, -1);
   }
 
-  setNextYear(next = this._dateObject.year + 1) {
-    this._date.setFullYear(next);
-    this.rerender();
+  setYear(number: number) {
+    this.changeDate('year', number);
   }
 
-  setPrevYear(prev = this._dateObject.year - 1) {
-    this._date.setFullYear(prev);
+  setNextYear() {
+    this.changeDate('year', 0, 1);
+  }
+
+  setPrevYear() {
+    this.changeDate('year', 0, -1);
+  }
+
+  changeDate(type: string, number: number = 0, direction: number = 0) {
+    if (type === 'year') {
+      this._date.setFullYear(number || this._dateObject.year + direction);
+    } else {
+      this._date.setMonth(number || this._dateObject.month + direction);
+    }
+    this._dateObject = getDateObject(this._date);
     this.rerender();
   }
 
@@ -134,6 +149,7 @@ export default class Calendar {
   }
 
   set date(date: Date) {
+    if (!checkValidDate) return;
     this._date = date;
     if (this._$target) {
       this.rerender();
