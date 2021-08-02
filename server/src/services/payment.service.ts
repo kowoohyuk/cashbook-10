@@ -32,15 +32,21 @@ const insertOrSelectPayment = async (name: string) => {
 };
 
 export const insertUserPayment = async (userId: number, name: string) => {
-  const [payment] = await insertOrSelectPayment(name);
   const isExist = await checkExistUserPayment(userId, name);
   if (isExist) return null;
+  const [payment] = await insertOrSelectPayment(name);
   const insertUserPaymentResult = await UserPayment.create({
     userId,
     name,
     paymentId: payment.id,
   });
-  return insertUserPaymentResult;
+  if (insertUserPaymentResult) {
+    return {
+      name,
+      id: insertUserPaymentResult.id,
+    };
+  }
+  return null;
 };
 
 const checkExistUserPayment = async (userId: number, name: string) => {
