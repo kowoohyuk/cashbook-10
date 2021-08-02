@@ -4,7 +4,7 @@
  */
 
 export const toWonForm = (amount: number): string => {
-  return amount + '₩';
+  return '₩' + amount.toLocaleString();
 };
 
 export const toDollarForm = (amount: number): string => {

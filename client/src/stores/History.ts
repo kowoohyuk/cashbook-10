@@ -154,6 +154,18 @@ class HistoryStore extends Store<THistoryData> {
     return days;
   };
 
+  getTotalIncome = (): number => {
+    return this.data.histories.reduce((prev, history) => {
+      return history.isIncome ? prev + history.amount : prev;
+    }, 0);
+  };
+
+  getTotalOutcome = (): number => {
+    return this.data.histories.reduce((prev, history) => {
+      return history.isIncome ? prev : prev + history.amount;
+    }, 0);
+  };
+
   updateStore = (action: string, newHistory: Partial<THistoryData>) => {
     if (!newHistory) return;
 
