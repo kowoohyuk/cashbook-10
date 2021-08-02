@@ -1,10 +1,11 @@
-import express, { Request } from 'express';
+import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { sequelize } from './models';
 import APIRouter from './routers/index';
 import authMiddleWare from './middlewares/auth.middleware';
+import cors from 'cors';
 
 declare global {
   namespace Express {
@@ -30,15 +31,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.all('/*', function (req: Request, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
-  );
-  next();
-});
+app.use(cors());
 
 app.use(authMiddleWare);
 

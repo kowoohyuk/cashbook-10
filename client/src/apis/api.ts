@@ -20,6 +20,7 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     method: method,
     headers: {
       'Content-Type': 'application/json',
+      withCredentials: 'true',
     },
     body: body ? JSON.stringify(body) : undefined,
   };
