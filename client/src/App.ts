@@ -55,7 +55,7 @@ export default class App extends Component {
 
   render(): string {
     return `<div class="app-body">
-    ${Component._(this.Header)}
+    ${this.Header.html}
     <div class='content'></div>
     </div>`;
   }

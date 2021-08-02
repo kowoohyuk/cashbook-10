@@ -30,7 +30,7 @@ export class DatePicker extends Component {
 
   render() {
     return `<div class="date-picker">
-      ${Component._(this.$prevBTN)}
+      ${this.$prevBTN.html}
       <div class="date-picker__date">
         <h4 class="date-picker__year">
           ${historyStore.data.year}
@@ -39,7 +39,7 @@ export class DatePicker extends Component {
           ${historyStore.data.month}
         </h2>
       </div>
-      ${Component._(this.$nextBTN)}
+      ${this.$nextBTN.html}
     </div>`;
   }
 }

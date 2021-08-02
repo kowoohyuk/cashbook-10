@@ -109,7 +109,7 @@ export default abstract class Component<
     this.update();
   }
 
-  protected static _($component: Component): string {
-    return `<${$component.id}></${$component.id}>`;
+  get html() {
+    return `<${this.id}></${this.id}>`;
   }
 }

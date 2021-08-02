@@ -18,7 +18,7 @@ export class Header extends Component {
 
   render() {
     return `<header>
-      ${Component._(this.$datePicker)}
+      ${this.$datePicker.html}
     </header>`;
   }
 }

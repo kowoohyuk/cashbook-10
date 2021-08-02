@@ -19,15 +19,13 @@ export default class HistorySection extends Component {
   generateList(): string {
     const days: THistoryList[] = historyStore.getDayList();
 
-    return days
-      .map(hl => Component._(this.addComponent(HistoryList, hl)))
-      .join('');
+    return days.map(hl => this.addComponent(HistoryList, hl).html).join('');
   }
 
   render() {
     return `
     <section class="history-section">
-      ${Component._(this.$historyBrief)}
+      ${this.$historyBrief.html}
       <div class="history-content">
       ${
         historyStore.data.histories.length > 0

@@ -11,7 +11,6 @@
     "outDir": "dist",
     "experimentalDecorators": true,
     "baseUrl": ".",
-    "typeRoots": ["./src", "./node_modules/@types"] ,
     "paths": {
       "*": [
         "node_modules/*",
