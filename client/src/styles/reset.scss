@@ -15,6 +15,9 @@ ul,
 li {
   list-style: none;
 }
+button {
+  background-color: rgba(0, 0, 0, 0);
+}
 button:focus,
 input:focus {
   outline: none;

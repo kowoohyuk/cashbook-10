@@ -1,0 +1,31 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.history-brief {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .history-count {
+    margin: auto 0;
+    font-size: 1.2rem;
+    color: #666;
+    width: 100%;
+  }
+  .history-amounts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 0.8rem;
+    animation-iteration-count: 1;
+    transition: 1s;
+  }
+  .history-income {
+    color: $primary-color3;
+  }
+  .history-outcome {
+    color: $error-color;
+  }
+}

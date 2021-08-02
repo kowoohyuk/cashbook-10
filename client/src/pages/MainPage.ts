@@ -1,15 +1,28 @@
-import HistoryItem from '../components/History/HistoryItem';
 import { eventHandler } from '../lib/woowact/core/EventHandler';
 import { Component } from '../lib/woowact/index';
 import { historyStore } from '../stores/History';
-import { getArrayN } from '../utils/array';
+import '../styles/main/index.scss';
+import HistorySection from '../components/History/HistortySection';
+import ChartSection from '../components/Chart/ChartSection';
+import CalanderSection from '../components/Calander/CalanderSection';
+import AddButton from '../components/Common/AddButton';
 
-export default class MainPage extends Component<{}, {}> {
+export default class MainPage extends Component {
   count = 0;
+  $historySection: Component;
+  $calanderSection: Component;
+  $chartSection: Component;
+  $addButton: Component;
+
   constructor() {
     super({});
 
     historyStore.subscribe(this);
+
+    this.$historySection = this.addComponent(HistorySection);
+    this.$chartSection = this.addComponent(ChartSection);
+    this.$calanderSection = this.addComponent(CalanderSection);
+    this.$addButton = this.addComponent(AddButton);
 
     this.init();
   }
@@ -20,25 +33,13 @@ export default class MainPage extends Component<{}, {}> {
     });
   }
 
-  generateList(): string {
-    return getArrayN(historyStore.data.histories.length)
-      .map(
-        i =>
-          `<li key = ${historyStore.data.histories[i].id}>${Component._(
-            this.addComponent(HistoryItem, {
-              history: historyStore.data.histories[i],
-            }),
-          )}</li>`,
-      )
-      .join('');
-  }
-
   render(): string {
     return `
-    <div>
-      <ul>
-        ${this.generateList()}
-      </ul>
+    <div class="page main-page">
+      ${Component._(this.$chartSection)}
+      ${Component._(this.$calanderSection)}
+      ${Component._(this.$historySection)}
+      ${Component._(this.$addButton)}
     </div>
     `;
   }

@@ -45,3 +45,8 @@
   -webkit-line-clamp: $numLine;
   -webkit-box-orient: vertical;
 }
+
+@mixin blackToPrimary() {
+  filter: invert(68%) sepia(42%) saturate(688%) hue-rotate(128deg)
+    brightness(87%) contrast(90%);
+}

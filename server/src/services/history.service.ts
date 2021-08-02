@@ -65,10 +65,10 @@ export const getHistoryList = async (
         [Op.lt]: new Date(`${nextYear}-${nextMonth}-01 09:00:00`),
       },
     },
+    order: [['paymentDate', 'ASC']],
   });
 
-  const h = getIHistoryList(historyList);
-  return h;
+  return getIHistoryList(historyList);
 };
 
 export const updateHistory = async (params: IHistory): Promise<boolean> => {

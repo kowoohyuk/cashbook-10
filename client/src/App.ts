@@ -1,20 +1,17 @@
 import MainPage from './pages/MainPage';
-import ExamplePage from './pages/ExamplePage';
 import { $ } from './utils/selector';
-import Component from './lib/woowact/core/Component';
-import Link, { Route, Router } from './lib/woowact/core/Router';
+import Component, { ComponentId } from './lib/woowact/core/Component';
+import { Route, Router } from './lib/woowact/core/Router';
+import { Header } from './components/Header/Header';
+import './styles/index.scss';
 
 export default class App extends Component {
   $app: HTMLElement;
-
-  LinkTo1: Component;
-  LinkTo2: Component;
+  Header: Component;
 
   constructor() {
     super({});
-
-    this.LinkTo1 = this.addComponent(Link, { to: '1' });
-    this.LinkTo2 = this.addComponent(Link, { to: '2' });
+    this.Header = this.addComponent(Header);
 
     this.$app = this.getRootApp();
     this.init();
@@ -51,20 +48,14 @@ export default class App extends Component {
     if ($content) {
       const route: Route = {
         '/': new MainPage(),
-        '/2': new ExamplePage(),
       };
       new Router(route, $content);
     }
   }
 
   render(): string {
-    return `<div>
-    <nav>
-      <ul>
-        ${Component._(this.LinkTo1)}
-        ${Component._(this.LinkTo2)}
-      </ul>
-    </nav>
+    return `<div class="app-body">
+    ${Component._(this.Header)}
     <div class='content'></div>
     </div>`;
   }
