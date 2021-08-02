@@ -11,7 +11,7 @@ import { IHistory } from '../models/history';
 import { checkValidDate } from '../utils/date';
 
 const MESSAGE = {
-  GET_FAIL: '히스토리 조회에 싪패했습니다.',
+  GET_FAIL: '히스토리 조회에 실패했습니다.',
   LOGIN_REQUIRED: '로그인이 필요한 요청입니다.',
   POST_FAIL: '히스토리 생성에 실패했습니다.',
   UPDATE_FAIL: '유저 혹은 히스토리의 정보가 잘 못 입력되었습니다.',
@@ -23,7 +23,7 @@ export const getHistory = async (req: Request, res: Response) => {
   try {
     let { userId, year, month, ...query } = req.query;
 
-    const currentUserId: number = null; // TODO: 유저 id 가지고 오기
+    const currentUserId: number = req.user.id;
 
     if (currentUserId !== null) {
       query.userId = currentUserId.toString();
@@ -49,7 +49,7 @@ export const getHistory = async (req: Request, res: Response) => {
 
 export const postHistory = async (req: Request, res: Response) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기
+    const userId: number = req.user.id;
 
     if (userId === null) throw new Error(MESSAGE.LOGIN_REQUIRED);
 
@@ -73,7 +73,7 @@ export const postHistory = async (req: Request, res: Response) => {
 
 export const putHistory = async (req: Request, res: Response) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기
+    const userId: number = req.user.id;
 
     if (userId === null) throw new Error(MESSAGE.LOGIN_REQUIRED);
 
@@ -97,7 +97,7 @@ export const putHistory = async (req: Request, res: Response) => {
 
 export const deleteHistory = async (req: Request, res: Response) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기c
+    const userId: number = req.user.id;
 
     const historyId: number = parseInt(req.query.historyId as string);
 

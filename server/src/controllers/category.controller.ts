@@ -8,7 +8,6 @@ const MESSAGE = {
 
 export const getCategory = async (req: Request, res: Response) => {
   try {
-    const name = req.query.name as string;
     const data = await findCategory();
     HttpResponse(res, STATUS.SUCCESS, {
       data,
