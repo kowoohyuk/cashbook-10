@@ -21,13 +21,15 @@ const MESSAGE = {
 
 export const getHistory = async (req: Request, res: Response) => {
   try {
-    let { userId, year, month, ...query } = req.query;
+    const { year, month, ...query } = req.query;
 
-    const currentUserId: number = req.user.id;
+    const currentUserId: number = req?.user?.id;
 
-    if (currentUserId !== null) {
+    if (currentUserId) {
       query.userId = currentUserId.toString();
     }
+
+    console.log(query.userId);
 
     if (!year || !month) throw new Error(MESSAGE.INVALID_DATE);
 
@@ -41,6 +43,7 @@ export const getHistory = async (req: Request, res: Response) => {
 
     httpResponse(res, STATUS.SUCCESS, { data: history });
   } catch (e) {
+    console.log(e);
     httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
