@@ -1,4 +1,4 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import {
   getHistoryList,
   createHistory,
@@ -6,12 +6,12 @@ import {
   updateHistory,
   removeHistory,
 } from '../services/history.service';
-import { STATUS, HttpResponse } from '.';
+import { STATUS, httpResponse } from '.';
 import { IHistory } from '../models/history';
-import { checkValidDate } from '../../utils/date';
+import { checkValidDate } from '../utils/date';
 
 const MESSAGE = {
-  GET_FAIL: '히스토리 조회에 싪패했습니다.',
+  GET_FAIL: '히스토리 조회에 실패했습니다.',
   LOGIN_REQUIRED: '로그인이 필요한 요청입니다.',
   POST_FAIL: '히스토리 생성에 실패했습니다.',
   UPDATE_FAIL: '유저 혹은 히스토리의 정보가 잘 못 입력되었습니다.',
@@ -19,18 +19,17 @@ const MESSAGE = {
   HISTORY_ID_NOT_EXIST: '히스토리 아이디가 잘 못 입력되었습니다.',
 };
 
-export const getHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const getHistory = async (req: Request, res: Response) => {
   try {
-    let { userId, year, month, ...query } = req.query;
+    const { year, month, ...query } = req.query;
 
-    const currentUserId: number = null; // TODO: 유저 id 가지고 오기
+    const currentUserId: number = req?.user?.id;
 
-    if (currentUserId !== null) {
+    if (currentUserId) {
       query.userId = currentUserId.toString();
     }
+
+    console.log(query.userId);
 
     if (!year || !month) throw new Error(MESSAGE.INVALID_DATE);
 
@@ -42,20 +41,18 @@ export const getHistory = async (
 
     const history = await getHistoryList(params);
 
-    HttpResponse(res, STATUS.SUCCESS, { data: history });
+    httpResponse(res, STATUS.SUCCESS, { data: history });
   } catch (e) {
-    HttpResponse(res, STATUS.FAIL, {
+    console.log(e);
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }
 };
 
-export const postHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const postHistory = async (req: Request, res: Response) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기
+    const userId: number = req.user.id;
 
     if (userId === null) throw new Error(MESSAGE.LOGIN_REQUIRED);
 
@@ -68,21 +65,18 @@ export const postHistory = async (
 
     if (!result) throw new Error(MESSAGE.POST_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS);
+    httpResponse(res, STATUS.SUCCESS);
   } catch (e) {
     console.error(e);
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }
 };
 
-export const putHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const putHistory = async (req: Request, res: Response) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기
+    const userId: number = req.user.id;
 
     if (userId === null) throw new Error(MESSAGE.LOGIN_REQUIRED);
 
@@ -95,21 +89,18 @@ export const putHistory = async (
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS);
+    httpResponse(res, STATUS.SUCCESS);
   } catch (e) {
     console.error(e);
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }
 };
 
-export const deleteHistory = async (
-  req: express.Request,
-  res: express.Response,
-) => {
+export const deleteHistory = async (req: Request, res: Response) => {
   try {
-    const userId: number = 0; // TODO: 유저 id 가지고 오기c
+    const userId: number = req.user.id;
 
     const historyId: number = parseInt(req.query.historyId as string);
 
@@ -119,10 +110,10 @@ export const deleteHistory = async (
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS);
+    httpResponse(res, STATUS.SUCCESS);
   } catch (e) {
     console.error(e);
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }

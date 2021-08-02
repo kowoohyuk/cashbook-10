@@ -1,4 +1,4 @@
-import express from 'express';
+import { Response } from 'express';
 
 export const STATUS = {
   SUCCESS: 200,
@@ -23,8 +23,8 @@ type TResponseData = {
   message?: string;
 };
 
-export const HttpResponse = (
-  res: express.Response,
+export const httpResponse = (
+  res: Response,
   status: TResponseStatus,
   data?: TResponseData,
 ) => {

@@ -6,10 +6,9 @@
   overflow-y: scroll;
 }
 .history-section {
+  @include flex-center(column);
   width: 20vw;
   padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
   gap: 1.5rem;
 
   .history-list {

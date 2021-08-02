@@ -23,7 +23,9 @@ export interface IHistory {
   categoryId: number;
 }
 
-@Table
+@Table({
+  timestamps: false,
+})
 export default class History extends Model<IHistory> {
   @PrimaryKey
   @AutoIncrement

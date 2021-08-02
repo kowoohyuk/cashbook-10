@@ -18,7 +18,9 @@ export interface IUserPayment {
   name: string;
 }
 
-@Table
+@Table({
+  timestamps: false,
+})
 export default class UserPayment extends Model<IUserPayment> {
   @PrimaryKey
   @AutoIncrement

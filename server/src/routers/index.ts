@@ -1,13 +1,11 @@
 import express from 'express';
-import authRouter from './apis/authRouter';
-import categoryRouter from './apis/categoryRouter';
-import historyRouter from './apis/historyRouter';
-import paymentRouter from './apis/paymentRouter';
-import userRouter from './apis/userRouter';
+import categoryRouter from './apis/category.router';
+import historyRouter from './apis/history.router';
+import paymentRouter from './apis/payment.router';
+import userRouter from './apis/user.router';
 
 const APIRouter = express();
 
-APIRouter.use('/auth', authRouter);
 APIRouter.use('/payment', paymentRouter);
 APIRouter.use('/user', userRouter);
 APIRouter.use('/history', historyRouter);

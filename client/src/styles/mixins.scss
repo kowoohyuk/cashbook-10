@@ -38,6 +38,22 @@
   }
 }
 
+@mixin flex($direction: row, $row: initial, $column: initial) {
+  display: flex;
+  flex-direction: $direction;
+  @if $direction == row {
+    justify-content: $row;
+    align-items: $column;
+  } @else {
+    justify-content: $column;
+    align-items: $row;
+  }
+}
+
+@mixin flex-center($direction: row) {
+  @include flex($direction, center, center);
+}
+
 @mixin lineLimit($numLine) {
   overflow: hidden;
   text-overflow: ellipsis;
