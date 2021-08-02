@@ -36,10 +36,10 @@ export default class MainPage extends Component {
   render(): string {
     return `
     <div class="page main-page">
-      ${Component._(this.$chartSection)}
-      ${Component._(this.$calanderSection)}
-      ${Component._(this.$historySection)}
-      ${Component._(this.$addButton)}
+      ${this.$chartSection.html}
+      ${this.$calanderSection.html}
+      ${this.$historySection.html}
+      ${this.$addButton.html}
     </div>
     `;
   }

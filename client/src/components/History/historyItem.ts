@@ -100,7 +100,7 @@ export default class HistoryItem extends Component<HistoryItemProps> {
           ${toWonForm(this.props.history.amount)}
         </div>
       </div>
-      ${Component._(this.$deleteBTN)}
+      ${this.$deleteBTN.html}
     </div>
     `;
   }
