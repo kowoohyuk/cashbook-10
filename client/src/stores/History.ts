@@ -18,6 +18,8 @@ type THistoryData = {
   histories: IHistory[];
 };
 
+export type THistoryList = IHistory[];
+
 class HistoryStore extends Store<THistoryData> {
   constructor(historyData: THistoryData) {
     super(historyData);
@@ -114,6 +116,43 @@ class HistoryStore extends Store<THistoryData> {
 
     return { year, month, histories };
   }
+
+  getDay = (date: Date): number => {
+    try {
+      const day = parseInt(date.toString().slice(8, 10));
+
+      if (isNaN(day)) throw new Error('wrong date');
+
+      return day;
+    } catch (e) {
+      console.error(e);
+      return -1;
+    }
+  };
+
+  public getDayList = (): THistoryList[] => {
+    const days: THistoryList[] = [];
+    let day: THistoryList = [];
+    let currentDay: number = 1;
+
+    this.data.histories.forEach(history => {
+      if (this.getDay(history.paymentDate) !== currentDay) {
+        if (day.length) days.push(day);
+
+        day = [];
+        day.push(history);
+
+        currentDay = this.getDay(history.paymentDate);
+        return;
+      } else {
+        day.push(history);
+      }
+    });
+
+    if (day.length) days.push(day);
+
+    return days;
+  };
 
   updateStore = (action: string, newHistory: Partial<THistoryData>) => {
     if (!newHistory) return;
