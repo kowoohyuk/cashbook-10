@@ -1,6 +1,6 @@
 import IMGButton from './IMGButton';
 import { addSVG } from '../../useResource';
-import { modalStore, OPEN_MODAL } from '../../stores/Modal';
+import { Modal } from './Modal';
 
 export default class AddButton extends IMGButton {
   $el: HTMLElement;
@@ -18,6 +18,6 @@ export default class AddButton extends IMGButton {
   }
 
   onclick() {
-    modalStore.dispatch(OPEN_MODAL, this.$el);
+    new Modal();
   }
 }

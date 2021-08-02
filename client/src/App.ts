@@ -4,18 +4,14 @@ import Component, { ComponentId } from './lib/woowact/core/Component';
 import { Route, Router } from './lib/woowact/core/Router';
 import { Header } from './components/Header/Header';
 import './styles/index.scss';
-import { Modal } from './components/Common/Modal';
 
 export default class App extends Component {
   $app: HTMLElement;
-  $modal: Component;
   $header: Component;
 
   constructor() {
     super({});
     this.$header = this.addComponent(Header);
-    this.$modal = this.addComponent(Modal);
-
     this.$app = this.getRootApp();
     this.init();
   }
@@ -60,7 +56,6 @@ export default class App extends Component {
     return `<div class="app-body">
       ${this.$header.html}
       <div class='content'></div>
-      ${this.$modal.html}
     </div>`;
   }
 }
