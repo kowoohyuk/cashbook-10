@@ -2,35 +2,35 @@ import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { Component } from '../../lib/woowact/index';
 import { historyStore, NEXT_MONTH, PREV_MONTH } from '../../stores/History';
 import { $ } from '../../utils/selector';
+import IMGButton from '../Common/IMGButton';
+import { leftArrowSVG, rightArrowSVG } from '../../useResource';
 
 export class DatePicker extends Component {
+  $prevBTN: Component;
+  $nextBTN: Component;
+
   constructor() {
     super({});
+
+    this.$prevBTN = this.addComponent(IMGButton, {
+      src: leftArrowSVG,
+      className: 'date-picker__prev-btn',
+      onclick: async () => historyStore.dispatch(PREV_MONTH),
+    });
+
+    this.$nextBTN = this.addComponent(IMGButton, {
+      src: rightArrowSVG,
+      className: 'date-picker__next-btn',
+      onclick: async () => historyStore.dispatch(NEXT_MONTH),
+    });
+
     historyStore.subscribe(this);
     this.init();
   }
 
-  componentDidMount() {
-    this.addEvent();
-  }
-
-  addEvent() {
-    const $prevBTN = $('.date-picker__prev-btn', this.$element);
-    const $nextBTN = $('.date-picker__next-btn', this.$element);
-
-    $prevBTN &&
-      eventHandler.addEvent($prevBTN, 'click', async () =>
-        historyStore.dispatch(PREV_MONTH),
-      );
-    $nextBTN &&
-      eventHandler.addEvent($nextBTN, 'click', async () =>
-        historyStore.dispatch(NEXT_MONTH),
-      );
-  }
-
   render() {
     return `<div class="date-picker">
-      <button class="date-picker__prev-btn"><</button>
+      ${Component._(this.$prevBTN)}
       <div class="date-picker__date">
         <h4 class="date-picker__year">
           ${historyStore.data.year}
@@ -39,7 +39,7 @@ export class DatePicker extends Component {
           ${historyStore.data.month}
         </h2>
       </div>
-      <button class="date-picker__next-btn">></button>
+      ${Component._(this.$nextBTN)}
     </div>`;
   }
 }

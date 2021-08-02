@@ -1,37 +1,42 @@
+import { IHistory } from '../../apis/historyAPI';
 import { Component } from '../../lib/woowact/index';
-import { historyStore } from '../../stores/History';
-import { getArrayN } from '../../utils/array';
+import { THistoryList } from '../../stores/History';
 import HistoryItem from './HistoryItem';
 
-export default class HistoryList extends Component {
-  constructor() {
-    super({});
-
-    historyStore.subscribe(this);
-
+export default class HistoryList extends Component<THistoryList> {
+  date: string;
+  constructor(historyList: THistoryList) {
+    super(historyList);
+    this.date = this.getDateString();
     this.init();
   }
 
+  getDateString(): string {
+    const date = this.props[0]?.paymentDate.toString();
+    return `${date.slice(5, 7)}. ${date.slice(8, 10)}`;
+  }
+
   generateList(): string {
-    console.log(historyStore.data.histories);
-    return getArrayN(historyStore.data.histories.length)
+    if (this.props.length === 0) return '';
+
+    return this.props
       .map(
-        i =>
-          `<li key = ${historyStore.data.histories[i].id}>
-          ${Component._(
-            this.addComponent(HistoryItem, {
-              history: historyStore.data.histories[i],
-            }),
-          )}</li>`,
+        (history: IHistory) =>
+          `<li key = ${history.id}>
+          ${Component._(this.addComponent(HistoryItem, { history }))}
+        </li>`,
       )
       .join('');
   }
 
   render(): string {
     return `
-    <ul>
-      ${this.generateList()}
-    </li>
+      <div class="history-list">
+        <span class="history-list__date">${this.date}</span>
+        <ul>
+          ${this.generateList()}
+        </ul>
+      </div>
     `;
   }
 }
