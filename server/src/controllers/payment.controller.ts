@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { HttpResponse, STATUS } from '.';
+import { httpResponse, STATUS } from '.';
 import {
   selectUserPayment,
   selectPayment,
@@ -19,11 +19,11 @@ export const getUserPayment = async (req: Request, res: Response) => {
   try {
     const id = Number(req?.user?.id);
     const data = id ? await selectUserPayment(id) : await selectPayment();
-    HttpResponse(res, STATUS.SUCCESS, {
+    httpResponse(res, STATUS.SUCCESS, {
       data,
     });
   } catch (e) {
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: MESSAGE.GET_FAIL,
     });
   }
@@ -34,15 +34,15 @@ export const postUserPayment = async (req: Request, res: Response) => {
     const { name } = req.body;
     const data = await insertUserPayment(Number(req.user.id), name);
     if (!data) {
-      return HttpResponse(res, STATUS.SUCCESS, {
+      return httpResponse(res, STATUS.SUCCESS, {
         message: MESSAGE.POST_EXIST,
       });
     }
-    HttpResponse(res, STATUS.SUCCESS, {
+    httpResponse(res, STATUS.SUCCESS, {
       data,
     });
   } catch (e) {
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: MESSAGE.POST_FAIL,
     });
   }
@@ -55,11 +55,11 @@ export const deleteUserPayment = async (req: Request, res: Response) => {
     if (!data) {
       throw new Error();
     }
-    HttpResponse(res, STATUS.SUCCESS, {
+    httpResponse(res, STATUS.SUCCESS, {
       message: MESSAGE.DELETE_SUCCESS,
     });
   } catch (e) {
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: MESSAGE.DELETE_FAIL,
     });
   }

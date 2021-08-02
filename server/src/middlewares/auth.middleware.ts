@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { HttpResponse, STATUS } from '../controllers';
+import { httpResponse, STATUS } from '../controllers';
 import { generateToken, verifyToken } from '../utils/jwt';
 
 const authMiddleWare = Router();
@@ -21,11 +21,11 @@ authMiddleWare.use('/', (req: Request, res: Response, next) => {
     if (checkSkipVerify(req.method, req.path)) {
       return next();
     }
-    return HttpResponse(res, STATUS.FAIL_ALERT, { message: MESSAGE.FAIL_AUTH });
+    return httpResponse(res, STATUS.FAIL_ALERT, { message: MESSAGE.FAIL_AUTH });
   }
   const verify = verifyToken(authorization.split('Bearer ')[1]);
   if (verify?.error) {
-    return HttpResponse(res, STATUS.FAIL_ALERT, {
+    return httpResponse(res, STATUS.FAIL_ALERT, {
       message: MESSAGE.FAIL_VALID,
     });
   }

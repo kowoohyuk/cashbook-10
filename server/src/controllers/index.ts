@@ -23,7 +23,7 @@ type TResponseData = {
   message?: string;
 };
 
-export const HttpResponse = (
+export const httpResponse = (
   res: Response,
   status: TResponseStatus,
   data?: TResponseData,

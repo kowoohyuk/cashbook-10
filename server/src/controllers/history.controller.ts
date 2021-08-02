@@ -6,7 +6,7 @@ import {
   updateHistory,
   removeHistory,
 } from '../services/history.service';
-import { STATUS, HttpResponse } from '.';
+import { STATUS, httpResponse } from '.';
 import { IHistory } from '../models/history';
 import { checkValidDate } from '../utils/date';
 
@@ -39,9 +39,9 @@ export const getHistory = async (req: Request, res: Response) => {
 
     const history = await getHistoryList(params);
 
-    HttpResponse(res, STATUS.SUCCESS, { data: history });
+    httpResponse(res, STATUS.SUCCESS, { data: history });
   } catch (e) {
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }
@@ -62,10 +62,10 @@ export const postHistory = async (req: Request, res: Response) => {
 
     if (!result) throw new Error(MESSAGE.POST_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS, {});
+    httpResponse(res, STATUS.SUCCESS);
   } catch (e) {
     console.error(e);
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }
@@ -86,10 +86,10 @@ export const putHistory = async (req: Request, res: Response) => {
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS, {});
+    httpResponse(res, STATUS.SUCCESS);
   } catch (e) {
     console.error(e);
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }
@@ -107,10 +107,10 @@ export const deleteHistory = async (req: Request, res: Response) => {
 
     if (!result) throw new Error(MESSAGE.UPDATE_FAIL);
 
-    HttpResponse(res, STATUS.SUCCESS, {});
+    httpResponse(res, STATUS.SUCCESS);
   } catch (e) {
     console.error(e);
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });
   }

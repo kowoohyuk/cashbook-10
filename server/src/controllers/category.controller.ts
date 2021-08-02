@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { HttpResponse, STATUS } from '.';
+import { httpResponse, STATUS } from '.';
 import { findCategory } from '../services/category.service';
 
 const MESSAGE = {
@@ -9,11 +9,11 @@ const MESSAGE = {
 export const getCategory = async (req: Request, res: Response) => {
   try {
     const data = await findCategory();
-    HttpResponse(res, STATUS.SUCCESS, {
+    httpResponse(res, STATUS.SUCCESS, {
       data,
     });
   } catch (e) {
-    HttpResponse(res, STATUS.FAIL, {
+    httpResponse(res, STATUS.FAIL, {
       message: MESSAGE.GET_FAIL,
     });
   }
