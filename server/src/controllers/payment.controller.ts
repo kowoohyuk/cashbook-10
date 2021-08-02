@@ -16,8 +16,7 @@ const MESSAGE = {
 
 export const getUserPayment = async (req: Request, res: Response) => {
   try {
-    const userId = Number(req.query.userId as string);
-    const data = await selectUserPayment(userId);
+    const data = await selectUserPayment(Number(req.user.id));
     HttpResponse(res, STATUS.SUCCESS, {
       data,
     });
@@ -30,8 +29,8 @@ export const getUserPayment = async (req: Request, res: Response) => {
 
 export const postUserPayment = async (req: Request, res: Response) => {
   try {
-    const { userId, name } = req.body;
-    const data = await insertUserPayment(Number(userId), name);
+    const { name } = req.body;
+    const data = await insertUserPayment(Number(req.user.id), name);
     if (!data) {
       return HttpResponse(res, STATUS.SUCCESS, {
         message: MESSAGE.POST_EXIST,
@@ -51,8 +50,8 @@ export const postUserPayment = async (req: Request, res: Response) => {
 
 export const deleteUserPayment = async (req: Request, res: Response) => {
   try {
-    const { userId, id } = req.body;
-    const data = await destroyPayment(Number(userId), Number(id));
+    const { id } = req.body;
+    const data = await destroyPayment(Number(req.user.id), Number(id));
     if (!data) {
       throw new Error();
     }
