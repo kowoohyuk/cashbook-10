@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { TUser } from '../index';
 
 dotenv.config();
 
@@ -7,15 +8,10 @@ const SECRET = process.env.SECRET || 'develop';
 
 const BEARER = 'Bearer ';
 
-type user = {
-  id: number;
-  email: string;
-};
-
-export const generateToken = ({ id, email }: user) => {
+export const generateToken = ({ id, email }: TUser) => {
   return (
     BEARER +
-    jwt.sign({ id: String(id), email }, SECRET, {
+    jwt.sign({ user: { id: String(id), email } }, SECRET, {
       expiresIn: '2h',
     })
   );
@@ -23,9 +19,10 @@ export const generateToken = ({ id, email }: user) => {
 
 export const verifyToken = (token: string) => {
   try {
+    const user = jwt.verify(token, SECRET) as TUser;
     return {
       error: false,
-      user: jwt.verify(token, SECRET).toString(),
+      user,
     };
   } catch (err) {
     return {

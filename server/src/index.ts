@@ -9,10 +9,15 @@ import authMiddleWare from './middlewares/auth.middleware';
 declare global {
   namespace Express {
     interface Request {
-      user?: string;
+      user?: TUser;
     }
   }
 }
+
+export type TUser = {
+  id: number;
+  email: string;
+};
 
 dotenv.config();
 sequelize.sync();
