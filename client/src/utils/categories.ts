@@ -1,4 +1,12 @@
-export const CATERORIES = {
+interface ICategories {
+  [key: number]: {
+    color: string;
+    name: string;
+    isIncome: boolean;
+  };
+}
+
+export const CATERORIES: ICategories = {
   1: {
     color: '#6ed5eb',
     name: '생활',
@@ -10,7 +18,7 @@ export const CATERORIES = {
     isIncome: false,
   },
   3: {
-    color: '94d3cc',
+    color: '#94d3cc',
     name: '교통',
     isIncome: false,
   },
