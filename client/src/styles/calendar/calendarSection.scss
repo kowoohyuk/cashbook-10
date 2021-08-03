@@ -22,13 +22,20 @@
       border-color: #2ac1bc;
       color: #fff;
     }
-    &__contents {
+    &__content {
       height: 80%;
       overflow-y: auto;
     }
     &__day {
       text-align: right;
       color: $body-color;
+    }
+  }
+  .calendar-history {
+    @include bold(regular);
+    color: $error-color;
+    &.income {
+      color: $primary-color1;
     }
   }
 }
