@@ -14,7 +14,7 @@ const MESSAGE = {
 const validationEmail = (email: string): boolean =>
   !/([a-zA-Z0-9\-\_])+@+([a-zA-Z])+\.+([a-zA-Z])/i.test(email);
 
-const checkExistUser = async (email: string) => {
+export const checkExistUser = async (email: string) => {
   const result: IAPIResultData = {};
   try {
     const data = await User.findOne({
@@ -81,6 +81,24 @@ export const signinUser = async (email: string, pw: string) => {
   } catch (e) {
     result.error = true;
     result.message = e.message || MESSAGE.SIGNUP_FAIL;
+    return result;
+  }
+};
+
+export const selectUser = async (id: number) => {
+  const result: IAPIResultData = {};
+  try {
+    const data = await User.findOne({
+      where: {
+        id,
+      },
+      attributes: ['email'],
+    });
+    result.data = data;
+    return result;
+  } catch (e) {
+    result.error = true;
+    result.message = MESSAGE.DATABASE_FAIL;
     return result;
   }
 };
