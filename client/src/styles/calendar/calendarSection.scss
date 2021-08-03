@@ -1,0 +1,62 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.woowa-calendar {
+  height: 100%;
+}
+
+.woowa-calendar .calendar-header {
+  height: 7.5%;
+  color: $label-color;
+}
+
+.woowa-calendar .calendar-body {
+  height: 92.5%;
+  .day-block {
+    @include flex(column);
+    justify-content: space-between;
+    &.now {
+      color: $black-color;
+      border-color: $body-color;
+    }
+    &.selected,
+    &:hover {
+      border-color: #2ac1bc;
+      color: #fff;
+    }
+    &__content {
+      height: 80%;
+      max-height: 4.5rem;
+      overflow-y: auto;
+      &::-webkit-scrollbar-track {
+        border-radius: 3px;
+        background-color: $line-color;
+      }
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background-color: $primary-color2;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background-color: $primary-color1;
+      }
+    }
+    &__day {
+      text-align: right;
+      color: $body-color;
+    }
+  }
+  .calendar-history {
+    @include bold(medium);
+    color: $error-color;
+    font-weight: 600;
+    &.income {
+      color: $primary-color1;
+    }
+  }
+}
