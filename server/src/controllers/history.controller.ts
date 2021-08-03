@@ -29,8 +29,6 @@ export const getHistory = async (req: Request, res: Response) => {
       query.userId = currentUserId.toString();
     }
 
-    console.log(query.userId);
-
     if (!year || !month) throw new Error(MESSAGE.INVALID_DATE);
 
     const params: THistoryGetParams = {

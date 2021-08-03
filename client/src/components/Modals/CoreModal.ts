@@ -40,6 +40,13 @@ export default abstract class Modal<
     }
   }
 
+  // 임시 입니다!
+  closeModalB() {
+    //깥 영역을 클릭했을 때
+    this.$app?.classList.remove('blur');
+    this.$element.remove();
+  }
+
   protected abstract modal(): string;
 
   render(): string {

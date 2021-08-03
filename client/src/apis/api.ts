@@ -13,15 +13,24 @@ const Method = {
 
 type Method = typeof Method[keyof typeof Method];
 
+type Theaders = {
+  'Content-Type': string;
+  credentials: string;
+  authorization?: string;
+};
+
 const END_POINT = 'http://localhost:8000/api';
 
 const useFetch = async (url: string, method: Method, body?: {}) => {
+  const headers: Theaders = {
+    'Content-Type': 'application/json',
+    credentials: 'include',
+  };
+  const authorization = localStorage.getItem('token');
+  if (authorization) headers.authorization = authorization;
   const option = {
     method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      credentials: 'include',
-    },
+    headers,
     body: body ? JSON.stringify(body) : undefined,
   };
 
