@@ -1,14 +1,16 @@
 import { Component } from '../../lib/woowact/index';
 import { $ } from '../../utils/selector';
-import '../../styles/modal.scss';
+import '../../styles/modals/index.scss';
+import { PropsType, StateType } from '../../lib/woowact/core/Component';
 
-export abstract class Modal extends Component {
+export default abstract class Modal<
+  P extends PropsType = PropsType,
+  T extends StateType = StateType,
+> extends Component<P, T> {
   $app: HTMLElement | null;
-  constructor() {
-    super({});
+  constructor(props: P) {
+    super(props);
     this.$app = $('.app-body');
-
-    this.init();
   }
 
   componentDidMount() {

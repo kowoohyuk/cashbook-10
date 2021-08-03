@@ -8,6 +8,8 @@ import userSVG from './assets/user.svg';
 import deleteSVG from './assets/delete.svg';
 import editSVG from './assets/edit.svg';
 import emptyPNG from './assets/emptyList.png';
+import hideSVG from './assets/hide.svg';
+import showSVG from './assets/show.svg';
 
 export {
   userSVG,
@@ -20,4 +22,6 @@ export {
   deleteSVG,
   editSVG,
   emptyPNG,
+  showSVG,
+  hideSVG,
 };
