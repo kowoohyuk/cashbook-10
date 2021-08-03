@@ -29,6 +29,20 @@ export const getUserPayment = async (req: Request, res: Response) => {
   }
 };
 
+export const getPaymentList = async (req: Request, res: Response) => {
+  try {
+    const data = await selectPayment();
+
+    httpResponse(res, STATUS.SUCCESS, {
+      data,
+    });
+  } catch (e) {
+    httpResponse(res, STATUS.FAIL, {
+      message: MESSAGE.GET_FAIL,
+    });
+  }
+};
+
 export const postUserPayment = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
@@ -50,7 +64,7 @@ export const postUserPayment = async (req: Request, res: Response) => {
 
 export const deleteUserPayment = async (req: Request, res: Response) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const data = await destroyPayment(Number(req.user.id), Number(id));
     if (!data) {
       throw new Error();
