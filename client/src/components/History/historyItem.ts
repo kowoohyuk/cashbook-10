@@ -2,6 +2,7 @@ import { IHistory } from '../../apis/historyAPI';
 import { Component } from '../../lib/woowact/index';
 import { categoryStore } from '../../stores/Category';
 import { DELETE_HISTORY, historyStore } from '../../stores/History';
+import { paymentStore } from '../../stores/Payment';
 import { deleteSVG, editSVG } from '../../useResource';
 import { toWonForm } from '../../utils/money';
 import IMGButton from '../Common/IMGButton';
@@ -34,8 +35,7 @@ export default class HistoryItem extends Component<HistoryItemProps> {
   }
 
   getPaymentName() {
-    //this.props.history.paymentId
-    return '현대카드'; //TODO: 나중에 id-name 리스트 받아와서 반환하기
+    return paymentStore.getName(this.props.history.paymentId);
   }
 
   render() {

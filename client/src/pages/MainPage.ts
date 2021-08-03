@@ -6,7 +6,6 @@ import HistorySection from '../components/History/HistortySection';
 import ChartSection from '../components/Chart/ChartSection';
 import CalendarSection from '../components/Calendar/CalendarSection';
 import AddButton from '../components/Common/AddButton';
-import { categoryStore } from '../stores/Category';
 
 export default class MainPage extends Component {
   count = 0;
@@ -17,9 +16,6 @@ export default class MainPage extends Component {
 
   constructor() {
     super({});
-
-    historyStore.subscribe(this);
-    categoryStore.subscribe(this);
 
     this.$historySection = this.addComponent(HistorySection);
     this.$chartSection = this.addComponent(ChartSection);
