@@ -5,44 +5,54 @@ import { deleteSVG, editSVG } from '../../useResource';
 import { toWonForm } from '../../utils/money';
 import IMGButton from '../Common/IMGButton';
 
-const DEFAULT_CATEGORY = [
+export const DEFAULT_CATEGORY = [
   {
+    id: 1,
     name: '생활',
     isIncome: false,
   },
   {
+    id: 2,
     name: '식비',
     isIncome: false,
   },
   {
+    id: 3,
     name: '교통',
     isIncome: false,
   },
   {
+    id: 4,
     name: '쇼핑/뷰티',
     isIncome: false,
   },
   {
+    id: 5,
     name: '의료/건강',
     isIncome: false,
   },
   {
+    id: 6,
     name: '문화/여가',
     isIncome: false,
   },
   {
+    id: 7,
     name: '미분류',
     isIncome: false,
   },
   {
+    id: 8,
     name: '월급',
     isIncome: true,
   },
   {
+    id: 9,
     name: '용돈',
     isIncome: true,
   },
   {
+    id: 10,
     name: '기타수입',
     isIncome: true,
   },
