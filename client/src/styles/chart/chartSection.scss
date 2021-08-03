@@ -1,0 +1,9 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.svg-wrapper {
+  @include flex-center();
+  svg {
+    transform: rotate(-90deg);
+  }
+}
