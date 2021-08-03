@@ -5,14 +5,18 @@ import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { toWonForm } from '../../utils/money';
 import Modal from './CoreModal';
 import { categoryStore } from '../../stores/Category';
+import { getUserPaymentListAPI, TPaymentData } from '../../apis/paymentAPI';
+import { Dropdown, TDropdownData, TDropProps } from '../Common/Dropdown';
+import { Component } from '../../lib/woowact/index';
 
 type HistoryModalState = {
   isIncome?: boolean;
   amount?: number;
   date?: Date;
   categoryId?: number;
-  paymentMethod: number;
+  paymentId: number;
   warningMessage: string;
+  payments: TPaymentData[];
 };
 
 type HistoryProps = {
@@ -22,15 +26,19 @@ type HistoryProps = {
 const MSG_SHOW_TIME = 2000;
 
 export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
+  $dropdown: Component;
   constructor(props: HistoryProps) {
     super(props);
 
     this.state = {
       date: props.date ?? new Date(),
-      paymentMethod: 1,
+      paymentId: 1,
       warningMessage: '',
+      payments: [],
     };
 
+    const initValue = { dataList: [], onclick: () => {} };
+    this.$dropdown = this.addComponent(Dropdown, initValue);
     this.init();
   }
 
@@ -40,7 +48,37 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
 
   componentDidMount() {
     this.addEvents();
+    this.initPaymentList();
     super.componentDidMount();
+  }
+
+  componentDidUpdate() {
+    (this.$dropdown as Dropdown).updateData(this.getNewDropdownData());
+  }
+
+  getNewDropdownData(): TDropProps {
+    const dataList = this.state.payments.map(payment => {
+      const data: TDropdownData = {
+        label: payment.name,
+        value: payment.id,
+      };
+      return data;
+    });
+
+    return {
+      dataList,
+      onclick: (paymentId: number) => {
+        this.setState({ paymentId });
+      },
+    };
+  }
+
+  async initPaymentList() {
+    const payments = await getUserPaymentListAPI();
+
+    this.setState({
+      payments,
+    });
   }
 
   addEvents() {
@@ -112,6 +150,10 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       });
   }
 
+  addPaymentMethodEvent() {
+    const $method = $('.history__method', this.$element);
+  }
+
   handleCategory(e: MouseEvent) {
     const $el: HTMLElement = e.target as HTMLElement;
     const key = $el.getAttribute('key');
@@ -138,14 +180,14 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
   }
 
   checkSubmitable(): boolean {
-    const { isIncome, amount, date, categoryId, paymentMethod } = this.state;
+    const { isIncome, amount, date, categoryId, paymentId } = this.state;
 
     return (
       isIncome !== undefined &&
       !!amount &&
       !!date &&
       !!categoryId &&
-      !!paymentMethod
+      !!paymentId
     );
   }
 
@@ -201,11 +243,9 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
     }, MSG_SHOW_TIME);
   }
 
-  getPaymentName(): string {
-    const id = this.state.paymentMethod;
-
-    return '현금'; // TODO: id 비교해서 name 반환하기
-  }
+  changeDropdownValue = (value: string) => {
+    console.log(value);
+  };
 
   modal(): string {
     return `
@@ -235,15 +275,14 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
         ${this.generateCategoryList()}
       </div>
       <div class="history__method">
-        <div>
-          ${this.getPaymentName()}
-        </div>
-        <img src=${downArrowSVG} alt="more-icon" />
+        ${this.$dropdown.html}
       </div>
       <button class="history__add-button" ${
         this.checkSubmitable() ? '' : 'disabled="true"'
       }>추가하기</button>
-      <small class="fail-message">${this.state.warningMessage}</small>
+      <small class="fail-message">
+        ${this.state.warningMessage}
+      </small>
     </div>
     `;
   }
