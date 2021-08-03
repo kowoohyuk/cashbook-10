@@ -3,6 +3,8 @@ import '../../styles/modals/signup.scss';
 import { showSVG, hideSVG } from '../../useResource';
 import { $ } from '../../utils/selector';
 import { eventHandler } from '../../lib/woowact/core/EventHandler';
+import { getVerifyAuthorization } from '../../apis/authAPI';
+import { checkEmailAPI, signinAPI, signupAPI } from '../../apis/userAPI';
 
 import {
   checkEmailValidation,
@@ -105,26 +107,18 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       //중복 체크 요청을 여러번 날리는 것을 방지하기 위해 버튼 막기..!
       ($checkBTN as HTMLButtonElement).disabled = true;
     }
-    //TODO: api 연동하기~!
-    //지금 이거는 테스트코드
-    setTimeout(() => {
-      //
-      console.log('check finish!');
-
-      ($checkBTN as HTMLButtonElement).disabled = false;
-      this.setState({
-        isCheckEmail: true,
-      });
-      return;
-      //
-      console.log('check failed!');
-
+    const data = await checkEmailAPI(email);
+    if (data) {
       this.setState({
         isValidEmail: false,
         emailMSG: '이미 사용 중인 이메일입니다.',
       });
-      //
-    }, 1000);
+    } else {
+      ($checkBTN as HTMLButtonElement).disabled = false;
+      this.setState({
+        isCheckEmail: true,
+      });
+    }
   }
 
   checkEmailInput(e: InputEvent) {
