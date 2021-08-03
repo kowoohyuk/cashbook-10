@@ -1,0 +1,34 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.woowa-calendar {
+  height: 100%;
+}
+
+.woowa-calendar .calendar-header {
+  height: 7.5%;
+  color: $label-color;
+}
+
+.woowa-calendar .calendar-body {
+  height: 92.5%;
+  .day-block {
+    &.now {
+      color: $black-color;
+      border-color: $body-color;
+    }
+    &.selected,
+    &:hover {
+      border-color: #2ac1bc;
+      color: #fff;
+    }
+    &__contents {
+      height: 80%;
+      overflow-y: auto;
+    }
+    &__day {
+      text-align: right;
+      color: $body-color;
+    }
+  }
+}
