@@ -10,13 +10,17 @@ import {
   EMAIL_VALIDATION_ERR_MSG,
   PW_VALIDATION_ERR_MSG,
 } from '../../utils/validations';
+import { signinAPI } from '../../apis/userAPI';
 
 type SigninModalState = {
   isShowingPW: boolean;
   isSignable: boolean;
   emailMSG: string;
   pwMSG: string;
+  resultMSG: string;
 };
+
+const ALERT_TIME: number = 2000;
 
 export class SigninModal extends Modal<{}, SigninModalState> {
   constructor() {
@@ -27,6 +31,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
       isSignable: false,
       emailMSG: '',
       pwMSG: '',
+      resultMSG: ' ',
     };
 
     this.init();
@@ -41,6 +46,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
     this.addPWShowHideEvent();
     this.inputValidationEvent();
     this.moveToSignupEvent();
+    this.addSigninEvent();
   }
 
   addPWShowHideEvent() {
@@ -86,6 +92,51 @@ export class SigninModal extends Modal<{}, SigninModalState> {
         'click',
         this.goToSignupModal.bind(this),
       );
+  }
+
+  addSigninEvent() {
+    const $signinBTN = $('.signin-button', this.$element);
+
+    $signinBTN &&
+      eventHandler.addEvent($signinBTN, 'click', () => this.handleSignin());
+  }
+
+  alertError(cb: Function) {
+    setTimeout(() => {
+      this.setState({
+        resultMSG: ' ',
+      });
+      cb();
+    }, ALERT_TIME);
+  }
+
+  async handleSignin() {
+    const email = ($('.email-input', this.$element) as HTMLInputElement)?.value;
+    const pw = ($('.pw-input', this.$element) as HTMLInputElement)?.value;
+
+    const $signinBTN = $('.signin-button');
+    ($signinBTN as HTMLButtonElement).disabled = true;
+
+    //TODO: true면 user 정보 저장(로그인 처리) 후 닫기
+    //현재 아래의 settimeout은 테스트용
+    //TODO: false면 실패 메세지 날려주기
+    const data = await signinAPI({
+      email,
+      pw,
+    });
+    if (!data) {
+      this.setState({
+        resultMSG:
+          '로그인에 실패하였습니다. 이메일 또는 비밀번호를 확인해주세요.',
+      });
+      this.alertError(
+        () => (($signinBTN as HTMLButtonElement).disabled = false),
+      );
+    } else {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('email', data.email);
+      this.closeModalB();
+    }
   }
 
   goToSignupModal() {
