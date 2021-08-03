@@ -32,9 +32,9 @@ export default class CalendarSection extends Component {
     );
     histories.forEach(({ amount, paymentDate, isIncome }) =>
       contents[new Date(paymentDate).getDate() - 1].push(
-        `<div class="calendar-history ${isIncome ? 'income' : ''}">${
+        `<div class="calendar-history ${isIncome ? 'income' : ''}">${(
           (isIncome ? 1 : -1) * amount
-        }</div>`,
+        ).toLocaleString()}</div>`,
       ),
     );
     // );
