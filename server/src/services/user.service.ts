@@ -73,7 +73,11 @@ export const signinUser = async (email: string, pw: string) => {
       where: { email, pw },
       attributes: ['id', 'email'],
     });
-    const accessToken = generateToken(user);
+    if (!user) throw new Error();
+    const accessToken = generateToken({
+      id: user.id,
+      email: user.email,
+    });
     result.data = {
       token: accessToken,
       email,
@@ -81,7 +85,7 @@ export const signinUser = async (email: string, pw: string) => {
     return result;
   } catch (e) {
     result.error = true;
-    result.message = e.message || MESSAGE.SIGNUP_FAIL;
+    result.message = e.message || MESSAGE.SIGNIN_FAIL;
     return result;
   }
 };

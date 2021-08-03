@@ -11,13 +11,14 @@ const MESSAGE = {
 
 const SKIP_PATH = ['/api/user/signup', '/api/user/signin', '/api/auth'];
 const SKIP_METHOD = ['GET'];
+const AUTH_PATH = '/api/auth';
 
 const checkSkipVerify = (method: string, path: string): boolean =>
   SKIP_METHOD.includes(method) || SKIP_PATH.includes(path);
 
 authMiddleWare.use('/', (req: Request, res: Response, next) => {
   const authorization = req.headers.authorization;
-  if (!authorization) {
+  if (!authorization || authorization === 'undefined') {
     if (checkSkipVerify(req.method, req.path)) {
       return next();
     }
