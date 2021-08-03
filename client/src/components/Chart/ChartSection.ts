@@ -78,6 +78,8 @@ const histories: any[] = [
   },
 ];
 
+const SVG_PATH = 'http://www.w3.org/1999/svg';
+
 export default class ChartSection extends Component {
   constructor() {
     super({});
@@ -110,6 +112,43 @@ export default class ChartSection extends Component {
     console.log(data);
     return data;
   }
+
+  getCoordinatesForPercent(percent: number) {
+    const x = Math.cos(2 * Math.PI * percent);
+    const y = Math.sin(2 * Math.PI * percent);
+    return [x, y];
+  }
+
+  generateChart() {
+    const data = this.createChartData(histories);
+    return this.generateDonutChart(data);
+  }
+
+  generateDonutChart(data: TChartData[]) {
+    let accumlatePercent = 0;
+    const paths = data
+      .map((d, index) => {
+        const [startX, startY] =
+          this.getCoordinatesForPercent(accumlatePercent);
+        accumlatePercent += d.percent;
+        const [endX, endY] = this.getCoordinatesForPercent(accumlatePercent);
+        const isLargeArcFlag = d.percent > 0.5 ? 1 : 0;
+
+        return this.getCategoryDataPath(
+          d,
+          { startX, startY, endX, endY, isLargeArcFlag },
+          index,
+        );
+      })
+      .join('');
+    return paths;
+  }
+
+  getCategoryDataPath(
+    { percent, color }: TChartData,
+    { startX, startY, endX, endY, isLargeArcFlag }: TDonutArcData,
+    index: number,
+  ) {}
 
   render() {
     return `
