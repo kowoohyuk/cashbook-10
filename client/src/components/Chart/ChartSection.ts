@@ -109,7 +109,6 @@ export default class ChartSection extends Component {
     data.forEach(d => {
       d.percent = d.amount / sum;
     });
-    console.log(data);
     return data;
   }
 
@@ -148,7 +147,31 @@ export default class ChartSection extends Component {
     { percent, color }: TChartData,
     { startX, startY, endX, endY, isLargeArcFlag }: TDonutArcData,
     index: number,
-  ) {}
+  ) {
+    const targetRad = 2 * Math.PI * percent;
+    const targetRestRad = 2 * Math.PI * (1 - percent);
+    const animationDuration = 0.2;
+    const $path = document.createElementNS(SVG_PATH, 'path');
+    $path.setAttribute(
+      'd',
+      `M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`,
+    );
+    $path.setAttribute('fill', 'none');
+    $path.setAttribute('stroke-width', '0.3');
+    $path.setAttribute('stroke', `${color}`);
+    $path.setAttribute('stroke-dasharray', `${targetRad} ${targetRestRad}`);
+    $path.setAttribute('stroke-dashoffset', `${targetRad}`);
+
+    const $animate = document.createElementNS(SVG_PATH, 'animate');
+    $animate.setAttribute('attributeName', 'stroke-dashoffset');
+    $animate.setAttribute('begin', `${animationDuration * index}`);
+    $animate.setAttribute('from', `${targetRad}`);
+    $animate.setAttribute('to', '0.025');
+    $animate.setAttribute('dur', `${animationDuration}`);
+    $animate.setAttribute('fill', 'freeze');
+    $path.appendChild($animate);
+    return $path.outerHTML;
+  }
 
   render() {
     return `
