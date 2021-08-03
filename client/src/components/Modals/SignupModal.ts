@@ -19,7 +19,9 @@ type SignupModalState = {
   isValidPW: boolean;
   emailMSG: string;
   pwMSG: string;
+  resultMSG: string;
 };
+const ALERT_TIME: number = 2000;
 
 export class SignupModal extends Modal<{}, SignupModalState> {
   constructor() {
@@ -32,6 +34,7 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       isValidPW: false,
       emailMSG: '',
       pwMSG: '',
+      resultMSG: ' ',
     };
 
     this.init();
@@ -45,6 +48,8 @@ export class SignupModal extends Modal<{}, SignupModalState> {
   addEvents() {
     this.addPWShowHideEvent();
     this.inputValidationEvent();
+    this.addEmailCheckEvent();
+    this.addSignupEvent();
   }
 
   addPWShowHideEvent() {
@@ -61,10 +66,9 @@ export class SignupModal extends Modal<{}, SignupModalState> {
     const $pw = $('.pw-input', this.$element);
 
     $email &&
-      eventHandler.addEvent($email, 'keyup', () => {
-        this.setState({ emailMSG: '' });
-        this.checkValidation();
-      });
+      eventHandler.addEvent($email, 'keyup', e =>
+        this.checkEmailInput(e as InputEvent),
+      );
 
     $email &&
       eventHandler.addEvent($email, 'change', () =>
@@ -72,28 +76,84 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       );
 
     $pw &&
-      eventHandler.addEvent($pw, 'keyup', () => {
-        this.setState({ pwMSG: '' });
-        this.checkValidation();
+      eventHandler.addEvent($pw, 'keyup', e => {
+        this.checkPWInput(e as InputEvent);
       });
 
     $pw &&
       eventHandler.addEvent($pw, 'change', () => this.showPWValidationMSG());
   }
 
-  checkValidation() {
+  addEmailCheckEvent() {
+    const $checkBTN = $('.check-button', this.$element);
+
+    $checkBTN &&
+      eventHandler.addEvent($checkBTN, 'click', () =>
+        this.checkEmailDuplication(),
+      );
+  }
+
+  async checkEmailDuplication() {
     const email = ($('.email-input', this.$element) as HTMLInputElement)?.value;
-    const pw = ($('.pw-input', this.$element) as HTMLInputElement)?.value;
+
+    //const result = await checkEmailDuplicationAPI(email);
+
+    const $checkBTN = $('.check-button');
+
+    if ($checkBTN) {
+      $checkBTN.className = 'check-button-confirm';
+      //중복 체크 요청을 여러번 날리는 것을 방지하기 위해 버튼 막기..!
+      ($checkBTN as HTMLButtonElement).disabled = true;
+    }
+    //TODO: api 연동하기~!
+    //지금 이거는 테스트코드
+    setTimeout(() => {
+      //
+      console.log('check finish!');
+
+      ($checkBTN as HTMLButtonElement).disabled = false;
+      this.setState({
+        isCheckEmail: true,
+      });
+      return;
+      //
+      console.log('check failed!');
+
+      this.setState({
+        isValidEmail: false,
+        emailMSG: '이미 사용 중인 이메일입니다.',
+      });
+      //
+    }, 1000);
+  }
+
+  checkEmailInput(e: InputEvent) {
+    const email = (e.target as HTMLInputElement).value;
+
+    const isValid = checkEmailValidation(email);
 
     this.setState({
-      //isSignable: checkEmailValidation(email) && checkPWLength(pw),
+      emailMSG: '',
+      isCheckEmail: false,
+      isValidEmail: isValid,
+    });
+  }
+
+  checkPWInput(e: InputEvent) {
+    const pw = (e.target as HTMLInputElement).value;
+
+    const isValid = checkPWValidation(pw);
+
+    this.setState({
+      pwMSG: '',
+      isValidPW: isValid,
     });
   }
 
   showEmailValidationMSG() {
     const email = ($('.email-input', this.$element) as HTMLInputElement)?.value;
 
-    !checkPWLength(email) &&
+    !checkEmailValidation(email) &&
       this.setState({ emailMSG: EMAIL_VALIDATION_ERR_MSG });
   }
 
@@ -103,15 +163,50 @@ export class SignupModal extends Modal<{}, SignupModalState> {
     !checkPWLength(pw) && this.setState({ pwMSG: PW_VALIDATION_ERR_MSG });
   }
 
+  addSignupEvent() {
+    const $signupBTN = $('.signup-button', this.$element);
+
+    $signupBTN &&
+      eventHandler.addEvent($signupBTN, 'click', () => this.handleSignup());
+  }
+
+  async handleSignup() {
+    const $signupBTN = $('.signup-button');
+
+    ($signupBTN as HTMLButtonElement).disabled = true;
+
+    //TODO: true면 user 정보 저장(로그인 처리) 후 닫기
+    //현재 아래의 settimeout은 테스트용
+    //TODO: false면 실패 메세지 날려주기
+    setTimeout(() => {
+      this.setState({
+        resultMSG: '회원가입에 실패하였습니다. 잠시 후 다시 시도해주세요',
+      });
+
+      //2초(ALERT_TIME) 뒤에 메세지 없애주기
+      setTimeout(() => {
+        ($signupBTN as HTMLButtonElement).disabled = false;
+        this.setState({
+          resultMSG: ' ',
+        });
+      }, ALERT_TIME);
+    }, ALERT_TIME);
+  }
+
   modal(): string {
     return `
     <div class="signup-modal">
       <div class="email-input-area">
         <input class="email-input" placeholder="이메일을 입력해주세요"></input>
         <small>${this.state.emailMSG}</small>
+        <button ${
+          this.state.isValidEmail ? '' : 'disabled="true"'
+        } class="check-button${this.state.isCheckEmail ? '-confirm' : ''}">
+          중복확인
+        </button>
       </div>
-      <div class="pw-input-area">
-        <input class="pw-input" placeholder="비밀번호는 10글자 이상의 문자, 숫자 혹은 알파벳 조합"
+      <div class="pw-input-area ${this.state.isCheckEmail ? 'show' : 'hide'}">
+        <input class="pw-input" placeholder="10글자 이상의 문자, 숫자 혹은 알파벳 조합"
           type="${this.state.isShowingPW ? 'input' : 'password'}">
         </input>
         <small>${this.state.pwMSG}</small>
@@ -121,9 +216,12 @@ export class SignupModal extends Modal<{}, SignupModalState> {
           } alt="pw-show-hide-button"/>
         </button>
       </div>
-      <button ${
+      <button class="signup-button"
+      ${
         this.state.isCheckEmail && this.state.isValidPW ? '' : 'disabled="true"'
-      } class="signin-button">회원가입</button>
+      }
+      >회원가입</button>
+      <div class="result-msg-box"><small>${this.state.resultMSG}</small></div>
     </div>
     `;
   }
