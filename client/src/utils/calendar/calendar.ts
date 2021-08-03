@@ -63,11 +63,14 @@ export const isNowDate = (date: Date | string): boolean => {
   return true;
 };
 
+const CALENDARBLOCK_COUNT = 42;
+
 export default class Calendar {
   private _date: Date;
   private _$target: HTMLElement | null;
   private _options: ICalendarOptions;
   private _selected: HTMLElement | null;
+  private _contents: string[];
   private _dateObject: TDateObject;
   public dayBlocks: NodeListOf<HTMLElement> | null;
 
@@ -83,6 +86,7 @@ export default class Calendar {
     this._options = options;
     this._$target = target;
     this._selected = null;
+    this._contents = [];
     this._dateObject = getDateObject(this._date);
     this.dayBlocks = null;
   }
@@ -135,30 +139,24 @@ export default class Calendar {
     );
 
     calendarBody.innerHTML = days
-      .map(day => this.generateDayBlock(day))
+      .concat(new Array(CALENDARBLOCK_COUNT - days.length).fill(''))
+      .map((day, index) => this.generateDayBlock(day, index))
       .join('');
     this.dayBlocks = calendarBody.querySelectorAll('.day-block');
     return calendarBody;
   }
 
-  private generateDayBlock(day = 0, contents = []) {
+  private generateDayBlock(day = 0, index: number) {
     const blockDate = new Date(
       `${this._dateObject.year}-${this._dateObject.month}-${day}`,
     );
+    const blockContents = this._contents[index];
     return `
       <div class="day-block ${
         isNowDate(blockDate) ? 'now' : ''
       }" data-date="${blockDate}">
-        <div class="day-block__contents">
-        ${
-          contents.length > 0
-            ? contents
-                .map(
-                  content => `<div class="day-block__content">${content}</div>`,
-                )
-                .join('')
-            : ''
-        }
+        <div class="day-block__content">
+        ${blockContents?.length ? blockContents : ''}
         </div>
         <div class="day-block__day">${day > 0 ? day : ''}</div>
       </div>
@@ -213,11 +211,6 @@ export default class Calendar {
     this.changeDate('year', 0, -1);
   }
 
-  setDate(date: string) {
-    this._date = new Date(date);
-    this.rerender();
-  }
-
   changeDate(type: string, number: number = 0, direction: number = 0) {
     if (type === 'year') {
       this._date.setFullYear(number || this._dateObject.year + direction);
@@ -240,12 +233,16 @@ export default class Calendar {
     return this._date;
   }
 
-  set date(date: Date) {
+  set date(date: Date | string) {
     if (!checkValidDate) return;
-    this._date = date;
+    this._date = new Date(date);
     if (this._$target) {
       this.rerender();
     }
+  }
+
+  set contents(contents: string[]) {
+    this._contents = contents;
   }
 
   get options(): ICalendarOptions {
