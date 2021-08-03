@@ -13,6 +13,7 @@ import {
   EMAIL_VALIDATION_ERR_MSG,
   PW_VALIDATION_ERR_MSG,
 } from '../../utils/validations';
+import { historyStore } from '../../stores/History';
 
 type SignupModalState = {
   isShowingPW: boolean;
@@ -164,27 +165,41 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       eventHandler.addEvent($signupBTN, 'click', () => this.handleSignup());
   }
 
-  async handleSignup() {
-    const $signupBTN = $('.signup-button');
+  alertError(cb: Function) {
+    setTimeout(() => {
+      this.setState({
+        resultMSG: ' ',
+      });
+      cb();
+    }, ALERT_TIME);
+  }
 
+  async handleSignup() {
+    const email = ($('.email-input', this.$element) as HTMLInputElement)?.value;
+    const pw = ($('.pw-input', this.$element) as HTMLInputElement)?.value;
+
+    const $signupBTN = $('.signup-button');
     ($signupBTN as HTMLButtonElement).disabled = true;
 
     //TODO: true면 user 정보 저장(로그인 처리) 후 닫기
     //현재 아래의 settimeout은 테스트용
     //TODO: false면 실패 메세지 날려주기
-    setTimeout(() => {
+    const data = await signupAPI({
+      email,
+      pw,
+    });
+    if (data.error) {
       this.setState({
         resultMSG: '회원가입에 실패하였습니다. 잠시 후 다시 시도해주세요',
       });
-
-      //2초(ALERT_TIME) 뒤에 메세지 없애주기
-      setTimeout(() => {
-        ($signupBTN as HTMLButtonElement).disabled = false;
-        this.setState({
-          resultMSG: ' ',
-        });
-      }, ALERT_TIME);
-    }, ALERT_TIME);
+      this.alertError(
+        () => (($signupBTN as HTMLButtonElement).disabled = false),
+      );
+    } else {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('email', data.email);
+      this.closeModalB();
+    }
   }
 
   modal(): string {
