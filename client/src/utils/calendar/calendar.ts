@@ -1,6 +1,9 @@
+import './index.scss';
+
 interface ICalendarOptions {
   startWeek?: number;
   onClick?: MouseEvent;
+  lang: string;
 }
 
 type TDateObject = {
@@ -50,18 +53,30 @@ export const getDateObject = (date: Date | string): TDateObject => {
 export const checkValidDate = (date: Date | string) =>
   !Number.isNaN(new Date(date).getTime());
 
+export const isNowDate = (date: Date | string): boolean => {
+  if (!checkValidDate(date)) return false;
+  const now = new Date();
+  date = new Date(date);
+  if (date.getFullYear() !== now.getFullYear()) return false;
+  if (date.getMonth() !== now.getMonth()) return false;
+  if (date.getDate() !== now.getDate()) return false;
+  return true;
+};
+
 export default class Calendar {
   private _date: Date;
   private _$target: HTMLElement | null;
   private _options: ICalendarOptions;
-  private _selected: Date | null;
+  private _selected: HTMLElement | null;
   private _dateObject: TDateObject;
+  public dayBlocks: NodeListOf<HTMLElement> | null;
 
   constructor(
-    target = null,
+    target: any = null,
     date: Date | string = new Date(),
-    options = {
+    options: ICalendarOptions = {
       startWeek: 0,
+      lang: 'ko',
     },
   ) {
     this._date = new Date(date);
@@ -69,34 +84,106 @@ export default class Calendar {
     this._$target = target;
     this._selected = null;
     this._dateObject = getDateObject(this._date);
+    this.dayBlocks = null;
   }
 
   render() {
     if (!this._$target) {
-      return new Error(ERROR.FAIL_TARGET);
+      return this.generateCalendar();
+    } else {
+      this._$target.appendChild(this.generateCalendar());
     }
-    // return this.getTemplate();
   }
 
   rerender() {
     if (!this._$target) {
-      return new Error(ERROR.FAIL_TARGET);
+      return this.generateCalendar();
+    } else {
+      this._$target.querySelector('.woowa-calendar')?.remove();
+      this._$target.appendChild(this.generateCalendar());
     }
-    this._$target.querySelector('.woowa-calendar')?.remove();
-    console.log(this._dateObject);
-    // 리렌더링 관련한 함수 새로 작성
-    // this._$target.insertAdjacentHTML('afterend', );
   }
 
-  getSelected(type: string = 'date'): Date | string | null {
+  private generateCalendar() {
+    const calendarWrap = document.createElement('div');
+    calendarWrap.className = 'woowa-calendar';
+    calendarWrap.appendChild(this.generateCalendarHeader());
+    calendarWrap.appendChild(this.generateCalendarBody());
+    calendarWrap.addEventListener('click', this.onClickEvent);
+    return calendarWrap;
+  }
+
+  private generateCalendarHeader() {
+    const calendarHeader = document.createElement('ul');
+    calendarHeader.className = 'calendar-header';
+    calendarHeader.innerHTML = `
+      ${WEEK_TEXTS[this._options.lang].reduce(
+        (acc, cur) => acc + `<li>${cur}</li>`,
+        '',
+      )}
+    `;
+    return calendarHeader;
+  }
+
+  private generateCalendarBody() {
+    const calendarBody = document.createElement('div');
+    calendarBody.className = 'calendar-body';
+    const days = new Array(getStartWeek(this._date)).fill('').concat(
+      Array(getLastDate(this._date))
+        .fill(0)
+        .map((_, i) => i + 1),
+    );
+
+    calendarBody.innerHTML = days
+      .map(day => this.generateDayBlock(day))
+      .join('');
+    this.dayBlocks = calendarBody.querySelectorAll('.day-block');
+    return calendarBody;
+  }
+
+  private generateDayBlock(day = 0, contents = []) {
+    const blockDate = new Date(
+      `${this._dateObject.year}-${this._dateObject.month}-${day}`,
+    );
+    return `
+      <div class="day-block ${
+        isNowDate(blockDate) ? 'now' : ''
+      }" data-date="${blockDate}">
+        <div class="day-block__contents">
+        ${
+          contents.length > 0
+            ? contents
+                .map(
+                  content => `<div class="day-block__content">${content}</div>`,
+                )
+                .join('')
+            : ''
+        }
+        </div>
+        <div class="day-block__day">${day > 0 ? day : ''}</div>
+      </div>
+    `;
+  }
+
+  public getSelected(type: string = 'date'): Date | string | null {
     if (!this._selected) return null;
     return type === 'date'
-      ? this._selected
-      : convertDateToString(this._selected);
+      ? new Date(this._selected.dataset.date as string)
+      : convertDateToString(new Date(this._selected.dataset.date as string));
   }
 
-  getDateObject() {
+  public getDateObject() {
     return getDateObject(this._date);
+  }
+
+  private onClickEvent(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const closest = target.closest('.day-block') as HTMLElement;
+    if (closest) {
+      this._selected?.classList.remove('selected');
+      this._selected = closest;
+      this._selected.classList.add('selected');
+    }
   }
 
   // nextBTN.addEventListener('click', this.setNextMonth);
@@ -124,6 +211,11 @@ export default class Calendar {
 
   setPrevYear() {
     this.changeDate('year', 0, -1);
+  }
+
+  setDate(date: string) {
+    this._date = new Date(date);
+    this.rerender();
   }
 
   changeDate(type: string, number: number = 0, direction: number = 0) {
