@@ -20,7 +20,7 @@ export const postSignUpUser = async (req: Request, res: Response) => {
 };
 
 export const getCheckExistUser = async (req: Request, res: Response) => {
-  const { email } = req.body;
+  const { email } = req.query;
   const data = await checkExistUser(email as string);
   httpResponse(res, STATUS.SUCCESS, data);
 };

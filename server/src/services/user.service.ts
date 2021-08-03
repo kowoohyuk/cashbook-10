@@ -23,7 +23,8 @@ export const checkExistUser = async (email: string) => {
       },
     });
     result.error = !!data;
-    result.message = MESSAGE.USER_EXIST;
+    if (result.error) result.message = MESSAGE.USER_EXIST;
+    result.data = !!data;
     return result;
   } catch (e) {
     result.error = true;
