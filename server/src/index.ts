@@ -3,9 +3,9 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { sequelize } from './models';
+import cors from 'cors';
 import APIRouter from './routers/index';
 import authMiddleWare from './middlewares/auth.middleware';
-import cors from 'cors';
 
 declare global {
   namespace Express {

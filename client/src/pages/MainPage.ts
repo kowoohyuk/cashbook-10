@@ -4,13 +4,13 @@ import { historyStore } from '../stores/History';
 import '../styles/main/index.scss';
 import HistorySection from '../components/History/HistortySection';
 import ChartSection from '../components/Chart/ChartSection';
-import CalanderSection from '../components/Calander/CalanderSection';
+import CalendarSection from '../components/Calendar/CalendarSection';
 import AddButton from '../components/Common/AddButton';
 
 export default class MainPage extends Component {
   count = 0;
   $historySection: Component;
-  $calanderSection: Component;
+  $calendarSection: Component;
   $chartSection: Component;
   $addButton: Component;
 
@@ -21,7 +21,7 @@ export default class MainPage extends Component {
 
     this.$historySection = this.addComponent(HistorySection);
     this.$chartSection = this.addComponent(ChartSection);
-    this.$calanderSection = this.addComponent(CalanderSection);
+    this.$calendarSection = this.addComponent(CalendarSection);
     this.$addButton = this.addComponent(AddButton);
 
     this.init();
@@ -37,7 +37,7 @@ export default class MainPage extends Component {
     return `
     <div class="page main-page">
       ${this.$chartSection.html}
-      ${this.$calanderSection.html}
+      ${this.$calendarSection.html}
       ${this.$historySection.html}
       ${this.$addButton.html}
     </div>

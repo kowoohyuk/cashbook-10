@@ -105,7 +105,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
   showEmailValidationMSG() {
     const email = ($('.email-input', this.$element) as HTMLInputElement)?.value;
 
-    !checkPWLength(email) &&
+    !checkEmailValidation(email) &&
       this.setState({ emailMSG: EMAIL_VALIDATION_ERR_MSG });
   }
 
@@ -121,7 +121,6 @@ export class SigninModal extends Modal<{}, SigninModalState> {
       <div class="email-input-area">
         <input class="email-input" placeholder="이메일을 입력해주세요"></input>
         <small>${this.state.emailMSG}</small>
-        <button class="email-check-button">중복확인</button>
       </div>
       <div class="pw-input-area">
         <input class="pw-input" placeholder="비밀번호를 입력해주세요"

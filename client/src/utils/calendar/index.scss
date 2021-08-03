@@ -1,0 +1,19 @@
+.woowa-calendar .calendar-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  li {
+    text-align: center;
+    padding: 1rem;
+  }
+}
+.woowa-calendar .calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  .day-block {
+    padding: 0.5rem;
+    border: 1px solid #eee;
+    cursor: pointer;
+  }
+}
