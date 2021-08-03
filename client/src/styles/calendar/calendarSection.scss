@@ -28,6 +28,23 @@
       height: 80%;
       max-height: 4.5rem;
       overflow-y: auto;
+      &::-webkit-scrollbar-track {
+        border-radius: 3px;
+        background-color: $line-color;
+      }
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background-color: $primary-color2;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background-color: $primary-color1;
+      }
     }
     &__day {
       text-align: right;
