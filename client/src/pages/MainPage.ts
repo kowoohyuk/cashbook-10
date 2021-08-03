@@ -29,7 +29,7 @@ export default class MainPage extends Component {
 
   componentDidUpdate() {
     eventHandler.addEvent(this.$element, 'click', () => {
-      console.log(historyStore.data.histories.length);
+      //console.log(historyStore.data.histories.length);
     });
   }
 

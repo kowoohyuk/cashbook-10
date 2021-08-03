@@ -14,6 +14,6 @@ export default class AddButton extends IMGButton {
   }
 
   onclick() {
-    new AddHistoryModal();
+    new AddHistoryModal({});
   }
 }
