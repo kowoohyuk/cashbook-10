@@ -1,11 +1,10 @@
 import '../../styles/modals/history.scss';
-import { Component } from '../../lib/woowact/index';
 import { plusSVG, minusSVG, downArrowSVG } from '../../useResource';
 import { $ } from '../../utils/selector';
 import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { toWonForm } from '../../utils/money';
-import { DEFAULT_CATEGORY } from '../History/HistoryItem';
 import Modal from './CoreModal';
+import { categoryStore } from '../../stores/Category';
 
 type HistoryModalState = {
   isIncome?: boolean;
@@ -129,7 +128,7 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
   handleIncomeOutcome(isIncome: boolean) {
     let categoryId = this.state.categoryId;
 
-    if (categoryId && DEFAULT_CATEGORY[categoryId - 1].isIncome !== isIncome)
+    if (categoryId && categoryStore.getData(categoryId).isIncome !== isIncome)
       categoryId = undefined;
 
     this.setState({
@@ -151,11 +150,12 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
   }
 
   generateCategoryList(): string {
-    return DEFAULT_CATEGORY.filter(
-      category =>
-        this.state.isIncome === undefined ||
-        category.isIncome === this.state.isIncome,
-    )
+    return categoryStore.data.categories
+      .filter(
+        category =>
+          this.state.isIncome === undefined ||
+          category.isIncome === this.state.isIncome,
+      )
       .map(
         category =>
           `<li key="${category.id}" ${
