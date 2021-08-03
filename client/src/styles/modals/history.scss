@@ -1,5 +1,191 @@
 @import '../mixins.scss';
 @import '../variables.scss';
+@import '../history/category.scss';
 
 .add-history-modal {
+  padding: 4rem;
+  width: 600px;
+  height: 700px;
+  overflow-y: scroll;
+
+  @include flex(column, center, flex-start);
+  gap: 3rem;
+
+  div {
+    width: 10rem;
+  }
+  .history__title {
+    font-size: 1rem;
+    font-weight: bolder;
+  }
+
+  .history__select {
+    width: 100%;
+    height: 3rem;
+    min-height: 3rem;
+    @include flex(row, space-around, center);
+    gap: 1rem;
+
+    button {
+      width: 100%;
+      height: 100%;
+      transition: 0.3s;
+      cursor: pointer;
+      font-size: 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: bolder;
+
+      img {
+        width: 0.7rem;
+        height: auto;
+      }
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+
+    .history__income-button {
+      &:enabled {
+        border: 1px solid $primary-color1;
+        background-color: white;
+        color: $primary-color1;
+        img {
+          @include blackToPrimary();
+        }
+      }
+
+      &:disabled {
+        border: none;
+        background-color: $primary-color1;
+        color: white;
+        img {
+          filter: invert(100%);
+        }
+      }
+    }
+
+    .history__outcome-button {
+      &:enabled {
+        border: 1px solid $error-color;
+        background-color: white;
+        color: $error-color;
+        img {
+          @include blackToRed();
+        }
+      }
+
+      &:disabled {
+        border: none;
+        background-color: $error-color;
+        color: white;
+        img {
+          filter: invert(100%);
+        }
+      }
+    }
+  }
+
+  .history__amount {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-width: 15rem;
+
+    .history__amount-prefix {
+      position: absolute;
+      left: 0;
+      width: 1rem;
+      text-align: right;
+      padding-top: 1rem;
+    }
+    input {
+      width: 100%;
+      font-size: 1.5rem;
+      padding: 0.5rem 0 0.2rem 0;
+      text-align: right;
+      border-bottom: 1px solid $grey-color2;
+      padding-left: 1.5rem;
+    }
+  }
+
+  .history__payment-date {
+    width: auto;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .history__category {
+    @include flex(row, center, center);
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+
+    li {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.5rem;
+      border: 1px solid;
+      border-radius: 0.3rem;
+      cursor: pointer;
+    }
+  }
+
+  .history__method {
+    position: relative;
+    @include flex-center();
+    width: 100%;
+    height: 2rem;
+    min-height: 2rem;
+    text-align: center;
+    max-width: 20rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+
+    img {
+      margin-right: 0.5rem;
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      right: 0;
+    }
+
+    &:hover {
+      background-color: $grey-color1;
+    }
+  }
+
+  .history__add-button {
+    width: 100%;
+    height: 3rem;
+    min-height: 3rem;
+    border-radius: 0.5rem;
+    color: white;
+    transition: 0.3s;
+    font-size: 1.2rem;
+    max-width: 20rem;
+    justify-self: flex-end;
+
+    &:disabled {
+      background-color: $grey-color2;
+    }
+
+    &:enabled {
+      background-color: $primary-color1;
+      opacity: 0.8;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .fail-message {
+    width: 100%;
+    height: 1rem;
+    text-align: center;
+    color: $error-color;
+    justify-self: flex-end;
+  }
 }

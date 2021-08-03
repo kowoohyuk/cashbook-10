@@ -1,0 +1,32 @@
+@import '../mixins.scss';
+
+.category-1 {
+  @include categoryColor($category-color1);
+}
+.category-2 {
+  @include categoryColor($category-color2);
+}
+.category-3 {
+  @include categoryColor($category-color3);
+}
+.category-4 {
+  @include categoryColor($category-color4);
+}
+.category-5 {
+  @include categoryColor($category-color5);
+}
+.category-6 {
+  @include categoryColor($category-color6);
+}
+.category-7 {
+  @include categoryColor($category-color7);
+}
+.category-8 {
+  @include categoryColor($category-color8);
+}
+.category-9 {
+  @include categoryColor($category-color9);
+}
+.category-10 {
+  @include categoryColor($category-color10);
+}

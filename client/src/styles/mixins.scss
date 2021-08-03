@@ -66,3 +66,14 @@
   filter: invert(68%) sepia(42%) saturate(688%) hue-rotate(128deg)
     brightness(87%) contrast(90%);
 }
+
+@mixin blackToRed() {
+  filter: invert(61%) sepia(69%) saturate(4657%) hue-rotate(329deg)
+    brightness(99%) contrast(93%);
+}
+
+@mixin categoryColor($color: white) {
+  border: none;
+  background-color: $color;
+  color: white;
+}

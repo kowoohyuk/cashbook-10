@@ -1,5 +1,6 @@
 @import '../variables.scss';
 @import '../mixins.scss';
+@import './category.scss';
 
 .history-content {
   width: 100%;
@@ -52,7 +53,9 @@
 
             .history-item__category {
               box-sizing: border-box;
-              padding: 0.1rem 0.3rem 0.1rem 0.3rem;
+              width: 3rem;
+              padding-top: 0.1rem;
+              height: 1rem;
               font-size: 0.6rem;
               text-align: center;
               margin-top: 0.3rem;
@@ -165,34 +168,4 @@
 
 .category-0 {
   background-color: $category-color1;
-}
-.category-1 {
-  background-color: $category-color1;
-}
-.category-2 {
-  background-color: $category-color2;
-}
-.category-3 {
-  background-color: $category-color3;
-}
-.category-4 {
-  background-color: $category-color4;
-}
-.category-5 {
-  background-color: $category-color5;
-}
-.category-6 {
-  background-color: $category-color6;
-}
-.category-7 {
-  background-color: $category-color7;
-}
-.category-8 {
-  background-color: $category-color8;
-}
-.category-9 {
-  background-color: $category-color9;
-}
-.category-10 {
-  background-color: $category-color10;
 }
