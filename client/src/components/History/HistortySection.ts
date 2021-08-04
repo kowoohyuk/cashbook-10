@@ -8,15 +8,12 @@ import { categoryStore } from '../../stores/Category';
 import { paymentStore } from '../../stores/Payment';
 
 export default class HistorySection extends Component {
-  $historyBrief: Component;
   constructor() {
     super({});
 
     historyStore.subscribe(this);
     categoryStore.subscribe(this);
     paymentStore.subscribe(this);
-
-    this.$historyBrief = this.addComponent(HistoryBrief);
 
     this.init();
   }
@@ -30,7 +27,7 @@ export default class HistorySection extends Component {
   render() {
     return `
     <section class="history-section">
-      ${this.$historyBrief.html}
+      ${this.addComponent(HistoryBrief, historyStore.data.histories).html}
       <div class="history-content">
       ${
         historyStore.data.histories.length > 0

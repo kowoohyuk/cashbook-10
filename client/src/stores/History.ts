@@ -6,6 +6,7 @@ import {
   THistoryGetParams,
 } from '../apis/historyAPI';
 import { Store } from '../lib/woowact/core/Store';
+import { checkSameDate } from '../utils/calendar/calendar';
 
 export const INIT_HISTORY = 'HISTORY/INIT' as const;
 export const DELETE_HISTORY = 'HISTORY/DELETE' as const;
@@ -169,16 +170,10 @@ class HistoryStore extends Store<THistoryData> {
     return days;
   };
 
-  getTotalIncome = (): number => {
-    return this.data.histories.reduce((prev, history) => {
-      return history.isIncome ? prev + history.amount : prev;
-    }, 0);
-  };
-
-  getTotalOutcome = (): number => {
-    return this.data.histories.reduce((prev, history) => {
-      return history.isIncome ? prev : prev + history.amount;
-    }, 0);
+  getDailyHistory = (date: Date) => {
+    return this.data.histories.filter(history =>
+      checkSameDate(history.paymentDate, date),
+    );
   };
 
   updateStore = (action: string, newHistory: Partial<THistoryData>) => {
@@ -186,20 +181,10 @@ class HistoryStore extends Store<THistoryData> {
 
     switch (action) {
       case ADD_HISTORY:
-        this.updateData({ ...newHistory });
-        break;
       case INIT_HISTORY:
-        this.updateData({ ...newHistory });
-        break;
       case UPDATE_HISTORY:
-        this.updateData({ ...newHistory });
-        break;
       case DELETE_HISTORY:
-        this.updateData({ ...newHistory });
-        break;
       case PREV_MONTH:
-        this.updateData({ ...newHistory });
-        break;
       case NEXT_MONTH:
         this.updateData({ ...newHistory });
         break;

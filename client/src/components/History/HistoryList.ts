@@ -23,8 +23,8 @@ export default class HistoryList extends Component<THistoryList> {
       .map(
         (history: IHistory) =>
           `<li key = ${history.id}>
-          ${this.addComponent(HistoryItem, { history }).html}
-        </li>`,
+            ${this.addComponent(HistoryItem, { history }).html}
+          </li>`,
       )
       .join('');
   }
