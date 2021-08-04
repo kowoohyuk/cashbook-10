@@ -4,6 +4,8 @@ import Calendar, { getLastDate } from '../../utils/calendar/calendar';
 import { $ } from '../../utils/selector';
 import '../../styles/calendar/calendarSection';
 import { IHistory } from '../../apis/historyAPI';
+import { AddHistoryModal } from '../Modals/AddHistoryModal';
+import { DailyHistoryModal } from '../Modals/DailyHistoryModal';
 
 export default class CalendarSection extends Component {
   calendar: Calendar;
@@ -14,7 +16,12 @@ export default class CalendarSection extends Component {
     historyStore.subscribe(this);
     this.init();
     this.calendar.onClickCallBack = (e: HTMLElement) => {
-      console.log(e);
+      if (e.dataset) {
+        console.log(new Date(e.dataset.date as string));
+        new DailyHistoryModal({
+          date: new Date(e.dataset.date as string),
+        });
+      }
     };
   }
 

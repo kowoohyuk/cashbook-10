@@ -77,6 +77,13 @@ export const isNowDate = (date: Date | string): boolean => {
   return true;
 };
 
+export const checkSameDate = (dateA: Date, dateB: Date): boolean => {
+  return (
+    JSON.stringify(getDateObject(dateA)) ===
+    JSON.stringify(getDateObject(dateB))
+  );
+};
+
 const CALENDARBLOCK_COUNT = 42;
 
 export default class Calendar {
