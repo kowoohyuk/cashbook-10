@@ -8,18 +8,23 @@ import { categoryStore } from '../../stores/Category';
 import { getUserPaymentListAPI, TPaymentData } from '../../apis/paymentAPI';
 import { Dropdown, TDropdownData, TDropProps } from '../Common/Dropdown';
 import { Component } from '../../lib/woowact/index';
-import { insertChar } from '../../utils/string';
 import { checkValidDate } from '../../utils/calendar/calendar';
+import { addHistoryAPI, IHistory } from '../../apis/historyAPI';
+import {
+  historyStore,
+  INIT_HISTORY,
+  UPDATE_HISTORY,
+} from '../../stores/History';
 
 type HistoryModalState = {
   isIncome?: boolean;
   amount?: number;
   date: Date;
   categoryId?: number;
-  paymentId: number;
-  warningMessage: string;
+  paymentId?: number;
   payments: TPaymentData[];
   isValidDate: boolean;
+  content?: string;
 };
 
 type HistoryProps = {
@@ -35,13 +40,14 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
 
     this.state = {
       date: new Date(),
-      paymentId: 1,
-      warningMessage: '',
       payments: [],
-      isValidDate: false,
+      isValidDate: true,
     };
 
-    const initValue = { dataList: [], onclick: () => {} };
+    const initValue = {
+      dataList: [],
+      onclick: () => {},
+    };
     this.$dropdown = this.addComponent(Dropdown, initValue);
     this.init();
   }
@@ -65,11 +71,14 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       return data;
     });
 
+    if (!this.state.paymentId) this.setState({ paymentId: dataList[0].value });
+
     return {
       dataList,
       onclick: (paymentId: number) => {
         this.setState({ paymentId });
       },
+      selected: this.state.paymentId ?? dataList[0].value,
     };
   }
 
@@ -87,6 +96,7 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
     this.addCategoryButtonEvent();
     this.addConfirmEvent();
     this.addEventToTransferDate();
+    this.addContentInputEvent();
   }
 
   translateToNumber(e: InputEvent) {
@@ -94,7 +104,8 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       (e.target as HTMLInputElement).value,
     );
 
-    (e.target as HTMLInputElement).value = toWonForm(amount);
+    if (amount > 0) (e.target as HTMLInputElement).value = toWonForm(amount);
+
     this.setState({
       amount,
     });
@@ -131,9 +142,10 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
   }
 
   convertToNumber(str: string): number {
-    const regex = new RegExp('[^0-9]', 'g');
+    const MAX_LEN = 11;
+    const REGEX = new RegExp('[^0-9]', 'g');
 
-    const num = parseInt(str.replace(regex, ''));
+    const num = parseInt(str.replace(REGEX, '').substring(0, MAX_LEN));
 
     return isNaN(num) ? 0 : num;
   }
@@ -176,7 +188,12 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
     $month.value = month.length === 1 ? `0${month}` : month;
     $day.value = day.length === 1 ? `0${day}` : day;
 
-    if (year.length * month.length * day.length === 0) return;
+    if (year.length * month.length * day.length === 0) {
+      this.setState({
+        date: undefined,
+      });
+      return;
+    }
 
     const dateStr = `${year}-${month}-${day}`;
 
@@ -205,6 +222,25 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       eventHandler.addEvent($dateInput, 'change', e =>
         this.setValidationResult(),
       );
+  }
+
+  addContentInputEvent() {
+    const $contentInput = $('.history__content', this.$element);
+
+    $contentInput &&
+      eventHandler.addEvent($contentInput, 'change', e => {
+        const content: string = (e.target as HTMLInputElement).value;
+
+        if (content.length) {
+          this.setState({
+            content,
+          });
+        } else {
+          this.setState({
+            content: undefined,
+          });
+        }
+      });
   }
 
   addCategoryButtonEvent() {
@@ -251,16 +287,25 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
   }
 
   checkSubmitable(): boolean {
-    const { isIncome, amount, isValidDate, date, categoryId, paymentId } =
-      this.state;
+    const {
+      isIncome,
+      amount,
+      isValidDate,
+      date,
+      categoryId,
+      paymentId,
+      content,
+    } = this.state;
 
     return (
       isIncome !== undefined &&
       !!amount &&
       isValidDate &&
       checkValidDate(date) &&
-      !!categoryId &&
-      !!paymentId
+      categoryId !== undefined &&
+      paymentId !== undefined &&
+      content !== '' &&
+      !!content
     );
   }
 
@@ -282,75 +327,81 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       .join('');
   }
 
-  handleAddNewHistory(e: MouseEvent) {
+  async handleAddNewHistory(e: MouseEvent) {
     const $button: HTMLButtonElement = e.target as HTMLButtonElement;
 
     $button.disabled = true;
 
-    const data = this.state;
+    if (
+      !this.state.amount ||
+      this.state.isIncome === undefined ||
+      !this.state.categoryId ||
+      !this.state.content ||
+      !this.state.paymentId
+    )
+      return;
 
-    setTimeout(() => {
-      let result = true; //TODO: asyn로 api 요청 결과 받아오기
-      if (result) {
-        console.log('ADD NEW HISTORY SUCCESS!', data);
-        return;
-      }
-      //TODO: server error 메세지 받아와서 보여주기~!
-      $button.disabled = false;
-      this.showWarnMSG(
-        '히스토리 추가를 실패했습니다. 잠시 후 다시 시도해주세요',
-      );
-      data;
-    }, 2000);
+    const data: IHistory = {
+      amount: this.state.amount,
+      paymentDate: this.state.date,
+      isIncome: this.state.isIncome,
+      paymentId: this.state.paymentId,
+      categoryId: this.state.categoryId,
+      content: this.state.content,
+    };
+
+    const result = await addHistoryAPI(data);
+
+    console.log(result);
+    historyStore.dispatch(INIT_HISTORY);
+    this.closeModal();
   }
 
-  showWarnMSG(msg: string) {
-    this.setState({
-      warningMessage: msg,
-    });
+  generatePaymentDateInput = () => `
+    <div class="history__payment-date ${
+      this.state.isValidDate ? '' : 'invalid'
+    }">
+      <input class="history__date-input year"
+      placeholder="${new Date().getUTCFullYear()}"
+      value="${new Date().getUTCFullYear()}"
+      />
+      -
+      <input class="history__date-input month"
+      placeholder="0${new Date().getUTCMonth() + 1}"
+      value="0${new Date().getUTCMonth() + 1}"
+      />
+      -
+      <input class="history__date-input day"
+      placeholder="0${new Date().getUTCDay()}"
+      value="0${new Date().getUTCDay()}"
+      />
+    </div>
+  `;
 
-    setTimeout(() => {
-      this.setState({
-        warningMessage: '',
-      });
-    }, MSG_SHOW_TIME);
-  }
+  generateSelectIncome = () => `
+    <div class="history__select">
+      <button class="history__income-button" ${
+        !this.state.isIncome ? '' : 'disabled="true"'
+      }>
+        <img src=${plusSVG} alt="income-icon">
+      </button>
+      <button class="history__outcome-button" ${
+        this.state.isIncome === undefined || this.state.isIncome
+          ? ''
+          : 'disabled="true"'
+      }>
+        <img src=${minusSVG} alt="income-icon">
+      </button>
+    </div>
+  `;
 
-  changeDropdownValue = (value: string) => {
-    console.log(value);
-  };
-
-  modal(): string {
+  modal = () => {
     return `
     <div class="add-history-modal">
-      <div class="history__select">
-        <button class="history__income-button" ${
-          !this.state.isIncome ? '' : 'disabled="true"'
-        }>
-          <img src=${plusSVG} alt="income-icon">
-        </button>
-        <button class="history__outcome-button" ${
-          this.state.isIncome === undefined || this.state.isIncome
-            ? ''
-            : 'disabled="true"'
-        }>
-          <img src=${minusSVG} alt="income-icon">
-        </button>
-      </div>
+      ${this.generatePaymentDateInput()}
+      ${this.generateSelectIncome()}
       <div class="history__amount">
         <input placeholder="₩000,000">
-      </div>
-      <div class="history__payment-date ${
-        this.state.isValidDate ? '' : 'invalid'
-      }">
-        <input class="history__date-input year"
-        placeholder="${new Date().getUTCFullYear()}"/>
-        -
-        <input class="history__date-input month"
-        placeholder="0${new Date().getUTCMonth()}"/>
-        -
-        <input class="history__date-input day"
-        placeholder="0${new Date().getUTCDay()}"/>
       </div>
       <div class="history__category">
         ${this.generateCategoryList()}
@@ -358,13 +409,13 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       <div class="history__method">
         ${this.$dropdown.html}
       </div>
+      <div class="history__content">
+        <input placeholder="내용을 입력해주세요">
+      </div>
       <button class="history__add-button" ${
         this.checkSubmitable() ? '' : 'disabled="true"'
       }>추가하기</button>
-      <small class="fail-message">
-        ${this.state.warningMessage}
-      </small>
     </div>
     `;
-  }
+  };
 }

@@ -5,7 +5,10 @@
 .add-history-modal {
   padding: 4rem;
   width: 600px;
-  height: 700px;
+
+  ::placeholder {
+    color: $grey-color2;
+  }
 
   @include flex(column, center, flex-start);
   gap: 3rem;
@@ -85,6 +88,19 @@
     }
   }
 
+  .history__content {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-width: 15rem;
+    input {
+      width: 100%;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+      text-align: center;
+      border-bottom: 1px solid $grey-color2;
+    }
+  }
   .history__amount {
     position: relative;
     width: 100%;

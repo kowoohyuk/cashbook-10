@@ -1,4 +1,5 @@
 import {
+  addHistoryAPI,
   getHistoryAPI,
   IHistory,
   removeHistoryAPI,
@@ -9,6 +10,7 @@ import { Store } from '../lib/woowact/core/Store';
 export const INIT_HISTORY = 'HISTORY/INIT' as const;
 export const DELETE_HISTORY = 'HISTORY/DELETE' as const;
 export const UPDATE_HISTORY = 'HISTORY/UPDATE' as const;
+export const ADD_HISTORY = 'HISTORY/ADD' as const;
 export const PREV_MONTH = 'HISTORY/PREV_MONTH' as const;
 export const NEXT_MONTH = 'HISTORY/NEXT_MONTH' as const;
 
@@ -79,6 +81,19 @@ class HistoryStore extends Store<THistoryData> {
     params: THistoryGetParams,
   ): Promise<Partial<THistoryData>> {
     const histories = await getHistoryAPI(params);
+
+    return { histories };
+  }
+
+  async addHistory(data: IHistory): Promise<Partial<THistoryData>> {
+    const result = await addHistoryAPI(data);
+
+    console.log(result);
+
+    const histories = await getHistoryAPI({
+      year: this.data.year,
+      month: this.data.month,
+    });
 
     return { histories };
   }
@@ -170,6 +185,9 @@ class HistoryStore extends Store<THistoryData> {
     if (!newHistory) return;
 
     switch (action) {
+      case ADD_HISTORY:
+        this.updateData({ ...newHistory });
+        break;
       case INIT_HISTORY:
         this.updateData({ ...newHistory });
         break;
