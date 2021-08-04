@@ -9,12 +9,11 @@
 }
 .history-section {
   @include flex-center(column);
-  width: 20vw;
   padding: 1.5rem;
   gap: 1.5rem;
 
   .history-list {
-    .history-list__date {
+    &__date {
       color: #111;
       font-size: 0.8rem;
       font-weight: bolder;
@@ -26,119 +25,112 @@
       flex-direction: column;
       font-weight: bolder;
       margin-bottom: 2rem;
+    }
+    li {
+      font-weight: normal;
+      height: 4rem;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    .history-item {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-      li {
-        font-weight: normal;
-        height: 4rem;
-        border-bottom: 1px solid #eee;
-        position: relative;
+      &__left {
+        width: 100%;
+        justify-self: flex-start;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 0.5rem 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-left: 0.5rem;
+      }
+      &__category {
+        box-sizing: border-box;
+        padding: 0.1rem 0.3rem 0.1rem 0.3rem;
+        font-size: 0.6rem;
+        text-align: center;
+        margin-top: 0.3rem;
+        border-radius: 0.5rem;
+        color: white;
+      }
 
-        .history-item {
-          height: 100%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
+      &__right {
+        width: 100%;
+        justify-self: flex-end;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 0.5rem 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-right: 0.5rem;
+      }
 
-          .history-item__left {
-            width: 100%;
-            justify-self: flex-start;
-            box-sizing: border-box;
-            height: 100%;
-            padding: 0.5rem 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-left: 0.5rem;
+      .outcome {
+        color: $error-color;
+      }
 
-            .history-item__category {
-              box-sizing: border-box;
-              width: 3rem;
-              padding-top: 0.1rem;
-              height: 1rem;
-              font-size: 0.6rem;
-              text-align: center;
-              margin-top: 0.3rem;
-              border-radius: 0.5rem;
-              color: white;
-            }
-          }
+      .income {
+        color: $primary-color3;
+      }
 
-          .history-item__right {
-            width: 100%;
-            justify-self: flex-end;
-            box-sizing: border-box;
-            height: 100%;
-            padding: 0.5rem 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-right: 0.5rem;
-          }
+      &__upper {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-start;
+        height: 2rem;
+      }
+      &__payment {
+        font-size: 0.8rem;
+        color: #bbb;
+      }
 
-          .outcome {
-            color: $error-color;
-          }
-
-          .income {
-            color: $primary-color3;
-          }
-        }
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        .history-item__upper {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
-          align-items: flex-start;
-          height: 2rem;
-
-          .history-item__payment {
-            font-size: 0.8rem;
-            color: #bbb;
-          }
-        }
-
-        button {
-          box-sizing: border-box;
-          width: 2rem;
-          height: 100%;
-          transform: scaleX(0);
-          opacity: 0;
-          transition: 0.5s;
-          img {
-            width: 1rem;
-            filter: invert(100%);
-          }
-        }
-
-        &:hover {
-          button {
-            transform: scaleX(1);
-            width: 3rem;
-            display: flex;
-            align-items: center;
-            opacity: 0.2;
-            padding: 1rem;
-            background-color: $error-color;
-            cursor: pointer;
-
-            &:hover {
-              opacity: 0.6;
-            }
-          }
-        }
-
-        .deleted {
-          opacity: 0;
-          transform: translateX(-100%);
-          transition: 0.8s;
+      button {
+        box-sizing: border-box;
+        width: 2rem;
+        height: 100%;
+        transform: scaleX(0);
+        opacity: 0;
+        transition: 0.5s;
+        img {
+          width: 1rem;
+          filter: invert(100%);
         }
       }
+
+      &:hover {
+        button {
+          transform: scaleX(1);
+          width: 3rem;
+          display: flex;
+          align-items: center;
+          opacity: 0.2;
+          padding: 1rem;
+          background-color: $error-color;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.6;
+          }
+        }
+      }
+    }
+
+    .deleted {
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: 0.8s;
     }
   }
   .history-empty-notification {
