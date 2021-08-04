@@ -8,7 +8,6 @@ export interface IHistory {
   amount: number;
   paymentDate: Date;
   isIncome: boolean;
-  userId: number;
   paymentId: number;
   categoryId: number;
 }
@@ -33,5 +32,11 @@ export const updateHistoryAPI = async (data: IHistory) => {
 
 export const removeHistoryAPI = async (historyId: number): Promise<boolean> => {
   const result = await DELETE(`/history?historyId=${historyId}`);
+  return result;
+};
+
+export const addHistoryAPI = async (history: IHistory) => {
+  const result = await POST(`/history`, history);
+
   return result;
 };
