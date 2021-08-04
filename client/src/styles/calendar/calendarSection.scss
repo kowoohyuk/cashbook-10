@@ -12,17 +12,18 @@
 
 .woowa-calendar .calendar-body {
   height: 92.5%;
+  padding: 1rem;
   .day-block {
     @include flex(column);
     justify-content: space-between;
+    background: #f8f8f8;
+    border-radius: 0.5rem;
+    transition: background-color 0.25s linear;
     &.now {
-      color: $black-color;
-      border-color: $body-color;
+      border-color: rgba(42, 193, 188, 0.5);
     }
-    &.selected,
-    &:hover {
-      border-color: #2ac1bc;
-      color: #fff;
+    &:not(.empty-day):hover {
+      background-color: #d2d2d2;
     }
     &__content {
       height: 80%;
