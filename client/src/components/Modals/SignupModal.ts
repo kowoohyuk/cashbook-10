@@ -3,7 +3,6 @@ import '../../styles/modals/signup.scss';
 import { showSVG, hideSVG } from '../../useResource';
 import { $ } from '../../utils/selector';
 import { eventHandler } from '../../lib/woowact/core/EventHandler';
-import { getVerifyAuthorization } from '../../apis/authAPI';
 import { checkEmailAPI, signinAPI, signupAPI } from '../../apis/userAPI';
 
 import {
@@ -13,7 +12,7 @@ import {
   EMAIL_VALIDATION_ERR_MSG,
   PW_VALIDATION_ERR_MSG,
 } from '../../utils/validations';
-import { historyStore } from '../../stores/History';
+import { alertModal } from '../../utils/alert/alert';
 
 type SignupModalState = {
   isShowingPW: boolean;
@@ -197,6 +196,7 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       );
     } else {
       localStorage.setItem('token', data.token);
+      alertModal('회원가입을 완료했습니다 :)');
       this.closeModal();
     }
   }

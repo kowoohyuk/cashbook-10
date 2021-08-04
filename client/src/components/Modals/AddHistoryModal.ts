@@ -15,6 +15,7 @@ import {
   INIT_HISTORY,
   UPDATE_HISTORY,
 } from '../../stores/History';
+import { alertModal } from '../../utils/alert/alert';
 
 type HistoryModalState = {
   isIncome?: boolean;
@@ -352,7 +353,8 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
 
     const result = await addHistoryAPI(data);
 
-    console.log(result);
+    alertModal('내역 추가 완료');
+
     historyStore.dispatch(INIT_HISTORY);
     this.closeModal();
   }
