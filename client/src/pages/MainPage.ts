@@ -6,6 +6,7 @@ import HistorySection from '../components/History/HistortySection';
 import ChartSection from '../components/Chart/ChartSection';
 import CalendarSection from '../components/Calendar/CalendarSection';
 import AddButton from '../components/Common/AddButton';
+import '../styles/responsive.scss';
 
 export default class MainPage extends Component {
   count = 0;
