@@ -2,6 +2,7 @@ import { IHistory } from '../../apis/historyAPI';
 import { CATERORIES } from '../../utils/categories';
 import { Component } from '../../lib/woowact/index';
 import { historyStore } from '../../stores/History';
+import ChartTagList from './ChartTagList';
 import '../../styles/chart/chartSection';
 
 type TDonutArcData = {
@@ -12,7 +13,7 @@ type TDonutArcData = {
   isLargeArcFlag: number;
 };
 
-type TChartData = {
+export type TChartData = {
   id: number;
   name: string;
   color: string;
@@ -81,14 +82,19 @@ const histories: any[] = [
 const SVG_PATH = 'http://www.w3.org/1999/svg';
 
 export default class ChartSection extends Component {
+  private sum: number = 0;
+  private chartData: TChartData[];
+
   constructor() {
     super({});
     historyStore.subscribe(this);
     this.init();
+    this.chartData = [];
   }
 
+  // 임시 데이터를 들어내고 난 이후 this.chartData로 변경할 예정입니다!
   createChartData(histories: any[]) {
-    let sum = 0;
+    this.sum = 0;
     const data: TChartData[] = histories.reduce((acc, cur) => {
       if (acc[cur.categoryId]) {
         acc[cur.categoryId].amount += cur.amount;
@@ -102,14 +108,14 @@ export default class ChartSection extends Component {
           amount: cur.amount,
         };
       }
-      sum += cur.amount;
+      this.sum += cur.amount;
       return acc;
     }, []);
     data.sort((a, b) => b.amount - a.amount);
     data.forEach(d => {
-      d.percent = d.amount / sum;
+      d.percent = d.amount / this.sum;
     });
-    return data;
+    this.chartData = data;
   }
 
   getCoordinatesForPercent(percent: number) {
@@ -118,14 +124,33 @@ export default class ChartSection extends Component {
     return [x, y];
   }
 
-  generateChart() {
-    const data = this.createChartData(histories);
-    return this.generateDonutChart(data);
+  generateChartAmountTag() {
+    return `
+    <div class="chart-title">
+      <p>이번달은 총</p>
+      <p><span>${this.sum.toLocaleString()}</span>원</p>
+      <p>쓰셨네요!</p>
+    </div>`;
   }
 
-  generateDonutChart(data: TChartData[]) {
+  generateChart() {
+    this.createChartData(histories);
+    return `
+    <div class="svg-wrapper">
+      <svg width="250" height="250" viewBox="-1.5 -1.5 3 3">
+        ${this.generateDonutChart()}
+      </svg>
+    </div>
+    `;
+  }
+
+  generateChartTagList() {
+    return this.addComponent(ChartTagList, this.chartData).html;
+  }
+
+  generateDonutChart() {
     let accumlatePercent = 0;
-    const paths = data
+    const paths = this.chartData
       .map((d, index) => {
         const [startX, startY] =
           this.getCoordinatesForPercent(accumlatePercent);
@@ -157,7 +182,7 @@ export default class ChartSection extends Component {
       `M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`,
     );
     $path.setAttribute('fill', 'none');
-    $path.setAttribute('stroke-width', '0.3');
+    $path.setAttribute('stroke-width', '0.2');
     $path.setAttribute('stroke', `${color}`);
     $path.setAttribute('stroke-dasharray', `${targetRad} ${targetRestRad}`);
     $path.setAttribute('stroke-dashoffset', `${targetRad}`);
@@ -176,11 +201,9 @@ export default class ChartSection extends Component {
   render() {
     return `
     <section class="chart-section">
-    <div class="svg-wrapper">
-      <svg width="250" height="250" viewBox="-1.5 -1.5 3 3">
-        ${this.generateChart()}
-      </svg>
-    </div>
+      ${this.generateChartAmountTag()}
+      ${this.generateChart()}
+      ${this.generateChartTagList()}
     </section>
     `;
   }
