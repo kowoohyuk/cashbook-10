@@ -1,0 +1,22 @@
+.alert {
+  position: fixed;
+  width: 100%;
+  bottom: 5vh;
+  left: 0;
+  transition: 0.5s;
+
+  .alert__message {
+    width: fit-content;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 1rem;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+  }
+}
+
+.hide {
+  opacity: 0;
+  transform: translateY(100%);
+}

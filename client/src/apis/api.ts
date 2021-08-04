@@ -1,3 +1,5 @@
+import { alertModal } from '../utils/alert/alert';
+
 export const RES_SUCCESS: number = 200;
 export const RES_SUCCESS_REDIRECTION: number = 201;
 export const RES_FAIL: number = 400;
@@ -64,7 +66,7 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
         return result.data;
     }
   } catch (e) {
-    console.log(e.data);
+    alertModal(e.message);
     console.error(e);
     return false;
   }
