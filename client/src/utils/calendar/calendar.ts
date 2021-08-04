@@ -165,18 +165,15 @@ export default class Calendar {
     const blockDate = new Date(
       `${this._dateObject.year}-${this._dateObject.month}-${day}`,
     );
-    console.log(blockDate, day, index);
     const blockContents = this._contents[index];
     return `
-      <div class="day-block ${
-        isNowDate(blockDate) ? 'now' : ''
-      }" data-date="${blockDate}">
+      <div class="day-block ${isNowDate(blockDate) ? 'now' : ''} ${
+      day < 1 ? 'empty-day' : ''
+    }" data-date="${day > 0 ? blockDate : ''}">
         <div class="day-block__content">
         ${blockContents?.length ? blockContents : ''}
         </div>
-        <div class="day-block__day ${day === 0 ? 'empty-day' : ''}">${
-      day > 0 ? day : ''
-    }</div>
+        <div class="day-block__day">${day > 0 ? day : ''}</div>
       </div>
     `;
   }
