@@ -1,0 +1,21 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.svg-wrapper {
+  @include flex-center();
+  svg {
+    transform: rotate(-90deg);
+  }
+}
+
+.chart-title {
+  position: absolute;
+  top: 85px;
+  p {
+    @include content(x-small);
+  }
+  span {
+    @include content(large);
+    font-weight: 600;
+  }
+}
