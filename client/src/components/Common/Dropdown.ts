@@ -83,8 +83,11 @@ export class Dropdown extends Component<TDropProps, TDropdownState> {
   </li>
   `;
 
-  findName(id: number) {
-    return this.props.dataList.find(data => data.value === id)?.label;
+  findName() {
+    return (
+      this.props.dataList.find(data => data.value === this.props.selected)
+        ?.label ?? '선택 해주세요'
+    );
   }
 
   render(): string {
@@ -92,19 +95,15 @@ export class Dropdown extends Component<TDropProps, TDropdownState> {
     <div class="dropdown">
       <div class="dropdown__button">
         <span class="dropdown__selected-label">
-          ${
-            this.state.selected
-              ? this.findName(this.state.selected)
-              : '선택 해주세요'
-          }
+          ${this.findName()}
         </span>
         <img class="arrow-icon ${
           this.state.isOpen ? 'up' : 'down'
         }" src=${downArrowSVG}>
       </div>
-      <ul class="dropdown__list ${this.state.isOpen ? 'show' : 'hide'}">
+      <div class="dropdown__list ${this.state.isOpen ? 'show' : 'hide'}">
         ${this.props.dataList.map(data => this.setItem(data)).join('')}
-      </ul>
+      </div>
     </down>
   `;
   }
