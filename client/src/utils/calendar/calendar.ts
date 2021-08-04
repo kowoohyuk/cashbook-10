@@ -33,8 +33,12 @@ export const convertDateToString = (date: Date) =>
 export const getStartWeek = (date: Date, copyDate = new Date(date)) =>
   copyDate.setDate(1) && copyDate.getDay();
 
-export const getLastDate = (date: Date, copyDate = new Date(date)) =>
-  copyDate.setDate(0) && copyDate.getDate();
+export const getLastDate = (date: Date) => {
+  const copyDate = new Date(date);
+  copyDate.setMonth(copyDate.getMonth() + 1);
+  copyDate.setDate(0);
+  return copyDate.getDate();
+};
 
 export const getDateOfWeek = (date: Date, language = 'ko') => {
   language = WEEK_TEXTS[language] ? language : 'ko';
@@ -57,6 +61,12 @@ export const getDateFromObject = (dateObject: TDateObject) => {
 export const checkValidDate = (date: Date | string) =>
   !Number.isNaN(new Date(date).getTime());
 
+export const checkValidDateObject = ({ year, month, date }: TDateObject) => {
+  const tmpDate = new Date(`${year} ${month} ${date}`);
+  if (!checkValidDate(tmpDate)) return false;
+  return tmpDate.getMonth() !== Number(month);
+};
+
 export const isNowDate = (date: Date | string): boolean => {
   if (!checkValidDate(date)) return false;
   const now = new Date();
@@ -76,6 +86,7 @@ export default class Calendar {
   private _selected: HTMLElement | null;
   private _contents: string[];
   private _dateObject: TDateObject;
+  private _onClickCallBack: any;
   public dayBlocks: NodeListOf<HTMLElement> | null;
 
   constructor(
@@ -91,6 +102,7 @@ export default class Calendar {
     this._$target = target;
     this._selected = null;
     this._contents = [];
+    this._onClickCallBack = null;
     this._dateObject = getDateObject(this._date);
     this.dayBlocks = null;
   }
@@ -117,7 +129,7 @@ export default class Calendar {
     calendarWrap.className = 'woowa-calendar';
     calendarWrap.appendChild(this.generateCalendarHeader());
     calendarWrap.appendChild(this.generateCalendarBody());
-    calendarWrap.addEventListener('click', this.onClickEvent);
+    calendarWrap.addEventListener('click', e => this.onClickEvent(e));
     return calendarWrap;
   }
 
@@ -141,10 +153,13 @@ export default class Calendar {
         .fill(0)
         .map((_, i) => i + 1),
     );
+    const lastDate = days.length - 1;
 
     calendarBody.innerHTML = days
       .concat(new Array(CALENDARBLOCK_COUNT - days.length).fill(''))
-      .map((day, index) => this.generateDayBlock(day, index))
+      .map((day, index) =>
+        this.generateDayBlock(day > lastDate ? 0 : day, index),
+      )
       .join('');
     this.dayBlocks = calendarBody.querySelectorAll('.day-block');
     return calendarBody;
@@ -156,9 +171,9 @@ export default class Calendar {
     );
     const blockContents = this._contents[index];
     return `
-      <div class="day-block ${
-        isNowDate(blockDate) ? 'now' : ''
-      }" data-date="${blockDate}">
+      <div class="day-block ${isNowDate(blockDate) ? 'now' : ''} ${
+      day < 1 ? 'empty-day' : ''
+    }" data-date="${day > 0 ? blockDate : ''}">
         <div class="day-block__content">
         ${blockContents?.length ? blockContents : ''}
         </div>
@@ -182,14 +197,12 @@ export default class Calendar {
     const target = e.target as HTMLElement;
     const closest = target.closest('.day-block') as HTMLElement;
     if (closest) {
+      this._onClickCallBack(closest as HTMLElement);
       this._selected?.classList.remove('selected');
       this._selected = closest;
       this._selected.classList.add('selected');
     }
   }
-
-  // nextBTN.addEventListener('click', this.setNextMonth);
-  // prevBTN.addEventListener('click', this.setNextMonth);
 
   setMonth(number: number) {
     this.changeDate('month', number);
@@ -255,5 +268,10 @@ export default class Calendar {
 
   set options(options: ICalendarOptions) {
     this._options = options;
+  }
+
+  set onClickCallBack(callback: (target: HTMLElement) => void) {
+    this._onClickCallBack = callback;
+    this._onClickCallBack();
   }
 }

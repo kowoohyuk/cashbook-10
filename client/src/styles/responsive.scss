@@ -1,0 +1,49 @@
+@import './variables.scss';
+
+@media screen and (min-width: $laptop-min) and (max-width: $laptop-max) {
+  body {
+    .main-page {
+      display: block;
+      max-width: 50rem;
+      margin: 0 auto;
+    }
+    .main-page > section {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    .woowa-calendar .calendar-body .day-block {
+      height: calc(42rem / 7);
+    }
+    .chart-tag__item:nth-child(n + 4) {
+      display: grid;
+    }
+
+    header .date-picker {
+      max-width: 47rem;
+      width: 100%;
+      justify-content: center;
+    }
+    header .date-picker button {
+      opacity: 1;
+    }
+    header .date-picker__month {
+      font-size: 3rem;
+    }
+
+    .history-brief .history-income,
+    .history-brief .history-outcome {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .history-section
+      .history-list
+      ul
+      li
+      .history-item
+      .history-item__left
+      .history-item__category {
+      font-size: 0.8rem;
+    }
+  }
+}

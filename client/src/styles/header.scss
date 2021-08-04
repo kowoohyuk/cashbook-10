@@ -2,44 +2,33 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding: 0 1.6rem;
   .date-picker {
-    box-sizing: content-box;
-    width: auto;
     text-align: center;
     color: white;
     display: flex;
+    position: relative;
+    width: 100%;
+    justify-content: center;
     flex-direction: row;
-    justify-content: space-between;
     gap: 1rem;
     align-items: center;
-    margin-bottom: -1rem;
-
-    .date-picker__date {
+    padding: 0 1.6rem;
+    max-width: 100rem;
+    &__date {
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 5.5rem;
-
-      .date-picker__year {
-        font-size: 1.2rem;
-        @media (max-width: 480px) {
-          font-size: 0.4rem;
-          margin-bottom: -0.2rem;
-        }
-      }
-      .date-picker__month {
-        font-size: 5rem;
-        @media (max-width: 480px) {
-          font-size: 2.5rem;
-        }
-      }
-      @media (max-width: 480px) {
-        margin-bottom: -0.4rem;
-      }
     }
-    button {
+    &__year {
+      font-size: 1.2rem;
+    }
+    &__month {
+      font-size: 5rem;
+    }
+    button:not(.user-button) {
       box-sizing: content-box;
       width: 5rem;
       height: 5rem;
@@ -69,7 +58,8 @@ header {
     opacity: 0.5;
     transition: 0.5s;
     cursor: pointer;
-
+    position: absolute;
+    right: 1rem;
     img {
       width: 2rem;
       height: auto;

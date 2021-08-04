@@ -77,6 +77,168 @@ const histories: any[] = [
     isIncome: false,
     name: '2번',
   },
+  {
+    amount: 177000,
+    categoryId: 10,
+    isIncome: true,
+    name: '6번',
+  },
+  {
+    amount: 18000,
+    categoryId: 9,
+    isIncome: true,
+    name: '7번',
+  },
+  {
+    amount: 15000,
+    categoryId: 9,
+    isIncome: true,
+    name: '9번',
+  },
+  {
+    amount: 33000,
+    categoryId: 8,
+    isIncome: true,
+    name: '3번',
+  },
+  {
+    amount: 8000,
+    categoryId: 8,
+    isIncome: true,
+    name: '2번',
+  },
+  {
+    amount: 19000,
+    categoryId: 9,
+    isIncome: true,
+    name: '7번',
+  },
+  {
+    amount: 15000,
+    categoryId: 9,
+    isIncome: true,
+    name: '9번',
+  },
+  {
+    amount: 33000,
+    categoryId: 8,
+    isIncome: true,
+    name: '3번',
+  },
+  {
+    amount: 8000,
+    categoryId: 8,
+    isIncome: true,
+    name: '2번',
+  },
+  {
+    amount: 117000,
+    categoryId: 10,
+    isIncome: true,
+    name: '6번',
+  },
+  {
+    amount: 6000,
+    categoryId: 9,
+    isIncome: true,
+    name: '7번',
+  },
+  {
+    amount: 19890,
+    categoryId: 9,
+    isIncome: true,
+    name: '9번',
+  },
+  {
+    amount: 31000,
+    categoryId: 8,
+    isIncome: true,
+    name: '3번',
+  },
+  {
+    amount: 3000,
+    categoryId: 8,
+    isIncome: true,
+    name: '2번',
+  },
+  {
+    amount: 15000,
+    categoryId: 9,
+    isIncome: true,
+    name: '7번',
+  },
+  {
+    amount: 15000,
+    categoryId: 9,
+    isIncome: true,
+    name: '9번',
+  },
+  {
+    amount: 31200,
+    categoryId: 8,
+    isIncome: true,
+    name: '3번',
+  },
+  {
+    amount: 850,
+    categoryId: 8,
+    isIncome: true,
+    name: '2번',
+  },
+  {
+    amount: 100,
+    categoryId: 10,
+    isIncome: true,
+    name: '6번',
+  },
+  {
+    amount: 10000,
+    categoryId: 9,
+    isIncome: true,
+    name: '7번',
+  },
+  {
+    amount: 50,
+    categoryId: 9,
+    isIncome: true,
+    name: '9번',
+  },
+  {
+    amount: 5000,
+    categoryId: 8,
+    isIncome: true,
+    name: '3번',
+  },
+  {
+    amount: 8000,
+    categoryId: 8,
+    isIncome: true,
+    name: '2번',
+  },
+  {
+    amount: 6600,
+    categoryId: 9,
+    isIncome: true,
+    name: '7번',
+  },
+  {
+    amount: 15000,
+    categoryId: 9,
+    isIncome: true,
+    name: '9번',
+  },
+  {
+    amount: 3580,
+    categoryId: 8,
+    isIncome: true,
+    name: '3번',
+  },
+  {
+    amount: 8000,
+    categoryId: 8,
+    isIncome: true,
+    name: '2번',
+  },
 ];
 
 const SVG_PATH = 'http://www.w3.org/1999/svg';
@@ -84,18 +246,22 @@ const SVG_PATH = 'http://www.w3.org/1999/svg';
 export default class ChartSection extends Component {
   private sum: number = 0;
   private chartData: TChartData[];
+  private isIncome: boolean;
 
   constructor() {
     super({});
     historyStore.subscribe(this);
     this.init();
     this.chartData = [];
+    this.isIncome = false;
   }
 
   // 임시 데이터를 들어내고 난 이후 this.chartData로 변경할 예정입니다!
   createChartData(histories: any[]) {
     this.sum = 0;
     const data: TChartData[] = histories.reduce((acc, cur) => {
+      // 지출, 수입 flag 테스트
+      if (this.isIncome !== cur.isIncome) return acc;
       if (acc[cur.categoryId]) {
         acc[cur.categoryId].amount += cur.amount;
       } else {
@@ -111,6 +277,7 @@ export default class ChartSection extends Component {
       this.sum += cur.amount;
       return acc;
     }, []);
+    console.log(this);
     data.sort((a, b) => b.amount - a.amount);
     data.forEach(d => {
       d.percent = d.amount / this.sum;

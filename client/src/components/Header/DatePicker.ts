@@ -1,11 +1,13 @@
 import { Component } from '../../lib/woowact/index';
 import { historyStore, NEXT_MONTH, PREV_MONTH } from '../../stores/History';
 import IMGButton from '../Common/IMGButton';
-import { leftArrowSVG, rightArrowSVG } from '../../useResource';
+import { leftArrowSVG, rightArrowSVG, userSVG } from '../../useResource';
+import { SigninModal } from '../Modals/SigninModal';
 
 export class DatePicker extends Component {
   $prevBTN: Component;
   $nextBTN: Component;
+  $loginButton: Component;
 
   constructor() {
     super({});
@@ -20,6 +22,14 @@ export class DatePicker extends Component {
       src: rightArrowSVG,
       className: 'date-picker__next-btn',
       onclick: async () => historyStore.dispatch(NEXT_MONTH),
+    });
+
+    this.$loginButton = this.addComponent(IMGButton, {
+      className: 'user-button',
+      src: userSVG,
+      onclick: () => {
+        new SigninModal();
+      },
     });
 
     historyStore.subscribe(this);
@@ -38,6 +48,7 @@ export class DatePicker extends Component {
         </h2>
       </div>
       ${this.$nextBTN.html}
+      ${this.$loginButton.html}
     </div>`;
   }
 }

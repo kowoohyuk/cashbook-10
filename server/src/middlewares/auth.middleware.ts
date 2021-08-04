@@ -28,6 +28,9 @@ authMiddleWare.use('/', (req: Request, res: Response, next) => {
   if (verify?.error) {
     return httpResponse(res, STATUS.FAIL_ALERT, {
       message: MESSAGE.FAIL_VALID,
+      data: {
+        expired: true,
+      },
     });
   }
   req.user = verify.user;

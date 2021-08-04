@@ -44,6 +44,11 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     statusCode = res.status;
 
     const result = await res.json();
+    console.log(result);
+    if (result?.data?.expired) {
+      localStorage.removeItem('token');
+      location.href = '/';
+    }
 
     switch (statusCode) {
       case RES_FAIL:
@@ -59,6 +64,7 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
         return result.data;
     }
   } catch (e) {
+    console.log(e.data);
     console.error(e);
     return false;
   }
