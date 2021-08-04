@@ -133,13 +133,13 @@
           width: 3rem;
           display: flex;
           align-items: center;
-          opacity: 0.2;
+          opacity: 0.4;
           padding: 1rem;
           background-color: $error-color;
           cursor: pointer;
 
           &:hover {
-            opacity: 0.6;
+            opacity: 0.8;
           }
         }
       }
