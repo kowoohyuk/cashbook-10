@@ -135,7 +135,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
     } else {
       localStorage.setItem('token', data.token);
       localStorage.setItem('email', data.email);
-      this.closeModalB();
+      this.closeModal();
     }
   }
 

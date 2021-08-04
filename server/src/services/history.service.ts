@@ -1,32 +1,6 @@
 import { Op } from 'sequelize';
-import { env } from 'process';
 import History, { IHistory } from '../models/history';
 ///// For test
-const makeNewData = (needId: boolean): IHistory => {
-  const contents = [
-    '국밥',
-    '순대',
-    '치킨',
-    '피자',
-    '햄버거',
-    '라멘',
-    '돈가스',
-    '떡볶이',
-  ];
-  if (env.MODE === 'develop') {
-    return {
-      id: needId ? Math.floor(Math.random() * 10) : null,
-      userId: 0,
-      content: contents[Math.floor(Math.random() * 10) % contents.length],
-      amount: Math.floor(Math.random() * 100) * 100,
-      paymentDate: new Date(),
-      isIncome: false,
-      paymentId: 0,
-      categoryId: Math.floor(Math.random() * 10) + 1,
-    };
-  }
-  throw new Error('데이터가 비었음!!');
-};
 
 export type THistoryGetParams = {
   userId?: number;
@@ -74,9 +48,6 @@ export const getHistoryList = async (
 export const updateHistory = async (params: IHistory): Promise<boolean> => {
   if (!checkHistoryCreatable) return false;
 
-  // TODO: 배포할 때 지울 것!!
-  if (!params.content) params = makeNewData(true);
-
   //글쓴이가 origin history의 id와 다를 수 있으므로..! 체크해주기!
   const result = await History.update(params, {
     where: { id: params.id, userId: params.userId },
@@ -87,9 +58,6 @@ export const updateHistory = async (params: IHistory): Promise<boolean> => {
 
 export const createHistory = async (params: IHistory): Promise<boolean> => {
   if (!checkHistoryCreatable) return false;
-
-  // TODO: 배포할 때 지울 것!!
-  if (!params.content) params = makeNewData(false);
 
   const result = await History.create(params);
 

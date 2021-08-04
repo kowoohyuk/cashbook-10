@@ -4,6 +4,8 @@ import '../../styles/history/historySection.scss';
 import { historyStore, THistoryList } from '../../stores/History';
 import { HistoryBrief } from './HistoryBrief';
 import { emptyPNG } from '../../useResource';
+import { categoryStore } from '../../stores/Category';
+import { paymentStore } from '../../stores/Payment';
 
 export default class HistorySection extends Component {
   $historyBrief: Component;
@@ -11,6 +13,9 @@ export default class HistorySection extends Component {
     super({});
 
     historyStore.subscribe(this);
+    categoryStore.subscribe(this);
+    paymentStore.subscribe(this);
+
     this.$historyBrief = this.addComponent(HistoryBrief);
 
     this.init();

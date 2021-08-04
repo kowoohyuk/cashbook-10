@@ -17,8 +17,6 @@ export default class MainPage extends Component {
   constructor() {
     super({});
 
-    historyStore.subscribe(this);
-
     this.$historySection = this.addComponent(HistorySection);
     this.$chartSection = this.addComponent(ChartSection);
     this.$calendarSection = this.addComponent(CalendarSection);
