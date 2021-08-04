@@ -12,7 +12,10 @@
 
 @mixin content($size: small) {
   font-weight: 400;
-  @if $size == small {
+  @if $size == x-small {
+    font-size: 14px;
+    line-height: 22px;
+  } @else if $size == small {
     font-size: 16px;
     line-height: 24px;
   } @else if $size == medium {
