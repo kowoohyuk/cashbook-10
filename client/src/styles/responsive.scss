@@ -1,5 +1,13 @@
 @import './variables.scss';
 
+@media screen and (min-width: $desktop-min) {
+  body {
+    header .user-button {
+      right: 0;
+    }
+  }
+}
+
 @media screen and (min-width: $laptop-min) and (max-width: $laptop-max) {
   body {
     .main-page {
@@ -7,25 +15,29 @@
       max-width: 50rem;
       margin: 0 auto;
     }
+
     .main-page > section {
-      width: 100%;
       margin-bottom: 2rem;
     }
+
     .woowa-calendar .calendar-body .day-block {
       height: calc(42rem / 7);
     }
+
     .chart-tag__item:nth-child(n + 4) {
       display: grid;
     }
 
     header .date-picker {
-      max-width: 47rem;
+      max-width: 50rem;
       width: 100%;
       justify-content: center;
     }
-    header .date-picker button {
+
+    header .date-picker button:not(.user-button) {
       opacity: 1;
     }
+
     header .date-picker__month {
       font-size: 3rem;
     }
@@ -44,6 +56,78 @@
       .history-item__left
       .history-item__category {
       font-size: 0.8rem;
+    }
+  }
+}
+
+@media screen and (max-width: $mobile-max) {
+  body {
+    header {
+      position: fixed;
+      width: 100vw;
+      height: 5rem;
+    }
+
+    .main-page {
+      display: flex;
+      overflow: auto;
+      scroll-snap-type: x mandatory;
+      gap: 0;
+      max-width: none;
+      grid-template-columns: none;
+      padding: initial;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    section {
+      flex: none;
+      margin-top: 5rem;
+      width: 100%;
+      box-shadow: none;
+      border-radius: 0;
+      scroll-snap-align: start;
+    }
+
+    .page {
+      height: 100vh;
+    }
+
+    header .date-picker__year {
+      font-size: 1rem;
+    }
+
+    header .date-picker__month {
+      font-size: 1.5rem;
+    }
+
+    .woowa-calendar .calendar-body {
+      height: auto;
+    }
+
+    .woowa-calendar .calendar-body .calendar-history {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: $error-color;
+      &.income {
+        background-color: $primary-color1;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    .woowa-calendar .calendar-body .day-block {
+      height: calc((100vw - 5rem) / 7);
+    }
+
+    .woowa-calendar .calendar-body .day-block__day {
+      font-size: 0.75rem;
+    }
+
+    .chart-tag__item:nth-child(n + 4) {
+      display: grid;
     }
   }
 }
