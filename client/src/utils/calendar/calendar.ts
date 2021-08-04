@@ -76,6 +76,7 @@ export default class Calendar {
   private _selected: HTMLElement | null;
   private _contents: string[];
   private _dateObject: TDateObject;
+  private _onClickCallBack: any;
   public dayBlocks: NodeListOf<HTMLElement> | null;
 
   constructor(
@@ -91,6 +92,7 @@ export default class Calendar {
     this._$target = target;
     this._selected = null;
     this._contents = [];
+    this._onClickCallBack = null;
     this._dateObject = getDateObject(this._date);
     this.dayBlocks = null;
   }
@@ -118,6 +120,7 @@ export default class Calendar {
     calendarWrap.appendChild(this.generateCalendarHeader());
     calendarWrap.appendChild(this.generateCalendarBody());
     calendarWrap.addEventListener('click', this.onClickEvent);
+    console.log(this._onClickCallBack);
     return calendarWrap;
   }
 
@@ -181,7 +184,10 @@ export default class Calendar {
   private onClickEvent(e: MouseEvent) {
     const target = e.target as HTMLElement;
     const closest = target.closest('.day-block') as HTMLElement;
+    console.log(closest);
     if (closest) {
+      console.log(this._onClickCallBack);
+      this._onClickCallBack(closest as HTMLElement);
       this._selected?.classList.remove('selected');
       this._selected = closest;
       this._selected.classList.add('selected');
@@ -255,5 +261,10 @@ export default class Calendar {
 
   set options(options: ICalendarOptions) {
     this._options = options;
+  }
+
+  set onClickCallBack(callback: (target: HTMLElement) => void) {
+    this._onClickCallBack = callback;
+    console.log(this._onClickCallBack);
   }
 }
