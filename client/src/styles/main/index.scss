@@ -1,29 +1,21 @@
 @import '../variables.scss';
 
 .main-page {
-  display: flex;
+  display: grid;
+  max-width: 100rem;
+  margin: 0 auto;
+  grid-template-columns: 2.5fr 5fr 2.5fr;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1.6rem;
   gap: 1.6rem;
-  .calendar-section {
-    width: 50vw;
-  }
-
-  .chart-section {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 20vw;
-  }
 
   .add-button {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    width: 60px;
-    height: 60px;
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
     background-color: $primary-color1;
     box-shadow: #ddd 2px 2px 20px;
@@ -35,4 +27,10 @@
       opacity: 0.8;
     }
   }
+}
+.chart-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
