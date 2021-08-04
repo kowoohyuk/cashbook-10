@@ -252,7 +252,10 @@ export default class Calendar {
 
   set date(date: Date | string) {
     if (!checkValidDate) return;
+
     this._date = new Date(date);
+    this._dateObject = getDateObject(this._date);
+
     if (this._$target) {
       this.rerender();
     }
@@ -272,6 +275,5 @@ export default class Calendar {
 
   set onClickCallBack(callback: (target: HTMLElement) => void) {
     this._onClickCallBack = callback;
-    this._onClickCallBack();
   }
 }
