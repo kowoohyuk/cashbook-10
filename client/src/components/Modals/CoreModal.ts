@@ -28,9 +28,9 @@ export default abstract class Modal<
 
     $modal.addEventListener('click', this.closeModal.bind(this));
   }
-  closeModal(e: MouseEvent) {
-    //깥 영역을 클릭했을 때
-    if (e.target === this.$element) {
+  closeModal(e?: MouseEvent) {
+    //바깥 영역을 클릭했을 때 or 직접 불러준다면
+    if (!e || e.target === this.$element) {
       // background blur 해제
       this.$app?.classList.remove('blur');
       // 본인 컴포넌트 삭제하기
@@ -38,13 +38,6 @@ export default abstract class Modal<
     } else {
       e.preventDefault();
     }
-  }
-
-  // 임시 입니다!
-  closeModalB() {
-    //깥 영역을 클릭했을 때
-    this.$app?.classList.remove('blur');
-    this.$element.remove();
   }
 
   protected abstract modal(): string;

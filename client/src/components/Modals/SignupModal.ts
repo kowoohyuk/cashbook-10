@@ -197,8 +197,7 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       );
     } else {
       localStorage.setItem('token', data.token);
-      localStorage.setItem('email', data.email);
-      this.closeModalB();
+      this.closeModal();
     }
   }
 
