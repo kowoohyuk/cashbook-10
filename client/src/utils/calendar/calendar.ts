@@ -33,8 +33,12 @@ export const convertDateToString = (date: Date) =>
 export const getStartWeek = (date: Date, copyDate = new Date(date)) =>
   copyDate.setDate(1) && copyDate.getDay();
 
-export const getLastDate = (date: Date, copyDate = new Date(date)) =>
-  copyDate.setDate(0) && copyDate.getDate();
+export const getLastDate = (date: Date) => {
+  const copyDate = new Date(date);
+  copyDate.setMonth(copyDate.getMonth() + 1);
+  copyDate.setDate(0);
+  return copyDate.getDate();
+};
 
 export const getDateOfWeek = (date: Date, language = 'ko') => {
   language = WEEK_TEXTS[language] ? language : 'ko';
@@ -56,6 +60,12 @@ export const getDateFromObject = (dateObject: TDateObject) => {
 
 export const checkValidDate = (date: Date | string) =>
   !Number.isNaN(new Date(date).getTime());
+
+export const checkValidDateObject = ({ year, month, date }: TDateObject) => {
+  const tmpDate = new Date(`${year} ${month} ${date}`);
+  if (!checkValidDate(tmpDate)) return false;
+  return tmpDate.getMonth() !== Number(month);
+};
 
 export const isNowDate = (date: Date | string): boolean => {
   if (!checkValidDate(date)) return false;
@@ -143,10 +153,13 @@ export default class Calendar {
         .fill(0)
         .map((_, i) => i + 1),
     );
+    const lastDate = days.length - 1;
 
     calendarBody.innerHTML = days
       .concat(new Array(CALENDARBLOCK_COUNT - days.length).fill(''))
-      .map((day, index) => this.generateDayBlock(day, index))
+      .map((day, index) =>
+        this.generateDayBlock(day > lastDate ? 0 : day, index),
+      )
       .join('');
     this.dayBlocks = calendarBody.querySelectorAll('.day-block');
     return calendarBody;
@@ -156,6 +169,7 @@ export default class Calendar {
     const blockDate = new Date(
       `${this._dateObject.year}-${this._dateObject.month}-${day}`,
     );
+    console.log(blockDate, day, index);
     const blockContents = this._contents[index];
     return `
       <div class="day-block ${
@@ -164,7 +178,9 @@ export default class Calendar {
         <div class="day-block__content">
         ${blockContents?.length ? blockContents : ''}
         </div>
-        <div class="day-block__day">${day > 0 ? day : ''}</div>
+        <div class="day-block__day ${day === 0 ? 'empty-day' : ''}">${
+      day > 0 ? day : ''
+    }</div>
       </div>
     `;
   }
