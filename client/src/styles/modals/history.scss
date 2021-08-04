@@ -109,9 +109,30 @@
   }
 
   .history__payment-date {
-    width: auto;
-    font-size: 1.2rem;
-    text-align: center;
+    @include flex(row, center, center);
+    gap: 0.5rem;
+
+    .history__date-input {
+      font-size: 1.4rem;
+      text-align: center;
+      color: #222;
+    }
+
+    .year {
+      width: 4rem;
+    }
+    .month {
+      width: 2rem;
+    }
+    .day {
+      width: 2rem;
+    }
+  }
+
+  .invalid {
+    .history__date-input {
+      color: $error-color;
+    }
   }
 
   .history__category {

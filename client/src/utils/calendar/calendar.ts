@@ -6,7 +6,7 @@ interface ICalendarOptions {
   lang: string;
 }
 
-type TDateObject = {
+export type TDateObject = {
   year: number;
   month: number;
   date?: number;
@@ -48,6 +48,10 @@ export const getDateObject = (date: Date | string): TDateObject => {
     month: date.getMonth() + 1,
     date: date.getDate(),
   };
+};
+
+export const getDateFromObject = (dateObject: TDateObject) => {
+  return new Date(`${dateObject.year}-${dateObject.month}-${dateObject.date}`);
 };
 
 export const checkValidDate = (date: Date | string) =>
