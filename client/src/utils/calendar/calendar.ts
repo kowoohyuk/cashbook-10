@@ -119,8 +119,7 @@ export default class Calendar {
     calendarWrap.className = 'woowa-calendar';
     calendarWrap.appendChild(this.generateCalendarHeader());
     calendarWrap.appendChild(this.generateCalendarBody());
-    calendarWrap.addEventListener('click', this.onClickEvent);
-    console.log(this._onClickCallBack);
+    calendarWrap.addEventListener('click', e => this.onClickEvent(e));
     return calendarWrap;
   }
 
@@ -184,18 +183,13 @@ export default class Calendar {
   private onClickEvent(e: MouseEvent) {
     const target = e.target as HTMLElement;
     const closest = target.closest('.day-block') as HTMLElement;
-    console.log(closest);
     if (closest) {
-      console.log(this._onClickCallBack);
       this._onClickCallBack(closest as HTMLElement);
       this._selected?.classList.remove('selected');
       this._selected = closest;
       this._selected.classList.add('selected');
     }
   }
-
-  // nextBTN.addEventListener('click', this.setNextMonth);
-  // prevBTN.addEventListener('click', this.setNextMonth);
 
   setMonth(number: number) {
     this.changeDate('month', number);
@@ -265,6 +259,6 @@ export default class Calendar {
 
   set onClickCallBack(callback: (target: HTMLElement) => void) {
     this._onClickCallBack = callback;
-    console.log(this._onClickCallBack);
+    this._onClickCallBack();
   }
 }

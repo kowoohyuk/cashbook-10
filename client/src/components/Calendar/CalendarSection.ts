@@ -13,6 +13,9 @@ export default class CalendarSection extends Component {
     this.calendar = new Calendar();
     historyStore.subscribe(this);
     this.init();
+    this.calendar.onClickCallBack = (e: HTMLElement) => {
+      console.log(e);
+    };
   }
 
   componentDidUpdate() {
@@ -22,23 +25,36 @@ export default class CalendarSection extends Component {
   }
 
   createContents(histories: IHistory[]) {
-    const contents = Array.from(
-      Array(
-        getLastDate(
-          new Date(`${historyStore.data.year}-${historyStore.data.month}`),
-        ),
-      ),
-      () => new Array(),
-    );
-    histories.forEach(({ amount, paymentDate, isIncome }) =>
-      contents[new Date(paymentDate).getDate() - 1].push(
-        `<div class="calendar-history ${isIncome ? 'income' : ''}">${(
-          (isIncome ? 1 : -1) * amount
-        ).toLocaleString()}</div>`,
+    const contents: string[] = Array(
+      getLastDate(
+        new Date(`${historyStore.data.year}-${historyStore.data.month}`),
       ),
     );
-    // );
-    return contents.map(content => content.join(''));
+    const amounts: number[][] = Array.from(Array(contents.length), () => [
+      0, 0,
+    ]);
+    histories.forEach(({ amount, paymentDate, isIncome }) => {
+      const date = new Date(paymentDate).getDate() - 1;
+      amounts[date][Number(isIncome)] += amount;
+    });
+    amounts.forEach((amount, index) => {
+      const [inCome, outCome] = amount;
+      const content = [];
+      if (inCome) {
+        content.push(
+          `<div class="calendar-history income">${inCome.toLocaleString()}</div>`,
+        );
+      }
+      if (outCome) {
+        content.push(
+          `<div class="calendar-history">-${outCome.toLocaleString()}</div>`,
+        );
+      }
+      if (content.length) {
+        contents[index] = content.join('');
+      }
+    });
+    return contents;
   }
 
   render() {
