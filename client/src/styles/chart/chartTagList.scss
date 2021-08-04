@@ -1,0 +1,30 @@
+@import '../mixins.scss';
+
+.chart-tag {
+  &__list {
+    width: 100%;
+  }
+  &__item {
+    display: grid;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    grid-template-columns: 5rem 2rem auto;
+    &__label {
+      @include content(x-small);
+      color: white;
+      box-sizing: border-box;
+      padding: 0.1rem 0.3rem 0.1rem 0.3rem;
+      text-align: center;
+      border-radius: 0.5rem;
+    }
+    &__percent {
+      @include bold(large);
+    }
+    &__amount {
+      @include bold(large);
+    }
+    &:nth-child(n + 4) {
+      display: none;
+    }
+  }
+}
