@@ -28,7 +28,7 @@ header {
     &__month {
       font-size: 5rem;
     }
-    button:not(.user-button) {
+    button:not(.user-button):not(.theme-button) {
       box-sizing: content-box;
       width: 5rem;
       height: 5rem;
@@ -52,7 +52,8 @@ header {
     }
   }
 
-  .user-button {
+  .user-button,
+  .theme-button {
     width: 3rem;
     height: 3rem;
     opacity: 0.5;
@@ -68,5 +69,8 @@ header {
     &:hover {
       opacity: 1;
     }
+  }
+  .theme-button {
+    left: 1rem;
   }
 }
