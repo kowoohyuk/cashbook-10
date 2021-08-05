@@ -72,6 +72,15 @@ export default class LineChart extends Component<ILineData, ILineData> {
     return $path.outerHTML;
   }
 
+  generateBaseLine() {
+    const max = Math.ceil(this.state.values.length / 5);
+    const baseTags = Array(max)
+      .fill('')
+      .map((tag, index) => `<p>${index * 5}</p>`)
+      .join('');
+    return baseTags;
+  }
+
   render() {
     return `
       <div class="line-chart-container">
@@ -88,6 +97,9 @@ export default class LineChart extends Component<ILineData, ILineData> {
           <svg class="line-svg" viewBox="0 0 100 40">
             ${this.generateLineChart()}
           </svg>
+        </div>
+        <div class="line-chart-baseline">
+          ${this.generateBaseLine()}
         </div>
       </div>
     `;
