@@ -98,8 +98,6 @@ export default abstract class Component<
   protected setState(newState: Partial<S>) {
     const nextState = { ...this.state, ...newState };
 
-    console.log(this.state, newState);
-
     if (checkSame(this.state, nextState)) return;
 
     this.state = { ...this.state, ...newState };
