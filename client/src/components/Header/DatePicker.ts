@@ -35,13 +35,13 @@ export class DatePicker extends Component {
 
     this.$lightThemeButton = this.addComponent(IMGButton, {
       className: 'theme-button dark-theme-button',
-      src: moonSVG,
+      src: sunSVG,
       onclick: toggleTheme,
     });
 
     this.$darkThemeButton = this.addComponent(IMGButton, {
       className: 'theme-button light-theme-button',
-      src: sunSVG,
+      src: moonSVG,
       onclick: toggleTheme,
     });
 

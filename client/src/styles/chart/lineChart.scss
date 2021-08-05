@@ -5,10 +5,11 @@
   height: 15rem;
   padding: 1.5rem;
   & > div {
-    border-left: 1px solid var(--grey-color1);
-    border-bottom: 1px solid var(--grey-color1);
+    border-left: 1px solid var(--chart-baseline-color);
+    border-bottom: 1px solid var(--chart-baseline-color);
     position: relative;
-    width: 100%;
+    width: 90%;
+    margin-left: 10%;
     padding-bottom: 1rem;
     svg {
       transform: rotateX(180deg);
@@ -27,7 +28,7 @@
     position: absolute;
     font-size: 10px;
     transform: scale(0.8);
-    left: -3.6rem;
+    left: -4rem;
     width: 4rem;
     text-align: right;
     &.min-label {
