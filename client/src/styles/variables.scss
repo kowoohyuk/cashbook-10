@@ -8,6 +8,8 @@
   --strong-text-color: #ddd;
   --day-block-color: #aaa;
   --body-color: #aaa;
+  --light-theme-button: translateY(0);
+  --dark-theme-button: translateY(100px);
 }
 :root[theme='light'] {
   --background-color: #eee;
@@ -22,6 +24,8 @@
   --primary-color1: #2ac1bc;
   --strong-text-color: #111;
   --body-color: #626666;
+  --light-theme-button: translateY(100px);
+  --dark-theme-button: translateY(0);
 }
 
 $primary-color1: #2ac1bc;

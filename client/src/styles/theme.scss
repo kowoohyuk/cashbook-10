@@ -29,4 +29,10 @@ html {
   header {
     background-color: var(--primary-color1);
   }
+  header .light-theme-button {
+    transform: var(--light-theme-button);
+  }
+  header .dark-theme-button {
+    transform: var(--dark-theme-button);
+  }
 }
