@@ -1,9 +1,12 @@
 @import './variables.scss';
 
-@media screen and (min-width: $desktop-min) {
+@media screen and (min-width: $desktop-min) and (max-width: $desktop-max) {
   body {
     header .user-button {
       right: 0;
+    }
+    header .theme-button {
+      left: 0;
     }
   }
 }
@@ -95,7 +98,11 @@
     }
 
     header .user-button {
-      right: -1rem;
+      right: 0rem;
+    }
+
+    header .theme-button {
+      left: 0rem;
     }
 
     header .date-picker__year {
