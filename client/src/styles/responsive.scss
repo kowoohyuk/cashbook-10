@@ -152,6 +152,7 @@
     .chart-section {
       padding-bottom: 5rem;
       height: fit-content;
+      overflow-x: hidden;
     }
 
     .page {
@@ -230,6 +231,20 @@
     .chart-section .chart-container,
     .history-content {
       overflow-y: visible;
+    }
+
+    .line-chart-container,
+    .toggle-chart-buttons {
+      padding: 0;
+    }
+    .chart-title {
+      top: 115px;
+    }
+    .chart-tag__item {
+      justify-content: space-between;
+    }
+    .history-brief {
+      margin-top: 3.5rem;
     }
   }
 
