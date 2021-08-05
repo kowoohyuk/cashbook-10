@@ -1,7 +1,13 @@
 import { Component } from '../../lib/woowact/index';
 import { historyStore, NEXT_MONTH, PREV_MONTH } from '../../stores/History';
 import IMGButton from '../Common/IMGButton';
-import { leftArrowSVG, rightArrowSVG, userSVG } from '../../useResource';
+import {
+  leftArrowSVG,
+  rightArrowSVG,
+  userSVG,
+  sunSVG,
+  moonSVG,
+} from '../../useResource';
 import { SigninModal } from '../Modals/SigninModal';
 import { getTheme } from '../../utils/theme';
 
@@ -12,7 +18,8 @@ const toggleTheme = () => {
 };
 
 export class DatePicker extends Component {
-  $themeButton: Component;
+  $lightThemeButton: Component;
+  $darkThemeButton: Component;
   $prevBTN: Component;
   $nextBTN: Component;
   $loginButton: Component;
@@ -20,9 +27,15 @@ export class DatePicker extends Component {
   constructor() {
     super({});
 
-    this.$themeButton = this.addComponent(IMGButton, {
-      className: 'theme-button',
-      src: userSVG,
+    this.$lightThemeButton = this.addComponent(IMGButton, {
+      className: 'theme-button dark-theme-button',
+      src: moonSVG,
+      onclick: toggleTheme,
+    });
+
+    this.$darkThemeButton = this.addComponent(IMGButton, {
+      className: 'theme-button light-theme-button',
+      src: sunSVG,
       onclick: toggleTheme,
     });
 
@@ -58,7 +71,8 @@ export class DatePicker extends Component {
 
   render() {
     return `<div class="date-picker">
-    ${this.$themeButton.html}
+    ${this.$lightThemeButton.html}
+    ${this.$darkThemeButton.html}
       ${this.$prevBTN.html}
       <div class="date-picker__date">
         <h4 class="date-picker__year">
