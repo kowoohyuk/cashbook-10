@@ -27,226 +27,6 @@ export type TChartSectionState = {
   isIncome: boolean;
 };
 
-// 임시
-const histories: any[] = [
-  {
-    amount: 150000,
-    categoryId: 1,
-    isIncome: false,
-    name: '1번',
-  },
-  {
-    amount: 150000,
-    categoryId: 2,
-    isIncome: false,
-    name: '2번',
-  },
-  {
-    amount: 150000,
-    categoryId: 3,
-    isIncome: false,
-    name: '3번',
-  },
-  {
-    amount: 150000,
-    categoryId: 5,
-    isIncome: false,
-    name: '5번',
-  },
-  {
-    amount: 177000,
-    categoryId: 6,
-    isIncome: false,
-    name: '6번',
-  },
-  {
-    amount: 10000,
-    categoryId: 4,
-    isIncome: false,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 3,
-    isIncome: false,
-    name: '9번',
-  },
-  {
-    amount: 33000,
-    categoryId: 2,
-    isIncome: false,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 1,
-    isIncome: false,
-    name: '2번',
-  },
-  {
-    amount: 177000,
-    categoryId: 10,
-    isIncome: true,
-    name: '6번',
-  },
-  {
-    amount: 18000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 33000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 19000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 33000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 117000,
-    categoryId: 10,
-    isIncome: true,
-    name: '6번',
-  },
-  {
-    amount: 6000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 19890,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 31000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 3000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 31200,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 850,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 100,
-    categoryId: 10,
-    isIncome: true,
-    name: '6번',
-  },
-  {
-    amount: 10000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 50,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 5000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 6600,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 3580,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-];
-
 const SVG_PATH = 'http://www.w3.org/2000/svg';
 
 export default class ChartSection extends Component<{}, TChartSectionState> {
@@ -268,12 +48,9 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
       isIncome: !this.state.isIncome,
     });
   }
-
-  // 임시 데이터를 들어내고 난 이후 this.chartData로 변경할 예정입니다!
   createChartData(histories: any[]) {
     this.sum = 0;
     const data: TChartData[] = histories.reduce((acc, cur) => {
-      // 지출, 수입 flag 테스트
       if (this.state.isIncome !== cur.isIncome) return acc;
       if (acc[cur.categoryId]) {
         acc[cur.categoryId].amount += cur.amount;
@@ -311,7 +88,7 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   }
 
   generateChartAmountTag() {
-    this.createChartData(histories);
+    this.createChartData(historyStore.data.histories);
     return `
     <div class="chart-title">
       <p>이번달은 총</p>
