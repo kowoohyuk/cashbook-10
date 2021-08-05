@@ -94,11 +94,40 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
 
   generateChartAmountTag() {
     this.createChartData(historyStore.data.histories);
+    return this.getChartTitleText();
+  }
+
+  getChartTitleText() {
+    const calendarDate = new Date(
+      `${historyStore.data.year}-${historyStore.data.month}-01`,
+    );
+    const tmpDate = new Date();
+    const nowDate = new Date(
+      `${tmpDate.getFullYear()}-${tmpDate.getMonth() + 1}-01`,
+    );
+    let prefix = historyStore.data.month + '월';
+    let isPast = true;
+    if (nowDate.getTime() > calendarDate.getTime()) {
+      calendarDate.setMonth(calendarDate.getMonth() + 1);
+      if (nowDate.getTime() === calendarDate.getTime()) {
+        prefix = '저번 달';
+      }
+    } else if (nowDate.getTime() < calendarDate.getTime()) {
+      nowDate.setMonth(nowDate.getMonth() + 1);
+      isPast = false;
+      if (nowDate.getTime() === calendarDate.getTime()) {
+        prefix = '다음 달';
+      }
+    } else {
+      prefix = '이번 달';
+    }
     return `
     <div class="chart-title">
-      <p>이번달은 총</p>
+      <p>${prefix}은 총</p>
       <p><span>${this.sum.toLocaleString()}</span>원</p>
-      <p>쓰셨네요!</p>
+      <p>${this.state.isIncome ? '버' : '쓰'}${
+      isPast ? '셨군요!' : '실 예정이네요!'
+    }</p>
     </div>`;
   }
 
@@ -114,7 +143,6 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   }
 
   generateLineChart() {
-    console.log(historyStore);
     let count = 0;
     const values = new Array(
       getLastDate(
@@ -132,7 +160,6 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
       title: this.state.isIncome ? INCOME_TEXT : OUTCOME_TEXT,
       values,
     };
-    console.log(lineDatas);
     return count ? this.addComponent(LineChart, lineDatas).html : '';
   }
 
