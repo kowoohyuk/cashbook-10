@@ -8,6 +8,7 @@ export interface IHistory {
   amount: number;
   paymentDate: Date;
   isIncome: boolean;
+  color?: string;
   paymentId: number;
   categoryId: number;
 }

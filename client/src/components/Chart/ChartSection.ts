@@ -4,7 +4,9 @@ import { Component } from '../../lib/woowact/index';
 import { historyStore } from '../../stores/History';
 import ChartTagList from './ChartTagList';
 import ChartToggleButton from './ChartToggleButton';
+import LineChart from './LineChart';
 import '../../styles/chart/chartSection';
+import { getLastDate } from '../../utils/calendar/calendar';
 
 type TDonutArcData = {
   startX: number;
@@ -26,227 +28,11 @@ export type TChartSectionState = {
   isIncome: boolean;
 };
 
-// 임시
-const histories: any[] = [
-  {
-    amount: 150000,
-    categoryId: 1,
-    isIncome: false,
-    name: '1번',
-  },
-  {
-    amount: 150000,
-    categoryId: 2,
-    isIncome: false,
-    name: '2번',
-  },
-  {
-    amount: 150000,
-    categoryId: 3,
-    isIncome: false,
-    name: '3번',
-  },
-  {
-    amount: 150000,
-    categoryId: 5,
-    isIncome: false,
-    name: '5번',
-  },
-  {
-    amount: 177000,
-    categoryId: 6,
-    isIncome: false,
-    name: '6번',
-  },
-  {
-    amount: 10000,
-    categoryId: 4,
-    isIncome: false,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 3,
-    isIncome: false,
-    name: '9번',
-  },
-  {
-    amount: 33000,
-    categoryId: 2,
-    isIncome: false,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 1,
-    isIncome: false,
-    name: '2번',
-  },
-  {
-    amount: 177000,
-    categoryId: 10,
-    isIncome: true,
-    name: '6번',
-  },
-  {
-    amount: 18000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 33000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 19000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 33000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 117000,
-    categoryId: 10,
-    isIncome: true,
-    name: '6번',
-  },
-  {
-    amount: 6000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 19890,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 31000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 3000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 31200,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 850,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 100,
-    categoryId: 10,
-    isIncome: true,
-    name: '6번',
-  },
-  {
-    amount: 10000,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 50,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 5000,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-  {
-    amount: 6600,
-    categoryId: 9,
-    isIncome: true,
-    name: '7번',
-  },
-  {
-    amount: 15000,
-    categoryId: 9,
-    isIncome: true,
-    name: '9번',
-  },
-  {
-    amount: 3580,
-    categoryId: 8,
-    isIncome: true,
-    name: '3번',
-  },
-  {
-    amount: 8000,
-    categoryId: 8,
-    isIncome: true,
-    name: '2번',
-  },
-];
-
-const SVG_PATH = 'http://www.w3.org/1999/svg';
+const SVG_PATH = 'http://www.w3.org/2000/svg';
+const PRIMARY_COLOR = '#2ac1bc';
+const ERROR_COLOR = '#f45452';
+const INCOME_TEXT = '수입';
+const OUTCOME_TEXT = '지출';
 
 export default class ChartSection extends Component<{}, TChartSectionState> {
   private sum: number = 0;
@@ -267,12 +53,9 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
       isIncome: !this.state.isIncome,
     });
   }
-
-  // 임시 데이터를 들어내고 난 이후 this.chartData로 변경할 예정입니다!
   createChartData(histories: any[]) {
     this.sum = 0;
     const data: TChartData[] = histories.reduce((acc, cur) => {
-      // 지출, 수입 flag 테스트
       if (this.state.isIncome !== cur.isIncome) return acc;
       if (acc[cur.categoryId]) {
         acc[cur.categoryId].amount += cur.amount;
@@ -310,12 +93,41 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   }
 
   generateChartAmountTag() {
-    this.createChartData(histories);
+    this.createChartData(historyStore.data.histories);
+    return this.getChartTitleText();
+  }
+
+  getChartTitleText() {
+    const calendarDate = new Date(
+      `${historyStore.data.year}-${historyStore.data.month}-01`,
+    );
+    const tmpDate = new Date();
+    const nowDate = new Date(
+      `${tmpDate.getFullYear()}-${tmpDate.getMonth() + 1}-01`,
+    );
+    let prefix = historyStore.data.month + '월';
+    let isPast = true;
+    if (nowDate.getTime() > calendarDate.getTime()) {
+      calendarDate.setMonth(calendarDate.getMonth() + 1);
+      if (nowDate.getTime() === calendarDate.getTime()) {
+        prefix = '저번 달';
+      }
+    } else if (nowDate.getTime() < calendarDate.getTime()) {
+      nowDate.setMonth(nowDate.getMonth() + 1);
+      isPast = false;
+      if (nowDate.getTime() === calendarDate.getTime()) {
+        prefix = '다음 달';
+      }
+    } else {
+      prefix = '이번 달';
+    }
     return `
     <div class="chart-title">
-      <p>이번달은 총</p>
+      <p>${prefix}은 총</p>
       <p><span>${this.sum.toLocaleString()}</span>원</p>
-      <p>쓰셨네요!</p>
+      <p>${this.state.isIncome ? '버' : '쓰'}${
+      isPast ? '셨군요!' : '실 예정이네요!'
+    }</p>
     </div>`;
   }
 
@@ -328,6 +140,27 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
       </svg>
     </div>
     `;
+  }
+
+  generateLineChart() {
+    let count = 0;
+    const values = new Array(
+      getLastDate(
+        new Date(`${historyStore.data.year}-${historyStore.data.month}-01`),
+      ),
+    ).fill(0);
+    historyStore.data.histories.forEach(history => {
+      if (history.isIncome === this.state.isIncome) {
+        values[new Date(history.paymentDate).getDate()] += history.amount;
+        count++;
+      }
+    });
+    const lineDatas = {
+      color: this.state.isIncome ? PRIMARY_COLOR : ERROR_COLOR,
+      title: this.state.isIncome ? INCOME_TEXT : OUTCOME_TEXT,
+      values,
+    };
+    return count ? this.addComponent(LineChart, lineDatas).html : '';
   }
 
   generateChartTagList() {
@@ -387,10 +220,13 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   render() {
     return `
     <section class="chart-section">
-      ${this.generateToggleButton()}
-      ${this.generateChartAmountTag()}
-      ${this.generateChart()}
-      ${this.generateChartTagList()}
+      <div class="chart-container">
+        ${this.generateToggleButton()}
+        ${this.generateChartAmountTag()}
+        ${this.generateChart()}
+        ${this.generateChartTagList()}
+        ${this.generateLineChart()}
+      </div>
     </section>
     `;
   }

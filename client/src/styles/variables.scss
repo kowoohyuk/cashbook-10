@@ -17,6 +17,11 @@
   --img-filter: invert(1);
   --img-filter2: invert(0.3);
   --img-filter3: invert(0);
+  --chart-baseline-color: #444;
+  --scroll-thumb-color: #333;
+  --scroll-track-color: #444;
+  --scroll-thumb-hover-color: #222;
+  --scroll-track-hover-color: #444;
 }
 :root[theme='light'] {
   --background-color: #eee;
@@ -38,6 +43,11 @@
   --img-filter: invert(0);
   --img-filter2: invert(0);
   --img-filter3: invert(1);
+  --chart-baseline-color: #bbb;
+  --scroll-thumb-color: #ddd;
+  --scroll-track-color: #eee;
+  --scroll-thumb-hover-color: #bbb;
+  --scroll-track-hover-color: #eee;
 }
 
 $primary-color1: #2ac1bc;
@@ -66,6 +76,7 @@ $category-color8: #b9d58c;
 $category-color9: #e6d267;
 $category-color10: #e2b765;
 
+$desktop-max2: 1750px;
 $desktop-max: 1600px;
 $desktop-min: 1400px;
 $laptop-max: 1399px;
