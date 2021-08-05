@@ -3,6 +3,7 @@ import { CATERORIES } from '../../utils/categories';
 import { Component } from '../../lib/woowact/index';
 import { historyStore } from '../../stores/History';
 import ChartTagList from './ChartTagList';
+import ChartToggleButton from './ChartToggleButton';
 import '../../styles/chart/chartSection';
 
 type TDonutArcData = {
@@ -291,7 +292,12 @@ export default class ChartSection extends Component {
     return [x, y];
   }
 
+  generateToggleButton() {
+    return this.addComponent(ChartToggleButton, this.isIncome).html;
+  }
+
   generateChartAmountTag() {
+    this.createChartData(histories);
     return `
     <div class="chart-title">
       <p>이번달은 총</p>
@@ -301,7 +307,6 @@ export default class ChartSection extends Component {
   }
 
   generateChart() {
-    this.createChartData(histories);
     return `
     <div class="svg-wrapper">
       <svg width="250" height="250" viewBox="-1.5 -1.5 3 3">
@@ -368,6 +373,7 @@ export default class ChartSection extends Component {
   render() {
     return `
     <section class="chart-section">
+      ${this.generateToggleButton()}
       ${this.generateChartAmountTag()}
       ${this.generateChart()}
       ${this.generateChartTagList()}
