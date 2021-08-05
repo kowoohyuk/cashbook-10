@@ -320,6 +320,7 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   }
 
   generateChart() {
+    this?.$element?.querySelector('.svg-wrapper')?.remove();
     return `
     <div class="svg-wrapper">
       <svg width="250" height="250" viewBox="-1.5 -1.5 3 3">
