@@ -17,6 +17,7 @@
   --img-filter: invert(1);
   --img-filter2: invert(0.3);
   --img-filter3: invert(0);
+  --chart-baseline-color: #444;
 }
 :root[theme='light'] {
   --background-color: #eee;
@@ -38,6 +39,7 @@
   --img-filter: invert(0);
   --img-filter2: invert(0);
   --img-filter3: invert(1);
+  --chart-baseline-color: #bbb;
 }
 
 $primary-color1: #2ac1bc;
