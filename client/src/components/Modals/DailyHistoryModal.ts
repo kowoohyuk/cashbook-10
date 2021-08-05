@@ -1,4 +1,4 @@
-import { historyStore } from '../../stores/History';
+import { historyStore, NEXT_MONTH, PREV_MONTH } from '../../stores/History';
 import { HistoryBrief } from '../History/HistoryBrief';
 import HistoryList from '../History/HistoryList';
 import Modal from './CoreModal';
@@ -71,6 +71,10 @@ export class DailyHistoryModal extends Modal<{}, TDailyHistoryState> {
     const nextDay = new Date(this.state.date);
     nextDay.setDate(nextDay.getDate() + 1);
 
+    if (nextDay.getMonth() !== this.state.date.getMonth()) {
+      historyStore.dispatch(NEXT_MONTH);
+    }
+
     this.setState({
       date: new Date(nextDay),
     });
@@ -79,6 +83,10 @@ export class DailyHistoryModal extends Modal<{}, TDailyHistoryState> {
   moveToLastDay() {
     const lastDay = new Date(this.state.date);
     lastDay.setDate(lastDay.getDate() - 1);
+
+    if (lastDay.getMonth() !== this.state.date.getMonth()) {
+      historyStore.dispatch(PREV_MONTH);
+    }
 
     this.setState({
       date: lastDay,

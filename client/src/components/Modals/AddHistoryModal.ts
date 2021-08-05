@@ -10,11 +10,7 @@ import { Dropdown, TDropdownData, TDropProps } from '../Common/Dropdown';
 import { Component } from '../../lib/woowact/index';
 import { checkValidDate } from '../../utils/calendar/calendar';
 import { addHistoryAPI, IHistory } from '../../apis/historyAPI';
-import {
-  historyStore,
-  INIT_HISTORY,
-  UPDATE_HISTORY,
-} from '../../stores/History';
+import { historyStore, UPDATE_HISTORY } from '../../stores/History';
 import { alertModal } from '../../utils/alert/alert';
 
 type HistoryModalState = {
@@ -355,7 +351,7 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
 
     alertModal('내역이 추가되었습니다');
 
-    historyStore.dispatch(INIT_HISTORY);
+    historyStore.dispatch(UPDATE_HISTORY);
     this.closeModal();
   }
 
