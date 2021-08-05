@@ -16,7 +16,7 @@ export interface IHistory {
   id?: number;
   content: string;
   amount: number;
-  paymentDate: Date;
+  paymentDate: String;
   isIncome: boolean;
   userId: number;
   paymentId: number;
@@ -42,7 +42,7 @@ export default class History extends Model<IHistory> {
 
   @AllowNull(false)
   @Column(DataType.DATEONLY)
-  paymentDate: Date;
+  paymentDate: String;
 
   @AllowNull(false)
   @Column(DataType.BOOLEAN)

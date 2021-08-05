@@ -106,6 +106,24 @@
   }
 }
 
+@media screen and (max-width: $laptop-max) {
+  body {
+    .history-section .history-list .history-item button {
+      transform: scaleX(1);
+      width: 3rem;
+      display: flex;
+      align-items: center;
+      opacity: 1;
+      padding: 1rem;
+      background-color: transparent;
+      cursor: pointer;
+    }
+    .history-section .history-list .history-item:hover button:hover {
+      opacity: 1;
+    }
+  }
+}
+
 @media screen and (max-width: $mobile-max) {
   body {
     header {
@@ -204,20 +222,6 @@
 
     .chart-tag__item:nth-child(n + 4) {
       display: grid;
-    }
-
-    .history-section .history-list .history-item button {
-      transform: scaleX(1);
-      width: 3rem;
-      display: flex;
-      align-items: center;
-      opacity: 1;
-      padding: 1rem;
-      background-color: transparent;
-      cursor: pointer;
-    }
-    .history-section .history-list .history-item:hover button:hover {
-      opacity: 1;
     }
 
     .main-page .add-button {

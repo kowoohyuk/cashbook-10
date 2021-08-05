@@ -93,7 +93,7 @@
       transition: 0.5s;
       img {
         width: 1rem;
-        filter: invert(100%);
+        filter: var(--img-filter);
       }
     }
 
@@ -107,9 +107,9 @@
         padding: 1rem;
         background-color: $error-color;
         cursor: pointer;
-
         &:hover {
           opacity: 0.8;
+          filter: none;
         }
       }
     }
