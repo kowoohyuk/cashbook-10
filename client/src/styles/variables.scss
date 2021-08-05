@@ -18,6 +18,10 @@
   --img-filter2: invert(0.3);
   --img-filter3: invert(0);
   --chart-baseline-color: #444;
+  --scroll-thumb-color: #333;
+  --scroll-track-color: #444;
+  --scroll-thumb-hover-color: #222;
+  --scroll-track-hover-color: #444;
 }
 :root[theme='light'] {
   --background-color: #eee;
@@ -40,6 +44,10 @@
   --img-filter2: invert(0);
   --img-filter3: invert(1);
   --chart-baseline-color: #bbb;
+  --scroll-thumb-color: #ddd;
+  --scroll-track-color: #eee;
+  --scroll-thumb-hover-color: #bbb;
+  --scroll-track-hover-color: #eee;
 }
 
 $primary-color1: #2ac1bc;
