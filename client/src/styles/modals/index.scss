@@ -10,9 +10,7 @@
   @include flex-center(column);
 
   & > div {
-    background-color: white;
+    border: 1px solid;
     border-radius: 1rem;
-    border: 1px solid $grey-color2;
-    box-shadow: $grey-color2 2px 2px 20px;
   }
 }

@@ -4,6 +4,7 @@ import Component, { ComponentId } from './lib/woowact/core/Component';
 import { Route, Router } from './lib/woowact/core/Router';
 import { Header } from './components/Header/Header';
 import './styles/index.scss';
+import './styles/theme.scss';
 
 export default class App extends Component {
   $app: HTMLElement;

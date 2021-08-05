@@ -2,20 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500&display=swap');
 @import './variables';
 @import './mixins';
+@import './theme';
 
 * {
   font-family: 'Noto Sans KR';
 }
 
 html {
+  @include darkModeTransition();
   width: 100vw;
   min-height: 100vh;
-  background-color: #eee;
   overflow-x: hidden;
 }
 
 header {
-  background-color: $primary-color1;
+  @include darkModeTransition();
   height: 10rem;
   @media (max-width: 480px) {
     height: 4rem;
@@ -23,9 +24,9 @@ header {
 }
 
 section {
+  @include darkModeTransition();
   background-color: white;
   border-radius: 0.5rem;
-  box-shadow: #ddd 2px 2px 20px;
 }
 
 #App {

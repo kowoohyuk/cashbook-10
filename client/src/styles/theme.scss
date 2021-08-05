@@ -1,0 +1,53 @@
+@import './variables';
+@import './mixins.scss';
+
+html {
+  background-color: var(--background-color);
+  color: var(--body-font-color);
+  section {
+    background: var(--section-color);
+    box-shadow: var(--box-shadow);
+  }
+  .modal-background > div {
+    background-color: var(--section-color);
+    border-color: var(--grey-color2);
+    box-shadow: var(--box-shadow);
+  }
+  .woowa-calendar .calendar-body .day-block {
+    background: var(--grey-color0);
+  }
+  .woowa-calendar .calendar-body .day-block:not(.empty-day):hover {
+    background: var(--grey-color1);
+  }
+  .woowa-calendar .calendar-body .day-block__day {
+    color: var(--body-color);
+  }
+  .history-section .history-list__date {
+    color: var(--strong-text-color);
+  }
+  .history-section .history-list li {
+    border-bottom: 1px solid var(--grey-color1);
+  }
+  .main-page .add-button {
+    background-color: var(--primary-color1);
+    box-shadow: var(--box-shadow);
+  }
+  header {
+    background-color: var(--primary-color1);
+  }
+  header .light-theme-button {
+    transform: var(--light-theme-button);
+  }
+  header .dark-theme-button {
+    transform: var(--dark-theme-button);
+  }
+
+  input {
+    background-color: transparent;
+    color: var(--body-font-color);
+
+    ::placeholder {
+      color: var(--$grey-color2);
+    }
+  }
+}

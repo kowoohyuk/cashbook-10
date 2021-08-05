@@ -17,10 +17,8 @@ export default class CalendarSection extends Component {
     this.init();
     this.calendar.onClickCallBack = (e: HTMLElement) => {
       if (e.dataset) {
-        console.log(new Date(e.dataset.date as string));
-        new DailyHistoryModal({
-          date: new Date(e.dataset.date as string),
-        });
+        const date = new Date(e.dataset.date as string);
+        new DailyHistoryModal(date);
       }
     };
   }

@@ -17,7 +17,7 @@
     @include flex-center();
 
     &:hover {
-      background-color: $grey-color0;
+      background-color: var(--grey-color0);
     }
 
     .arrow-icon {
@@ -26,9 +26,10 @@
       padding: 0.5rem;
       position: absolute;
       right: 0;
+      filter: var(--img-filter);
     }
     .up {
-      transform: rotate(180);
+      transform: rotate(180deg);
     }
   }
 
@@ -43,18 +44,19 @@
     top: 2.5rem;
     transition: 0.5s;
     transform-origin: 50% 0%;
-    box-shadow: $grey-color2 2px 2px 20px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--grey-color0);
 
     .dropdown__item {
       cursor: pointer;
       width: 10rem;
       height: 3rem;
-      border-bottom: 1px solid $grey-color2;
-      background-color: white;
+      border-bottom: 1px solid (--grey-color2);
+      background-color: var(--section-color);
       @include flex-center();
 
       &:hover {
-        background-color: $grey-color0;
+        background-color: var(--grey-color0);
       }
     }
 
