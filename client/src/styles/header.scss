@@ -46,6 +46,10 @@ header {
       }
     }
 
+    .signout-button {
+      filter: invert(1);
+    }
+
     &:hover {
       button:not(.user-button):not(.theme-button) {
         opacity: 1;

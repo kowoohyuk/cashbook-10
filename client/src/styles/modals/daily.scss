@@ -15,14 +15,14 @@
 
     .daily-history__date {
       width: 15rem;
-      color: #bbb;
+      color: var(--grey-color3);
       font-size: 2rem;
       font-weight: bolder;
       text-align: center;
     }
 
     .day-change-button {
-      filter: invert(100%);
+      filter: var(--img-filter3);
       cursor: pointer;
       opacity: 0;
       transition: 0.5s;
