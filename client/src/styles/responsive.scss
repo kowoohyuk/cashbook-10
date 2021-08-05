@@ -20,6 +20,7 @@
     }
     .main-page > section {
       margin-bottom: 2rem;
+      max-height: fit-content;
     }
 
     .main-page .add-button {
@@ -84,6 +85,17 @@
       .history-item__category {
       font-size: 0.8rem;
     }
+
+    .chart-section .chart-container,
+    .history-content {
+      max-height: fit-content;
+      height: fit-content;
+      overflow-y: visible;
+    }
+
+    .chart-section .chart-container {
+      padding-bottom: 10rem;
+    }
   }
 }
 
@@ -93,6 +105,7 @@
       position: fixed;
       width: 100vw;
       height: 5rem;
+      z-index: 1;
     }
 
     header .title-logo {
@@ -100,6 +113,9 @@
     }
     header .date-picker button:not(.user-button):not(.theme-button) {
       opacity: 1;
+    }
+    header .date-picker button:not(.user-button):not(.theme-button) {
+      width: 3rem;
     }
 
     .main-page {
@@ -122,6 +138,7 @@
       box-shadow: none;
       border-radius: 0;
       scroll-snap-align: start;
+      max-height: fit-content;
     }
 
     .page {
@@ -130,10 +147,13 @@
 
     header .user-button {
       right: 0rem;
+      opacity: 1;
     }
 
     header .theme-button {
       right: 3rem;
+      left: 0rem;
+      opacity: 1;
     }
 
     header .date-picker__year {
