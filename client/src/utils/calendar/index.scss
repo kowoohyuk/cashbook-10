@@ -19,6 +19,8 @@
     &.empty-day {
       cursor: default;
       opacity: 0.7;
+      user-select: none;
+      pointer-events: none;
     }
   }
 }

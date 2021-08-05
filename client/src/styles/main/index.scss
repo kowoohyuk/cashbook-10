@@ -10,11 +10,12 @@
   justify-content: space-between;
   padding: 1.6rem;
   gap: 1.6rem;
+  position: relative;
 
   .add-button {
-    position: fixed;
-    right: 2rem;
-    bottom: 2rem;
+    position: absolute;
+    right: -4rem;
+    bottom: 3.5rem;
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
