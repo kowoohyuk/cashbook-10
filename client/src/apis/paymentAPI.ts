@@ -1,7 +1,13 @@
+import { paymentStore } from '../stores/Payment';
 import { DELETE, GET, POST } from './api';
 
 export type TPaymentData = {
   id: number;
+  name: string;
+};
+
+export type TUserPaymentData = {
+  paymentId: number;
   name: string;
 };
 

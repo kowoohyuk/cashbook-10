@@ -16,6 +16,7 @@ export default class HistoryItem extends Component<HistoryItemProps> {
   constructor(props: HistoryItemProps) {
     super(props);
 
+    paymentStore.subscribe(this);
     this.$deleteBTN = this.addComponent(IMGButton, {
       src: deleteSVG,
       onclick: () => {

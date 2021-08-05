@@ -1,8 +1,12 @@
-import { getTotalPaymentListAPI, TPaymentData } from '../apis/paymentAPI';
+import {
+  addUserPaymentAPI,
+  getTotalPaymentListAPI,
+  TPaymentData,
+} from '../apis/paymentAPI';
 import { Store } from '../lib/woowact/core/Store';
 
 export const INIT_PAYMENTS = 'PAYMENT/INIT' as const;
-export const UPDATE_PAYMENTS = 'PAYMENT/UPDATE' as const;
+export const ADD_PAYMENT = 'PAYMENT/UPDATE' as const;
 
 type TPaymentStoreData = {
   payments: TPaymentData[];
@@ -22,7 +26,7 @@ class PaymentStore extends Store<TPaymentStoreData> {
 
   actions = {
     [INIT_PAYMENTS]: this.initPayments.bind(this),
-    [UPDATE_PAYMENTS]: this.updatePayments.bind(this),
+    [ADD_PAYMENT]: this.addPayment.bind(this),
   };
 
   async initPayments(): Promise<Partial<TPaymentStoreData>> {
@@ -31,13 +35,15 @@ class PaymentStore extends Store<TPaymentStoreData> {
     return { payments };
   }
 
-  async updatePayments(): Promise<Partial<TPaymentStoreData>> {
-    //const payments = await ;
+  async addPayment(paymentName: string): Promise<Partial<TPaymentStoreData>> {
+    const result = await addUserPaymentAPI(paymentName);
+
     return {};
   }
 
   getData(id: number): TPaymentData {
     const index = this.data.payments.findIndex(p => p.id === id);
+
     return index >= 0 ? this.data.payments[index] : EMPTY_DATA;
   }
 
@@ -52,7 +58,7 @@ class PaymentStore extends Store<TPaymentStoreData> {
       case INIT_PAYMENTS:
         this.updateData({ ...newPayments });
         break;
-      case UPDATE_PAYMENTS:
+      case ADD_PAYMENT:
         this.updateData({ ...newPayments });
         break;
       default:
