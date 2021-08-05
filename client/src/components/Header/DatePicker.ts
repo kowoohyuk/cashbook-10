@@ -55,7 +55,11 @@ export class DatePicker extends Component {
       className: 'user-button',
       src: userSVG,
       onclick: () => {
-        new SigninModal();
+        const isLigin = localStorage.getItem('token');
+
+        if (isLigin) {
+          console.log('로그아웃 모달');
+        } else new SigninModal();
       },
     });
 
