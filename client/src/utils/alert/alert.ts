@@ -20,6 +20,5 @@ export const alertModal = (
 };
 
 const hideAlert = ($alert: HTMLElement) => {
-  console.log('hide alert modal');
   $alert.classList.add('hide');
 };
