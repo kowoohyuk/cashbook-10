@@ -52,6 +52,10 @@
       font-size: 3rem;
     }
 
+    header .date-picker button:not(.user-button):not(.theme-button) {
+      opacity: 1;
+    }
+
     .history-brief .history-income,
     .history-brief .history-outcome {
       font-size: 1rem;
@@ -76,6 +80,10 @@
       position: fixed;
       width: 100vw;
       height: 5rem;
+    }
+
+    header .date-picker button:not(.user-button):not(.theme-button) {
+      opacity: 1;
     }
 
     .main-page {
