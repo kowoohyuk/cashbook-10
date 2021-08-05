@@ -16,6 +16,7 @@
   --box-shadow: none;
   --img-filter: invert(1);
   --img-filter2: invert(0.3);
+  --img-filter3: invert(0);
 }
 :root[theme='light'] {
   --background-color: #eee;
@@ -36,6 +37,7 @@
   --box-shadow: #ddd 2px 2px 20px;
   --img-filter: invert(0);
   --img-filter2: invert(0);
+  --img-filter3: invert(1);
 }
 
 $primary-color1: #2ac1bc;
