@@ -11,22 +11,16 @@ export interface ILineData {
 
 const SVG_PATH = 'http://www.w3.org/2000/svg';
 
-const values: number[] = [
-  50000, 80000, 120000, 7500, 80300, 43000, 28730, 194000, 2840, 500, 0, 490,
-  6880, 5950, 9110, 2000, 15840, 900, 20000, 58010, 22200, 19190, 58370, 43000,
-  28730, 194000, 2840, 6420, 5010, 0, 20000,
-];
-
 export default class LineChart extends Component<ILineData, ILineData> {
   constructor(
     props: ILineData = {
       color: '#000',
-      values: values,
       title: '',
+      values: [],
     },
   ) {
-    props.min = Math.min(...values);
-    props.max = Math.max(...values);
+    props.min = Math.min(...props.values);
+    props.max = Math.max(...props.values);
     super(props);
     this.state = props;
     this.init();
@@ -60,8 +54,6 @@ export default class LineChart extends Component<ILineData, ILineData> {
     return paths.join('');
   }
 
-  generateBaseLine() {}
-
   generateLineChart() {
     const paths = this.ganerateChartPaths();
     const $path = document.createElementNS(SVG_PATH, 'path') as SVGPathElement;
@@ -75,7 +67,7 @@ export default class LineChart extends Component<ILineData, ILineData> {
     $animate.setAttribute('attributeName', 'stroke-dashoffset');
     $animate.setAttribute('from', `${$path.getTotalLength()}`);
     $animate.setAttribute('to', '0');
-    $animate.setAttribute('dur', '1.5');
+    $animate.setAttribute('dur', '1');
     $path.appendChild($animate);
     return $path.outerHTML;
   }
@@ -94,7 +86,6 @@ export default class LineChart extends Component<ILineData, ILineData> {
           ${this.state.min}
         </label>
           <svg class="line-svg" viewBox="0 0 100 40">
-            ${this.generateBaseLine()}
             ${this.generateLineChart()}
           </svg>
         </div>

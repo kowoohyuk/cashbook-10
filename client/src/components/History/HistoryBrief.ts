@@ -29,7 +29,7 @@ export class HistoryBrief extends Component<THistoryList> {
     return `<div class="history-brief">
       <span class="history-count">총 ${this.props.length}건</span>
       <div class="history-amounts">
-        <div class="history-income">수익 ${toWonForm(
+        <div class="history-income">수입 ${toWonForm(
           this.getTotalIncome(),
         )}</div>
         <div class="history-outcome">지출 ${toWonForm(

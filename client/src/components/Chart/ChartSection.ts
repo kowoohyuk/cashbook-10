@@ -6,6 +6,7 @@ import ChartTagList from './ChartTagList';
 import ChartToggleButton from './ChartToggleButton';
 import LineChart from './LineChart';
 import '../../styles/chart/chartSection';
+import { getLastDate } from '../../utils/calendar/calendar';
 
 type TDonutArcData = {
   startX: number;
@@ -28,6 +29,10 @@ export type TChartSectionState = {
 };
 
 const SVG_PATH = 'http://www.w3.org/2000/svg';
+const PRIMARY_COLOR = '#2ac1bc';
+const ERROR_COLOR = '#f45452';
+const INCOME_TEXT = '수입';
+const OUTCOME_TEXT = '지출';
 
 export default class ChartSection extends Component<{}, TChartSectionState> {
   private sum: number = 0;
@@ -109,7 +114,26 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   }
 
   generateLineChart() {
-    return this.addComponent(LineChart).html;
+    console.log(historyStore);
+    let count = 0;
+    const values = new Array(
+      getLastDate(
+        new Date(`${historyStore.data.year}-${historyStore.data.month}-01`),
+      ),
+    ).fill(0);
+    historyStore.data.histories.forEach(history => {
+      if (history.isIncome === this.state.isIncome) {
+        values[new Date(history.paymentDate).getDate()] += history.amount;
+        count++;
+      }
+    });
+    const lineDatas = {
+      color: this.state.isIncome ? PRIMARY_COLOR : ERROR_COLOR,
+      title: this.state.isIncome ? INCOME_TEXT : OUTCOME_TEXT,
+      values,
+    };
+    console.log(lineDatas);
+    return count ? this.addComponent(LineChart, lineDatas).html : '';
   }
 
   generateChartTagList() {
