@@ -1,10 +1,8 @@
 import { Component } from '../../lib/woowact/index';
 import { historyStore } from '../../stores/History';
 import Calendar, { getLastDate } from '../../utils/calendar/calendar';
-import { $ } from '../../utils/selector';
 import '../../styles/calendar/calendarSection';
 import { IHistory } from '../../apis/historyAPI';
-import { AddHistoryModal } from '../Modals/AddHistoryModal';
 import { DailyHistoryModal } from '../Modals/DailyHistoryModal';
 
 export default class CalendarSection extends Component {
