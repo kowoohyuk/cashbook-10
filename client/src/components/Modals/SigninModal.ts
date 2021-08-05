@@ -12,6 +12,7 @@ import {
 } from '../../utils/validations';
 import { signinAPI } from '../../apis/userAPI';
 import { alertModal } from '../../utils/alert/alert';
+import { historyStore, UPDATE_HISTORY } from '../../stores/History';
 
 type SigninModalState = {
   isShowingPW: boolean;
@@ -133,6 +134,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
     } else {
       localStorage.setItem('token', data.token);
       localStorage.setItem('email', data.email);
+      historyStore.dispatch(UPDATE_HISTORY);
       alertModal('로그인 성공');
       this.closeModal();
     }
