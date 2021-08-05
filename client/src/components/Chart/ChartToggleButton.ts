@@ -36,13 +36,13 @@ export default class ChartToggleButton extends Component<
   render(): string {
     return `
     <div class="toggle-chart-buttons">
-      <button class="toggle-chart-button income-button ${
-        this.state.isIncome ? '' : 'active'
+      <button class="toggle-chart-button ${
+        this.props.isIncome ? '' : 'active'
       }">
         지출
       </button>
       <button class="toggle-chart-button ${
-        this.state.isIncome ? 'active' : ''
+        this.props.isIncome ? 'active' : ''
       }">
         수입
       </button>
