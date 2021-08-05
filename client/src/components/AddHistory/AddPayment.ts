@@ -3,15 +3,21 @@ import { ADD_PAYMENT, paymentStore } from '../../stores/Payment';
 import '../../styles/modals/payment.scss';
 import { alertModal } from '../../utils/alert/alert';
 import { $ } from '../../utils/selector';
-import Modal from './CoreModal';
+import Modal from '../Modals/CoreModal';
 
+type AddPaymentProps = {
+  onsubmit: () => {};
+};
 type AddPaymentModalState = {
   paymentName: string;
 };
 
-export class AddPaymentModal extends Modal<{}, AddPaymentModalState> {
-  constructor() {
-    super({});
+export class AddPaymentModal extends Modal<
+  AddPaymentProps,
+  AddPaymentModalState
+> {
+  constructor(props: AddPaymentProps) {
+    super(props);
     this.state.paymentName = '';
 
     this.init();
@@ -47,6 +53,7 @@ export class AddPaymentModal extends Modal<{}, AddPaymentModalState> {
         );
 
         alertModal('결제 수단이 추가 되었습니다.');
+        this.props.onsubmit();
         this.closeModal();
       });
   }
