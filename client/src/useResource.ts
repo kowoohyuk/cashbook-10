@@ -13,6 +13,8 @@ import hideSVG from './assets/hide.svg';
 import showSVG from './assets/show.svg';
 import plusSVG from './assets/plus.svg';
 import minusSVG from './assets/minus.svg';
+import sunSVG from './assets/sun.svg';
+import moonSVG from './assets/moon.svg';
 
 export {
   userSVG,
@@ -30,4 +32,6 @@ export {
   hideSVG,
   plusSVG,
   minusSVG,
+  sunSVG,
+  moonSVG,
 };

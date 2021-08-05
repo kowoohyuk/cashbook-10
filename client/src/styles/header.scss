@@ -15,6 +15,7 @@ header {
     align-items: center;
     padding: 0 1.6rem;
     max-width: 100rem;
+    overflow: hidden;
     &__date {
       cursor: pointer;
       display: flex;
@@ -28,7 +29,7 @@ header {
     &__month {
       font-size: 5rem;
     }
-    button:not(.user-button) {
+    button:not(.user-button):not(.theme-button) {
       box-sizing: content-box;
       width: 5rem;
       height: 5rem;
@@ -46,13 +47,14 @@ header {
     }
 
     &:hover {
-      button {
+      button:not(.user-button):not(.theme-button) {
         opacity: 1;
       }
     }
   }
 
-  .user-button {
+  .user-button,
+  .theme-button {
     width: 3rem;
     height: 3rem;
     opacity: 0.5;
@@ -68,5 +70,9 @@ header {
     &:hover {
       opacity: 1;
     }
+  }
+  .theme-button {
+    left: 1rem;
+    transition: transform 0.35s ease-in-out;
   }
 }

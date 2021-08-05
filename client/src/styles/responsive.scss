@@ -1,9 +1,12 @@
 @import './variables.scss';
 
-@media screen and (min-width: $desktop-min) {
+@media screen and (min-width: $desktop-min) and (max-width: $desktop-max) {
   body {
     header .user-button {
       right: 0;
+    }
+    header .theme-button {
+      left: 0;
     }
   }
 }
@@ -95,7 +98,11 @@
     }
 
     header .user-button {
-      right: -1rem;
+      right: 0rem;
+    }
+
+    header .theme-button {
+      left: 0rem;
     }
 
     header .date-picker__year {
@@ -132,6 +139,19 @@
 
     .chart-tag__item:nth-child(n + 4) {
       display: grid;
+    }
+    .history-section .history-list .history-item button {
+      transform: scaleX(1);
+      width: 3rem;
+      display: flex;
+      align-items: center;
+      opacity: 1;
+      padding: 1rem;
+      background-color: transparent;
+      cursor: pointer;
+    }
+    .history-section .history-list .history-item:hover button:hover {
+      opacity: 1;
     }
   }
 }
