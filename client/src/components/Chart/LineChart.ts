@@ -1,81 +1,103 @@
 import { Component } from '../../lib/woowact/index';
-import { TChartData } from './ChartSection';
-
-// 라인차트 필요한 데이터 양식
-// x1 시작 지점
-// y1 시작 지점
-// x2 종료 지점
-// y2 종료 지점
-// stroke 컬러
-// stroke width 크기
-// text 텍스트 여부, 텍스트가 있으면 도트 포인트가 표시 됨!
-// animation true, false
-// animation 시간
+import '../../styles/chart/lineChart';
 
 export interface ILineData {
-  width: string;
-  height: string;
-  color?: string;
-  min?: number;
+  values: number[];
+  color: string;
+  title?: string;
   max?: number;
-  values: number[] | string[];
-  animation?: boolean;
-  duration?: number;
-  lineWidth?: number;
+  min?: number;
 }
 
-interface ILine {}
+const SVG_PATH = 'http://www.w3.org/2000/svg';
 
-const DEFAULT = {
-  WIDTH: '100',
-  HEIGHT: '100',
-  COLOR: '#000',
-  MIN: 0,
-  MAX: 1,
-  ANIMATION: false,
-  VALUES: [],
-  DURATION: 0,
-  LINE_WIDTH: 2,
-};
+const values: number[] = [
+  50000, 80000, 120000, 7500, 80300, 43000, 28730, 194000, 2840, 500, 0, 490,
+  6880, 5950, 9110, 2000, 15840, 900, 20000, 58010, 22200, 19190, 58370, 43000,
+  28730, 194000, 2840, 6420, 5010, 0, 20000,
+];
 
-export default class LineChart extends Component<ILineData> {
+export default class LineChart extends Component<ILineData, ILineData> {
   constructor(
     props: ILineData = {
-      width: DEFAULT.WIDTH,
-      height: DEFAULT.HEIGHT,
-      color: DEFAULT.COLOR,
-      min: DEFAULT.MIN,
-      max: DEFAULT.MAX,
-      animation: DEFAULT.ANIMATION,
-      values: DEFAULT.VALUES,
-      duration: DEFAULT.DURATION,
-      lineWidth: DEFAULT.LINE_WIDTH,
+      color: '#000',
+      values: values,
+      title: '',
     },
   ) {
+    props.min = Math.min(...values);
+    props.max = Math.max(...values);
     super(props);
     this.state = props;
     this.init();
   }
 
+  ganerateChartPaths() {
+    const coordinates = this.generateCoordinates(this.state.values);
+    const paths = this.generatePaths(coordinates);
+    return paths;
+  }
+
+  generateCoordinates(values: number[]): number[][] {
+    const max = this.state.max as number;
+    const x = 100;
+    const y = 40;
+    const interval = x / (values.length - 1);
+    return values.reduce((acc: number[][], cur, index) => {
+      acc[index] = [index * interval, (cur / max) * y];
+      return acc;
+    }, []);
+  }
+
+  generatePaths(coordinates: number[][]): string {
+    const paths = coordinates.reduce((acc: string[], cur, index) => {
+      const [x, y] = cur;
+      acc[index] = ` L ${x} ${y}`;
+      return acc;
+    }, []);
+    const [startX, startY] = coordinates[0];
+    paths[0] = `M${startX} ${startY}`;
+    return paths.join('');
+  }
+
+  generateBaseLine() {}
+
   generateLineChart() {
-    return '';
+    const paths = this.ganerateChartPaths();
+    const $path = document.createElementNS(SVG_PATH, 'path') as SVGPathElement;
+    $path.setAttribute('d', paths);
+    $path.setAttribute('fill', 'none');
+    $path.setAttribute('stroke', `${this.state.color}`);
+    $path.setAttribute('stroke-width', '0.5px');
+    $path.setAttribute('stroke-dasharray', `${$path.getTotalLength()}`);
+
+    const $animate = document.createElementNS(SVG_PATH, 'animate');
+    $animate.setAttribute('attributeName', 'stroke-dashoffset');
+    $animate.setAttribute('from', `${$path.getTotalLength()}`);
+    $animate.setAttribute('to', '0');
+    $animate.setAttribute('dur', '1.5');
+    $path.appendChild($animate);
+    return $path.outerHTML;
   }
 
   render() {
-    const width = 200;
-    const height = 200;
-
     return `
-      <div class="line-container">
-        ${this.generateLineChart()}
-
-        <svg width="400" height="400" viewBox="0 0 1 1">
-          <line x1="0" y1="0.03" x2="0.2" y2="0.4" stroke="blue" stroke-width="0.005"></line>
-          <line x1="0.2" y1="0.4" x2="0.4" y2="0.3" stroke="violet" stroke-width="0.005"></line>
-          <line x1="0.4" y1="0.3" x2="0.6" y2="0.7" stroke="green" stroke-width="0.005"></line>
-          <line x1="0.6" y1="0.7" x2="0.8" y2="0.1" stroke="red" stroke-width="0.005"></line>
-          <line x1="0.8" y1="0.1" x2="1" y2="0.9" stroke="black" stroke-width="0.005"></line>
-        </svg>
+      <div class="line-chart-container">
+        <p class="line-chart-title">
+          월간 소비 추이
+        </p>
+        <div class="line-chart-content">
+        <label class="line-chart__label min-label">
+          ${this.state.max}
+        </label>
+        <label class="line-chart__label max-label">
+          ${this.state.min}
+        </label>
+          <svg class="line-svg" viewBox="0 0 100 40">
+            ${this.generateBaseLine()}
+            ${this.generateLineChart()}
+          </svg>
+        </div>
       </div>
     `;
   }

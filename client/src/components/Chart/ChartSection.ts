@@ -4,6 +4,7 @@ import { Component } from '../../lib/woowact/index';
 import { historyStore } from '../../stores/History';
 import ChartTagList from './ChartTagList';
 import ChartToggleButton from './ChartToggleButton';
+import LineChart from './LineChart';
 import '../../styles/chart/chartSection';
 
 type TDonutArcData = {
@@ -246,7 +247,7 @@ const histories: any[] = [
   },
 ];
 
-const SVG_PATH = 'http://www.w3.org/1999/svg';
+const SVG_PATH = 'http://www.w3.org/2000/svg';
 
 export default class ChartSection extends Component<{}, TChartSectionState> {
   private sum: number = 0;
@@ -330,6 +331,10 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
     `;
   }
 
+  generateLineChart() {
+    return this.addComponent(LineChart).html;
+  }
+
   generateChartTagList() {
     return this.addComponent(ChartTagList, this.chartData).html;
   }
@@ -387,10 +392,13 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
   render() {
     return `
     <section class="chart-section">
-      ${this.generateToggleButton()}
-      ${this.generateChartAmountTag()}
-      ${this.generateChart()}
-      ${this.generateChartTagList()}
+      <div class="chart-container">
+        ${this.generateToggleButton()}
+        ${this.generateChartAmountTag()}
+        ${this.generateChart()}
+        ${this.generateChartTagList()}
+        ${this.generateLineChart()}
+      </div>
     </section>
     `;
   }
