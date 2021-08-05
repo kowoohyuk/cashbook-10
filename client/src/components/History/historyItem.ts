@@ -58,7 +58,7 @@ export default class HistoryItem extends Component<HistoryItemProps> {
           ${toWonForm(this.props.history.amount)}
         </div>
       </div>
-      ${this.$deleteBTN.html}
+      ${localStorage.getItem('token') ? this.$deleteBTN.html : ''}
     </div>
     `;
   }

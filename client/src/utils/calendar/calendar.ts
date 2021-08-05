@@ -77,6 +77,13 @@ export const isNowDate = (date: Date | string): boolean => {
   return true;
 };
 
+export const checkSameDate = (dateA: Date, dateB: Date): boolean => {
+  return (
+    JSON.stringify(getDateObject(dateA)) ===
+    JSON.stringify(getDateObject(dateB))
+  );
+};
+
 const CALENDARBLOCK_COUNT = 42;
 
 export default class Calendar {
@@ -252,7 +259,10 @@ export default class Calendar {
 
   set date(date: Date | string) {
     if (!checkValidDate) return;
+
     this._date = new Date(date);
+    this._dateObject = getDateObject(this._date);
+
     if (this._$target) {
       this.rerender();
     }
@@ -272,6 +282,5 @@ export default class Calendar {
 
   set onClickCallBack(callback: (target: HTMLElement) => void) {
     this._onClickCallBack = callback;
-    this._onClickCallBack();
   }
 }

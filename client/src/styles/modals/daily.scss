@@ -1,0 +1,62 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+@import '../history/emptyHistory.scss';
+
+.daily-history-modal {
+  position: relative;
+  width: 600px;
+  height: 800px;
+  padding: 2rem;
+
+  .daily-history__title {
+    padding-bottom: 2rem;
+    @include flex-center(row);
+    gap: 2rem;
+
+    .daily-history__date {
+      width: 15rem;
+      color: #bbb;
+      font-size: 2rem;
+      font-weight: bolder;
+      text-align: center;
+    }
+
+    .day-change-button {
+      filter: invert(100%);
+      cursor: pointer;
+      opacity: 0;
+      transition: 0.5s;
+    }
+
+    &:hover > .day-change-button {
+      opacity: 0.4;
+    }
+  }
+
+  .history-list {
+    max-height: 70%;
+    overflow-y: auto;
+    margin: 1rem 0;
+    .history-list__date {
+      display: none;
+    }
+  }
+
+  .add-history-button {
+    align-self: flex-end;
+    background-color: $primary-color1;
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    transition: 0.3s;
+    cursor: pointer;
+    opacity: 1;
+
+    box-shadow: var(--box-shadow);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

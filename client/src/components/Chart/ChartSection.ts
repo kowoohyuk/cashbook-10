@@ -277,7 +277,7 @@ export default class ChartSection extends Component {
       this.sum += cur.amount;
       return acc;
     }, []);
-    console.log(this);
+
     data.sort((a, b) => b.amount - a.amount);
     data.forEach(d => {
       d.percent = d.amount / this.sum;

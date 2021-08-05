@@ -46,7 +46,6 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     statusCode = res.status;
 
     const result = await res.json();
-    console.log(result);
     if (result?.data?.expired) {
       localStorage.removeItem('token');
       location.href = '/';

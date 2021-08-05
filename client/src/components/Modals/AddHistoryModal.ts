@@ -10,11 +10,7 @@ import { Dropdown, TDropdownData, TDropProps } from '../Common/Dropdown';
 import { Component } from '../../lib/woowact/index';
 import { checkValidDate } from '../../utils/calendar/calendar';
 import { addHistoryAPI, IHistory } from '../../apis/historyAPI';
-import {
-  historyStore,
-  INIT_HISTORY,
-  UPDATE_HISTORY,
-} from '../../stores/History';
+import { historyStore, UPDATE_HISTORY } from '../../stores/History';
 import { alertModal } from '../../utils/alert/alert';
 
 type HistoryModalState = {
@@ -40,7 +36,7 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
     super(props);
 
     this.state = {
-      date: new Date(),
+      date: props.date ?? new Date(),
       payments: [],
       isValidDate: true,
     };
@@ -353,32 +349,39 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
 
     const result = await addHistoryAPI(data);
 
-    alertModal('내역 추가 완료');
+    alertModal('내역이 추가되었습니다');
 
-    historyStore.dispatch(INIT_HISTORY);
+    historyStore.dispatch(UPDATE_HISTORY);
     this.closeModal();
   }
 
-  generatePaymentDateInput = () => `
+  generatePaymentDateInput = () => {
+    const date = this.props.date ? this.props.date : new Date();
+    const year: string = date.getFullYear().toString();
+    const month: string = (date.getMonth() + 1).toString();
+    const day: string = date.getDate().toString();
+
+    return `
     <div class="history__payment-date ${
       this.state.isValidDate ? '' : 'invalid'
     }">
       <input class="history__date-input year"
-      placeholder="${new Date().getUTCFullYear()}"
-      value="${new Date().getUTCFullYear()}"
+      placeholder="${year}"
+      value="${year}"
       />
       -
       <input class="history__date-input month"
-      placeholder="0${new Date().getUTCMonth() + 1}"
-      value="0${new Date().getUTCMonth() + 1}"
+      placeholder="${month.length === 1 ? `0${month}` : `${month}`}"
+      value="${month.length === 1 ? `0${month}` : `${month}`}"
       />
       -
       <input class="history__date-input day"
-      placeholder="0${new Date().getUTCDay()}"
-      value="0${new Date().getUTCDay()}"
+      placeholder="${day.length === 1 ? `0${day}` : `${day}`}"
+      value="${day.length === 1 ? `0${day}` : `${day}`}"
       />
     </div>
   `;
+  };
 
   generateSelectIncome = () => `
     <div class="history__select">

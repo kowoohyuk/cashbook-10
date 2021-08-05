@@ -1,11 +1,17 @@
 @import './variables';
+@import './mixins.scss';
 
 html {
   background-color: var(--background-color);
   color: var(--body-font-color);
   section {
     background: var(--section-color);
-    box-shadow: none;
+    box-shadow: var(--box-shadow);
+  }
+  .modal-background > div {
+    background-color: var(--section-color);
+    border-color: var(--grey-color2);
+    box-shadow: var(--box-shadow);
   }
   .woowa-calendar .calendar-body .day-block {
     background: var(--grey-color0);
@@ -24,7 +30,7 @@ html {
   }
   .main-page .add-button {
     background-color: var(--primary-color1);
-    box-shadow: none;
+    box-shadow: var(--box-shadow);
   }
   header {
     background-color: var(--primary-color1);
@@ -34,5 +40,14 @@ html {
   }
   header .dark-theme-button {
     transform: var(--dark-theme-button);
+  }
+
+  input {
+    background-color: transparent;
+    color: var(--body-font-color);
+
+    ::placeholder {
+      color: var(--$grey-color2);
+    }
   }
 }

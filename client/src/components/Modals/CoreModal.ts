@@ -31,10 +31,13 @@ export default abstract class Modal<
   closeModal(e?: MouseEvent) {
     //바깥 영역을 클릭했을 때 or 직접 불러준다면
     if (!e || e.target === this.$element) {
-      // background blur 해제
-      this.$app?.classList.remove('blur');
       // 본인 컴포넌트 삭제하기
       this.$element.remove();
+
+      // 화면상 모달이 없다면 background blur 해제
+      if (!$('.modal-background')) {
+        this.$app?.classList.remove('blur');
+      }
     } else {
       e.preventDefault();
     }

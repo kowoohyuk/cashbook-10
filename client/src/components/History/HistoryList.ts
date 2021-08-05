@@ -2,6 +2,7 @@ import { IHistory } from '../../apis/historyAPI';
 import { Component } from '../../lib/woowact/index';
 import { THistoryList } from '../../stores/History';
 import HistoryItem from './HistoryItem';
+import '../../styles/history/historyList.scss';
 
 export default class HistoryList extends Component<THistoryList> {
   date: string;
@@ -23,8 +24,8 @@ export default class HistoryList extends Component<THistoryList> {
       .map(
         (history: IHistory) =>
           `<li key = ${history.id}>
-          ${this.addComponent(HistoryItem, { history }).html}
-        </li>`,
+            ${this.addComponent(HistoryItem, { history }).html}
+          </li>`,
       )
       .join('');
   }

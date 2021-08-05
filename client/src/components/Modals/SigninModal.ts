@@ -11,6 +11,7 @@ import {
   PW_VALIDATION_ERR_MSG,
 } from '../../utils/validations';
 import { signinAPI } from '../../apis/userAPI';
+import { alertModal } from '../../utils/alert/alert';
 
 type SigninModalState = {
   isShowingPW: boolean;
@@ -117,9 +118,6 @@ export class SigninModal extends Modal<{}, SigninModalState> {
     const $signinBTN = $('.signin-button');
     ($signinBTN as HTMLButtonElement).disabled = true;
 
-    //TODO: true면 user 정보 저장(로그인 처리) 후 닫기
-    //현재 아래의 settimeout은 테스트용
-    //TODO: false면 실패 메세지 날려주기
     const data = await signinAPI({
       email,
       pw,
@@ -135,6 +133,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
     } else {
       localStorage.setItem('token', data.token);
       localStorage.setItem('email', data.email);
+      alertModal('로그인 성공');
       this.closeModal();
     }
   }

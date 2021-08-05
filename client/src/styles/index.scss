@@ -9,14 +9,14 @@
 }
 
 html {
+  @include darkModeTransition();
   width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.25s ease-in-out;
 }
 
 header {
-  transition: background-color 0.25s ease-in-out;
+  @include darkModeTransition();
   height: 10rem;
   @media (max-width: 480px) {
     height: 4rem;
@@ -24,10 +24,9 @@ header {
 }
 
 section {
+  @include darkModeTransition();
   background-color: white;
   border-radius: 0.5rem;
-  box-shadow: #ddd 2px 2px 20px;
-  transition: background-color 0.25s ease-in-out;
 }
 
 #App {

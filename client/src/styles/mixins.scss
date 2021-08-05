@@ -80,3 +80,7 @@
   background-color: $color;
   color: white;
 }
+
+@mixin darkModeTransition() {
+  transition: background-color 0.25s ease-in-out;
+}
