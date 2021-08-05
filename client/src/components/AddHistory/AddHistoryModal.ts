@@ -1,16 +1,12 @@
 import '../../styles/modals/history.scss';
-import { plusSVG, minusSVG, downArrowSVG } from '../../useResource';
+import { plusSVG, minusSVG } from '../../useResource';
 import { $ } from '../../utils/selector';
 import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { toWonForm } from '../../utils/money';
-import Modal from './CoreModal';
+import Modal from '../Modals/CoreModal';
 import { categoryStore } from '../../stores/Category';
-import {
-  getUserPaymentListAPI,
-  TPaymentData,
-  TUserPaymentData,
-} from '../../apis/paymentAPI';
-import { Dropdown, TDropdownData, TDropProps } from '../Common/Dropdown';
+import { getUserPaymentListAPI, TUserPaymentData } from '../../apis/paymentAPI';
+import { PaymentDropdown, TDropProps } from './PaymentDropdown';
 import { Component } from '../../lib/woowact/index';
 import { checkValidDate } from '../../utils/calendar/calendar';
 import { addHistoryAPI, IHistory } from '../../apis/historyAPI';
@@ -45,11 +41,9 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
       isValidDate: true,
     };
 
-    const initValue = {
-      dataList: [],
-      onclick: () => {},
-    };
-    this.$dropdown = this.addComponent(Dropdown, initValue);
+    this.$dropdown = this.addComponent(PaymentDropdown, {
+      onclick: (paymentId?: number) => this.setState({ paymentId }),
+    });
     this.init();
   }
 
@@ -57,30 +51,6 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
     this.addEvents();
     this.initPaymentList();
     super.componentDidMount();
-  }
-
-  componentDidUpdate() {
-    (this.$dropdown as Dropdown).updateData(this.getNewDropdownData());
-  }
-
-  getNewDropdownData(): TDropProps {
-    const dataList = this.state.payments.map(payment => {
-      const data: TDropdownData = {
-        label: payment.name,
-        value: payment.paymentId,
-      };
-      return data;
-    });
-
-    if (!this.state.paymentId) this.setState({ paymentId: dataList[0].value });
-
-    return {
-      dataList,
-      onclick: (paymentId: number) => {
-        this.setState({ paymentId });
-      },
-      selected: this.state.paymentId ?? dataList[0].value,
-    };
   }
 
   async initPaymentList() {

@@ -1,6 +1,6 @@
 import IMGButton from './IMGButton';
 import { addSVG } from '../../useResource';
-import { AddHistoryModal } from '../Modals/AddHistoryModal';
+import { AddHistoryModal } from '../AddHistory/AddHistoryModal';
 import { SigninModal } from '../Modals/SigninModal';
 
 export default class AddButton extends IMGButton {

@@ -78,9 +78,9 @@ export const selectPayment = async () => {
   return payments;
 };
 
-export const destroyPayment = async (userId: number, id: number) => {
+export const destroyPayment = async (userId: number, paymentId: number) => {
   const destroyResult = await UserPayment.destroy({
-    where: { userId, id },
+    where: { userId, paymentId },
   });
   return destroyResult;
 };

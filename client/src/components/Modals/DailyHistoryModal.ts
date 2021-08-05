@@ -5,11 +5,8 @@ import Modal from './CoreModal';
 import '../../styles/modals/daily.scss';
 import { $ } from '../../utils/selector';
 import { eventHandler } from '../../lib/woowact/core/EventHandler';
-import { AddHistoryModal } from './AddHistoryModal';
-import {
-  getDateFromObject,
-  getDateObject,
-} from '../../utils/calendar/calendar';
+import { AddHistoryModal } from '../AddHistory/AddHistoryModal';
+import { getDateObject } from '../../utils/calendar/calendar';
 import {
   addSVG,
   emptyPNG,
