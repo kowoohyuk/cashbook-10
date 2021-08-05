@@ -22,6 +22,10 @@ export type TChartData = {
   percent: number;
 };
 
+export type TChartSectionState = {
+  isIncome: boolean;
+};
+
 // 임시
 const histories: any[] = [
   {
@@ -244,17 +248,24 @@ const histories: any[] = [
 
 const SVG_PATH = 'http://www.w3.org/1999/svg';
 
-export default class ChartSection extends Component {
+export default class ChartSection extends Component<{}, TChartSectionState> {
   private sum: number = 0;
   private chartData: TChartData[];
-  private isIncome: boolean;
 
   constructor() {
     super({});
     historyStore.subscribe(this);
-    this.init();
+    this.state = {
+      isIncome: false,
+    };
     this.chartData = [];
-    this.isIncome = false;
+    this.init();
+  }
+
+  toggleIsIncome() {
+    this.setState({
+      isIncome: !this.state.isIncome,
+    });
   }
 
   // 임시 데이터를 들어내고 난 이후 this.chartData로 변경할 예정입니다!
@@ -262,7 +273,7 @@ export default class ChartSection extends Component {
     this.sum = 0;
     const data: TChartData[] = histories.reduce((acc, cur) => {
       // 지출, 수입 flag 테스트
-      if (this.isIncome !== cur.isIncome) return acc;
+      if (this.state.isIncome !== cur.isIncome) return acc;
       if (acc[cur.categoryId]) {
         acc[cur.categoryId].amount += cur.amount;
       } else {
@@ -278,7 +289,6 @@ export default class ChartSection extends Component {
       this.sum += cur.amount;
       return acc;
     }, []);
-
     data.sort((a, b) => b.amount - a.amount);
     data.forEach(d => {
       d.percent = d.amount / this.sum;
@@ -293,7 +303,10 @@ export default class ChartSection extends Component {
   }
 
   generateToggleButton() {
-    return this.addComponent(ChartToggleButton, this.isIncome).html;
+    return this.addComponent(ChartToggleButton, {
+      isIncome: this.state.isIncome,
+      toggleIsIncome: () => this.toggleIsIncome(),
+    }).html;
   }
 
   generateChartAmountTag() {
