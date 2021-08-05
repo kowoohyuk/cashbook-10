@@ -1,0 +1,59 @@
+@import '../mixins.scss';
+@import '../variables.scss';
+
+.modal-background {
+  background-color: var(--transparent-color);
+}
+.add-payment-modal {
+  @include flex-center(column);
+  padding: 2rem;
+  width: 20rem;
+  height: 12rem;
+  gap: 1rem;
+
+  .add-payment__title {
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: normal;
+    text-align: left;
+    margin-bottom: 0.5rem;
+  }
+
+  .add-payment__input {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    background-color: var(--grey-color0);
+    border-radius: 0.5rem;
+
+    ::placeholder {
+      color: var(--grey-color1);
+    }
+  }
+
+  .add-payment__buttons {
+    width: 100%;
+    @include flex(row, space-between);
+
+    button {
+      font-size: 1rem;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    .cancel-button {
+      color: var(--grey-color3);
+    }
+
+    .submit-button {
+      color: var(--primary-color1);
+      opacity: 1;
+      transition: 0.3s;
+    }
+
+    .submit-button:disabled {
+      opacity: 0.5;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { Component } from '../../lib/woowact/index';
 import '../../styles/dropdown.scss';
 import { downArrowSVG } from '../../useResource';
 import { $ } from '../../utils/selector';
+import { AddPaymentModal } from '../Modals/AddPayment';
 
 export type TDropdownData = {
   label: string;
@@ -59,13 +60,23 @@ export class Dropdown extends Component<TDropProps, TDropdownState> {
 
     if (!key) return;
 
+    if (key === 'add') {
+      this.additionalEvent();
+      return;
+    }
+
     const value: number = parseInt(key);
 
     this.setState({
       selected: value,
       isOpen: false,
     });
+
     this.props.onclick(value);
+  }
+
+  additionalEvent() {
+    new AddPaymentModal();
   }
 
   switch() {
@@ -103,6 +114,9 @@ export class Dropdown extends Component<TDropProps, TDropdownState> {
       </div>
       <div class="dropdown__list ${this.state.isOpen ? 'show' : 'hide'}">
         ${this.props.dataList.map(data => this.setItem(data)).join('')}
+        <li key="add" class="dropdown__item">
+          <span class="label">+</span>
+        </li>
       </div>
     </down>
   `;
