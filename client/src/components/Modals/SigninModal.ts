@@ -13,6 +13,7 @@ import {
 import { signinAPI } from '../../apis/userAPI';
 import { alertModal } from '../../utils/alert/alert';
 import { historyStore, UPDATE_HISTORY } from '../../stores/History';
+import { getGithubTokenAPI } from '../../apis/authAPI';
 
 type SigninModalState = {
   isShowingPW: boolean;
@@ -98,9 +99,19 @@ export class SigninModal extends Modal<{}, SigninModalState> {
 
   addSigninEvent() {
     const $signinBTN = $('.signin-button', this.$element);
+    const $githubBTN = $('.github-login', this.$element);
+    const $woowaBTN = $('.woowa-login', this.$element);
 
     $signinBTN &&
       eventHandler.addEvent($signinBTN, 'click', () => this.handleSignin());
+
+    $githubBTN &&
+      eventHandler.addEvent($githubBTN, 'click', () =>
+        this.handleGithuhSignin(),
+      );
+
+    $woowaBTN &&
+      eventHandler.addEvent($woowaBTN, 'click', () => this.handleEasySignin());
   }
 
   alertError(cb: Function) {
@@ -110,6 +121,31 @@ export class SigninModal extends Modal<{}, SigninModalState> {
       });
       cb();
     }, ALERT_TIME);
+  }
+
+  async handleGithuhSignin() {
+    const result = await getGithubTokenAPI();
+    console.log(result);
+  }
+
+  async handleEasySignin() {
+    const data = await signinAPI({
+      email: 'test@test.com',
+      pw: 'test@test.com',
+    });
+    if (!data) {
+      this.setState({
+        resultMSG:
+          '로그인에 실패하였습니다. 이메일 또는 비밀번호를 확인해주세요.',
+      });
+    } else {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('email', data.email);
+      historyStore.dispatch(UPDATE_HISTORY);
+
+      alertModal('로그인 성공');
+      this.closeModal();
+    }
   }
 
   async handleSignin() {
@@ -198,6 +234,9 @@ export class SigninModal extends Modal<{}, SigninModalState> {
           가입하기
         </a>
       </span>
+      <div class="easy-login-area">
+        <button class="easy-login woowa-login">시연용 아이디로 로그인하기</button>
+      </div>
     </div>
     `;
   }

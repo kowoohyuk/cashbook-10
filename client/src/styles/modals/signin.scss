@@ -86,4 +86,23 @@
     color: var(--primary-color1);
     cursor: pointer;
   }
+
+  .easy-login-area {
+    @include flex(row, space-around, center);
+
+    width: 100%;
+    height: 3rem;
+    padding: 0 1rem;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .easy-login {
+      width: 100%;
+      border-radius: 0.5rem;
+      color: var(--body-text-color);
+      border: 1px solid var(--body-text-color);
+      cursor: pointer;
+      padding: 1rem;
+    }
+  }
 }
