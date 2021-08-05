@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500&display=swap');
 @import './variables';
 @import './mixins';
+@import './theme';
 
 * {
   font-family: 'Noto Sans KR';
@@ -10,7 +11,6 @@
 html {
   width: 100vw;
   min-height: 100vh;
-  background-color: #eee;
   overflow-x: hidden;
 }
 

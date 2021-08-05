@@ -1,31 +1,39 @@
 :root[theme='dark'] {
-  $background-color: #222;
-  $body-font-color: #eee;
-  $section-color: #333;
-  $grey-color0: #444;
-  $grey-color1: #555;
-  $primary-color1: #219a95;
-  $strong-text-color: #ddd;
-  $day-block-color: #aaa;
-  $body-color: #aaa;
+  --background-color: #222;
+  --body-font-color: #eee;
+  --section-color: #333;
+  --grey-color0: #444;
+  --grey-color1: #555;
+  --primary-color1: #219a95;
+  --strong-text-color: #ddd;
+  --day-block-color: #aaa;
+  --body-color: #aaa;
 }
 :root[theme='light'] {
-  $background-color: #eee;
-  $body-font-color: #000;
-  $section-color: #fff;
-  $grey-color0: #f8f8f8;
-  $grey-color1: #eee;
-  $grey-color2: #ddd;
-  $grey-color3: #999;
-  $grey-color4: #666;
-  $black-color: #222;
-  $primary-color1: #2ac1bc;
-  $strong-text-color: #111;
-  $body-color: #626666;
+  --background-color: #eee;
+  --body-font-color: #000;
+  --section-color: #fff;
+  --grey-color0: #f8f8f8;
+  --grey-color1: #eee;
+  --grey-color2: #ddd;
+  --grey-color3: #999;
+  --grey-color4: #666;
+  --black-color: #222;
+  --primary-color1: #2ac1bc;
+  --strong-text-color: #111;
+  --body-color: #626666;
 }
 
+$primary-color1: #2ac1bc;
 $primary-color2: #a0e1e0;
 $primary-color3: #219a95;
+$grey-color0: #f8f8f8;
+$grey-color1: #eee;
+$grey-color2: #ddd;
+$grey-color3: #999;
+$grey-color4: #666;
+$black-color: #222;
+$body-color: #626666;
 $label-color: #8d9393;
 $placeholder-color: #c1c5c5;
 $line-color: #ccd3d3;
