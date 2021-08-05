@@ -230,8 +230,6 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       ${
         this.state.isCheckEmail && this.state.isValidPW ? '' : 'disabled="true"'
       }
-      >회원가입</button>
-      <div class="result-msg-box"><small>${this.state.resultMSG}</small></div>
     </div>
     `;
   }
