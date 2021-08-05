@@ -41,7 +41,6 @@ export const getHistory = async (req: Request, res: Response) => {
 
     httpResponse(res, STATUS.SUCCESS, { data: history });
   } catch (e) {
-    console.log(e);
     httpResponse(res, STATUS.FAIL, {
       message: e.message,
     });

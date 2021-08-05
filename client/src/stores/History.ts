@@ -90,8 +90,6 @@ class HistoryStore extends Store<THistoryData> {
   async addHistory(data: IHistory): Promise<Partial<THistoryData>> {
     const result = await addHistoryAPI(data);
 
-    console.log(result);
-
     const histories = await getHistoryAPI({
       year: this.data.year,
       month: this.data.month,

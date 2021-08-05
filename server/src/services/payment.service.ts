@@ -11,6 +11,7 @@ export const insertInitPayment = async (userId: number) => {
     },
     order: [['id', 'ASC']],
   });
+
   const initPayments = payments.map(payment => ({
     userId: userId,
     paymentId: payment.id,
@@ -43,7 +44,7 @@ export const insertUserPayment = async (userId: number, name: string) => {
   if (insertUserPaymentResult) {
     return {
       name,
-      id: insertUserPaymentResult.id,
+      id: payment.id,
     };
   }
   return null;
@@ -62,9 +63,10 @@ const checkExistUserPayment = async (userId: number, name: string) => {
 export const selectUserPayment = async (userId: number) => {
   const userPayments: UserPayment[] = await UserPayment.findAll({
     where: { userId },
-    attributes: ['id', 'name'],
+    attributes: ['paymentId', 'name'],
     order: [['id', 'ASC']],
   });
+
   return userPayments;
 };
 

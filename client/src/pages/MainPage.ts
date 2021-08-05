@@ -26,12 +26,6 @@ export default class MainPage extends Component {
     this.init();
   }
 
-  componentDidUpdate() {
-    eventHandler.addEvent(this.$element, 'click', () => {
-      //console.log(historyStore.data.histories.length);
-    });
-  }
-
   render(): string {
     return `
     <div class="page main-page">

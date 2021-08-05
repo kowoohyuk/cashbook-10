@@ -5,7 +5,11 @@ import { eventHandler } from '../../lib/woowact/core/EventHandler';
 import { toWonForm } from '../../utils/money';
 import Modal from './CoreModal';
 import { categoryStore } from '../../stores/Category';
-import { getUserPaymentListAPI, TPaymentData } from '../../apis/paymentAPI';
+import {
+  getUserPaymentListAPI,
+  TPaymentData,
+  TUserPaymentData,
+} from '../../apis/paymentAPI';
 import { Dropdown, TDropdownData, TDropProps } from '../Common/Dropdown';
 import { Component } from '../../lib/woowact/index';
 import { checkValidDate } from '../../utils/calendar/calendar';
@@ -19,7 +23,7 @@ type HistoryModalState = {
   date: Date;
   categoryId?: number;
   paymentId?: number;
-  payments: TPaymentData[];
+  payments: TUserPaymentData[];
   isValidDate: boolean;
   content?: string;
 };
@@ -63,7 +67,7 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
     const dataList = this.state.payments.map(payment => {
       const data: TDropdownData = {
         label: payment.name,
-        value: payment.id,
+        value: payment.paymentId,
       };
       return data;
     });

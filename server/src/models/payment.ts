@@ -10,6 +10,7 @@ import {
   AutoIncrement,
 } from 'sequelize-typescript';
 import UserPayment from './userPayment';
+import History from './history';
 
 export interface IPayment {
   id?: number;
@@ -47,4 +48,7 @@ export default class Payment extends Model<IPayment> {
 
   @HasMany(() => UserPayment)
   UserPayments: UserPayment[];
+
+  @HasMany(() => History)
+  Historyies: History[];
 }

@@ -59,17 +59,7 @@ export class Router {
       this.handleRoute();
     });
 
-    window.addEventListener('popstate', (e: any) => {
-      /*
-      const path = this.history.pop();
-      console.log(path);
-      if (path) {
-        window.history.pushState({}, '', path);
-        this.history.push(path);
-        this.handleRoute();
-      }
-      */
-    });
+    window.addEventListener('popstate', (e: any) => {});
   }
 
   getPath(): string {
