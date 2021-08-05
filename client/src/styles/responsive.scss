@@ -11,6 +11,13 @@
   }
 }
 
+@media screen and (min-width: $desktop-min) and (max-width: $desktop-max2) {
+  html .main-page .add-button {
+    position: fixed;
+    right: 2rem;
+  }
+}
+
 @media screen and (min-width: $laptop-min) and (max-width: $laptop-max) {
   body {
     .main-page {
@@ -138,8 +145,13 @@
       box-shadow: none;
       border-radius: 0;
       scroll-snap-align: start;
+      max-height: 100vh;
+      overflow-y: scroll;
+    }
+
+    .chart-section {
+      padding-bottom: 5rem;
       height: fit-content;
-      max-height: fit-content;
     }
 
     .page {
