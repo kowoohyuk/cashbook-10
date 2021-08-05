@@ -7,6 +7,10 @@ html {
   section {
     background: var(--section-color);
     box-shadow: var(--box-shadow);
+
+    @media screen and (max-width: $mobile-max) {
+      box-shadow: none;
+    }
   }
   .modal-background > div {
     background-color: var(--section-color);

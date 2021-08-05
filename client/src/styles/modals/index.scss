@@ -12,5 +12,18 @@
   & > div {
     border: 1px solid;
     border-radius: 1rem;
+
+    animation: slide-up 0.2s ease-out 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
