@@ -48,6 +48,7 @@
     border: 1px solid var(--grey-color0);
 
     .dropdown__item {
+      position: relative;
       cursor: pointer;
       width: 10rem;
       height: 3rem;
@@ -55,8 +56,22 @@
       background-color: var(--section-color);
       @include flex-center();
 
+      .delete-button {
+        position: absolute;
+        right: 0.5rem;
+        opacity: 0;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+
       &:hover {
         background-color: var(--grey-color0);
+
+        .delete-button {
+          display: block;
+          opacity: 1;
+          filter: var(--img-filter3);
+        }
       }
     }
 
