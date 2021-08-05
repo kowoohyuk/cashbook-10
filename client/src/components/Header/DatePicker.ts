@@ -65,7 +65,7 @@ export class DatePicker extends Component {
   componentDidUpdate() {
     const theme = getTheme();
     localStorage.setItem('theme', theme);
-    $('.logo', this.$element)?.addEventListener(
+    $('.title-logo', this.$element)?.addEventListener(
       'click',
       () => window.location.href === '/',
     );
