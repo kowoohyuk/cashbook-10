@@ -180,9 +180,6 @@ export class SignupModal extends Modal<{}, SignupModalState> {
     const $signupBTN = $('.signup-button');
     ($signupBTN as HTMLButtonElement).disabled = true;
 
-    //TODO: true면 user 정보 저장(로그인 처리) 후 닫기
-    //현재 아래의 settimeout은 테스트용
-    //TODO: false면 실패 메세지 날려주기
     const data = await signupAPI({
       email,
       pw,
