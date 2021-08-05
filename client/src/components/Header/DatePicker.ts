@@ -17,6 +17,7 @@ import {
 import { SigninModal } from '../Modals/SigninModal';
 import { getTheme } from '../../utils/theme';
 import { alertModal } from '../../utils/alert/alert';
+import { $ } from '../../utils/selector';
 
 const toggleTheme = () => {
   const theme = getTheme() === 'dark' ? 'light' : 'dark';
@@ -35,13 +36,13 @@ export class DatePicker extends Component {
 
     this.$lightThemeButton = this.addComponent(IMGButton, {
       className: 'theme-button dark-theme-button',
-      src: moonSVG,
+      src: sunSVG,
       onclick: toggleTheme,
     });
 
     this.$darkThemeButton = this.addComponent(IMGButton, {
       className: 'theme-button light-theme-button',
-      src: sunSVG,
+      src: moonSVG,
       onclick: toggleTheme,
     });
 
@@ -64,6 +65,10 @@ export class DatePicker extends Component {
   componentDidUpdate() {
     const theme = getTheme();
     localStorage.setItem('theme', theme);
+    $('.title-logo', this.$element)?.addEventListener(
+      'click',
+      () => window.location.href === '/',
+    );
     document.documentElement.setAttribute('theme', theme);
   }
 
@@ -97,6 +102,9 @@ export class DatePicker extends Component {
 
   render() {
     return `<div class="date-picker">
+    <div class="title-logo">
+      <span class="primary">가계부</span> 좀 적고 <span class="primary">가계</span>
+    </div>
     ${this.$lightThemeButton.html}
     ${this.$darkThemeButton.html}
       ${this.$prevBTN.html}

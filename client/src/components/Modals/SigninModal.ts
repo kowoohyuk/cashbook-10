@@ -170,6 +170,9 @@ export class SigninModal extends Modal<{}, SigninModalState> {
   modal(): string {
     return `
     <div class="signin-modal">
+      <div class="title-logo">
+        <span class="primary">로그인</span> 좀 하고 <span class="primary">가계</span>
+      </div>
       <div class="email-input-area">
         <input class="email-input" placeholder="이메일을 입력해주세요"></input>
         <small>${this.state.emailMSG}</small>

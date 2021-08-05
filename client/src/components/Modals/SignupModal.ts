@@ -203,6 +203,9 @@ export class SignupModal extends Modal<{}, SignupModalState> {
   modal(): string {
     return `
     <div class="signup-modal">
+      <div class="title-logo">
+        <span class="primary">회원가입</span>도 하고 <span class="primary">가계</span>
+      </div>
       <div class="email-input-area">
         <input class="email-input" placeholder="이메일을 입력해주세요"></input>
         <small>${this.state.emailMSG}</small>

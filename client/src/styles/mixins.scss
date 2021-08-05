@@ -1,12 +1,24 @@
-@mixin title($size: small) {
-  margin: 0px 4px;
-  font-family: 'Do Hyeon';
-  @if $size == small {
-    font-size: 24px;
-    line-height: 24px;
-  } @else {
-    font-size: 48px;
-    line-height: 56px;
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@mixin title($size: 1.4rem, $margin: 0) {
+  font-family: 'BMDOHYEON';
+  font-weight: bolder;
+  color: var(--strong-text-color);
+  font-size: $size;
+  margin-bottom: $margin;
+
+  .primary {
+    font-family: 'BMDOHYEON';
+    font-weight: bolder;
+    font-size: $size;
+    margin-bottom: $margin;
+    color: var(--primary-color1);
   }
 }
 
