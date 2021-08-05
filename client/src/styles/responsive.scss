@@ -22,6 +22,12 @@
       margin-bottom: 2rem;
     }
 
+    .main-page .add-button {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+    }
+
     .woowa-calendar .calendar-body .day-block {
       height: calc(42rem / 7);
     }
