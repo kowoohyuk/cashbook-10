@@ -96,7 +96,6 @@ export class DatePicker extends Component {
   }
 
   render() {
-    console.log(!!localStorage.getItem('token'));
     return `<div class="date-picker">
     ${this.$lightThemeButton.html}
     ${this.$darkThemeButton.html}
