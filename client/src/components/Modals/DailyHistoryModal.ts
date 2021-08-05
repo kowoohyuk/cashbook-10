@@ -19,6 +19,7 @@ import {
 import { IHistory } from '../../apis/historyAPI';
 import Component from '../../lib/woowact/core/Component';
 import IMGButton from '../Common/IMGButton';
+import { SigninModal } from './SigninModal';
 
 type TDailyHistoryState = {
   date: Date;
@@ -55,14 +56,17 @@ export class DailyHistoryModal extends Modal<{}, TDailyHistoryState> {
     const $addButton = $('.add-history-button', this.$element);
 
     $addButton &&
-      eventHandler.addEvent(
-        $addButton,
-        'click',
-        () =>
+      eventHandler.addEvent($addButton, 'click', () => {
+        const isLogin = localStorage.getItem('token');
+
+        if (isLogin) {
           new AddHistoryModal({
             date: this.state.date,
-          }),
-      );
+          });
+        } else {
+          new SigninModal();
+        }
+      });
 
     super.componentDidMount();
   }

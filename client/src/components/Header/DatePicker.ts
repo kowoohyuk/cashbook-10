@@ -1,5 +1,10 @@
 import { Component } from '../../lib/woowact/index';
-import { historyStore, NEXT_MONTH, PREV_MONTH } from '../../stores/History';
+import {
+  historyStore,
+  NEXT_MONTH,
+  PREV_MONTH,
+  UPDATE_HISTORY,
+} from '../../stores/History';
 import IMGButton from '../Common/IMGButton';
 import {
   leftArrowSVG,
@@ -7,9 +12,11 @@ import {
   userSVG,
   sunSVG,
   moonSVG,
+  signoutSVG,
 } from '../../useResource';
 import { SigninModal } from '../Modals/SigninModal';
 import { getTheme } from '../../utils/theme';
+import { alertModal } from '../../utils/alert/alert';
 
 const toggleTheme = () => {
   const theme = getTheme() === 'dark' ? 'light' : 'dark';
@@ -22,7 +29,6 @@ export class DatePicker extends Component {
   $darkThemeButton: Component;
   $prevBTN: Component;
   $nextBTN: Component;
-  $loginButton: Component;
 
   constructor() {
     super({});
@@ -51,18 +57,6 @@ export class DatePicker extends Component {
       onclick: async () => historyStore.dispatch(NEXT_MONTH),
     });
 
-    this.$loginButton = this.addComponent(IMGButton, {
-      className: 'user-button',
-      src: userSVG,
-      onclick: () => {
-        const isLigin = localStorage.getItem('token');
-
-        if (isLigin) {
-          console.log('로그아웃 모달');
-        } else new SigninModal();
-      },
-    });
-
     historyStore.subscribe(this);
     this.init();
   }
@@ -73,7 +67,36 @@ export class DatePicker extends Component {
     document.documentElement.setAttribute('theme', theme);
   }
 
+  generateSigninButton() {
+    return this.addComponent(IMGButton, {
+      className: 'user-button signin-button',
+      src: userSVG,
+      onclick: () => {
+        const isLigin = localStorage.getItem('token');
+
+        if (!isLigin) {
+          new SigninModal();
+        }
+      },
+    }).html;
+  }
+
+  generateSignoutButton() {
+    return this.addComponent(IMGButton, {
+      className: 'user-button signout-button',
+      src: signoutSVG,
+      onclick: () => {
+        localStorage.removeItem('token');
+
+        alertModal('로그아웃 완료');
+
+        historyStore.dispatch(UPDATE_HISTORY);
+      },
+    }).html;
+  }
+
   render() {
+    console.log(!!localStorage.getItem('token'));
     return `<div class="date-picker">
     ${this.$lightThemeButton.html}
     ${this.$darkThemeButton.html}
@@ -87,7 +110,11 @@ export class DatePicker extends Component {
         </h2>
       </div>
       ${this.$nextBTN.html}
-      ${this.$loginButton.html}
+      ${
+        localStorage.getItem('token')
+          ? this.generateSignoutButton()
+          : this.generateSigninButton()
+      }
     </div>`;
   }
 }

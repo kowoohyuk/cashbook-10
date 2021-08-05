@@ -13,6 +13,7 @@ import {
   PW_VALIDATION_ERR_MSG,
 } from '../../utils/validations';
 import { alertModal } from '../../utils/alert/alert';
+import { historyStore, UPDATE_HISTORY } from '../../stores/History';
 
 type SignupModalState = {
   isShowingPW: boolean;
@@ -193,6 +194,7 @@ export class SignupModal extends Modal<{}, SignupModalState> {
       );
     } else {
       localStorage.setItem('token', data.token);
+      historyStore.dispatch(UPDATE_HISTORY);
       alertModal('회원가입을 완료했습니다 :)');
       this.closeModal();
     }

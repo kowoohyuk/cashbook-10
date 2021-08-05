@@ -6,6 +6,7 @@ import '../../styles/history/historyList.scss';
 
 export default class HistoryList extends Component<THistoryList> {
   date: string;
+
   constructor(historyList: THistoryList) {
     super(historyList);
     this.date = this.getDateString();

@@ -15,6 +15,7 @@ import plusSVG from './assets/plus.svg';
 import minusSVG from './assets/minus.svg';
 import sunSVG from './assets/sun.svg';
 import moonSVG from './assets/moon.svg';
+import signoutSVG from './assets/signout.svg';
 
 export {
   userSVG,
@@ -34,4 +35,5 @@ export {
   minusSVG,
   sunSVG,
   moonSVG,
+  signoutSVG,
 };
