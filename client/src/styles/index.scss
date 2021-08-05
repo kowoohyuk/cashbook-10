@@ -27,6 +27,7 @@ section {
   @include darkModeTransition();
   background-color: white;
   border-radius: 0.5rem;
+  max-height: calc(100vh - 15rem);
 }
 
 #App {

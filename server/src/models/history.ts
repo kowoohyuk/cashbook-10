@@ -41,7 +41,7 @@ export default class History extends Model<IHistory> {
   amount: number;
 
   @AllowNull(false)
-  @Column(DataType.DATE)
+  @Column(DataType.DATEONLY)
   paymentDate: Date;
 
   @AllowNull(false)
