@@ -161,7 +161,9 @@ export default class Calendar {
         .map((_, i) => i + 1),
     );
     const lastDate = days.length - 1;
-
+    this._contents = new Array(getStartWeek(this._date))
+      .fill('')
+      .concat(this._contents);
     calendarBody.innerHTML = days
       .concat(new Array(CALENDARBLOCK_COUNT - days.length).fill(''))
       .map((day, index) =>
