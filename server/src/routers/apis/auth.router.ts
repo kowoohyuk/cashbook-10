@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import { getUserById } from '../../controllers/user.controller';
+import { githubLogin } from '../../controllers/auth.controller';
 
 const authRouter = Router();
 
-authRouter.get('/auth', getUserById);
+authRouter.get('/auth', githubLogin);
+
+authRouter.get('/github', githubLogin);
 
 export default authRouter;

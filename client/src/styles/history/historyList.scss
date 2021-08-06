@@ -93,7 +93,13 @@
       transition: 0.5s;
       img {
         width: 1rem;
-        filter: var(--img-filter);
+        filter: invert(1);
+      }
+      @media screen and (max-width: $laptop-max) {
+        img {
+          filter: var(--img-filter);
+          opacity: 0.5;
+        }
       }
     }
 
