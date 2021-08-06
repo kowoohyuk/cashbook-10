@@ -48,13 +48,13 @@ export async function githubLogin(
         email,
       });
 
-      res.redirect(`http://52.78.111.179?token=${accessToken}`);
+      res.redirect(`http://3.36.96.9?token=${accessToken}`);
     } else {
       const accessToken = generateToken({
         id: isExist.data.id,
         email,
       });
-      res.redirect(`http://52.78.111.179?token=${accessToken}`);
+      res.redirect(`http://3.36.96.9?token=${accessToken}`);
     }
   } catch (e) {
     console.error(e);
