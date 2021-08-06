@@ -235,6 +235,7 @@ export class SigninModal extends Modal<{}, SigninModalState> {
         </a>
       </span>
       <div class="easy-login-area">
+        <button class="easy-login github-login">Github 아이디로 로그인하기</button>
         <button class="easy-login woowa-login">시연용 아이디로 로그인하기</button>
       </div>
     </div>

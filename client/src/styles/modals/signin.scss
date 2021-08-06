@@ -99,10 +99,18 @@
     .easy-login {
       width: 100%;
       border-radius: 0.5rem;
-      color: var(--body-text-color);
-      border: 1px solid var(--body-text-color);
       cursor: pointer;
       padding: 1rem;
+    }
+
+    .github-login {
+      background-color: var(--grey-color4);
+      color: var(--background-color);
+    }
+
+    .woowa-login {
+      border: 1px solid var(--primary-color1);
+      color: var(--primary-color1);
     }
   }
 }
