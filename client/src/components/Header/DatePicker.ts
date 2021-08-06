@@ -103,7 +103,7 @@ export class DatePicker extends Component {
   render() {
     return `<div class="date-picker">
     <div class="title-logo">
-      <span class="primary">가계부</span> 좀 적고 <span class="primary">가계</span>
+      <span class="primary">가계</span>부 좀 적고 <span class="primary">가계</span>
     </div>
     ${this.$lightThemeButton.html}
     ${this.$darkThemeButton.html}
