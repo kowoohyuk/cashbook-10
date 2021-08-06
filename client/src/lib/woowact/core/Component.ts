@@ -48,9 +48,10 @@ export default abstract class Component<
   get $element(): HTMLElement {
     try {
       if (this._$element === null) {
-        throw new Error(
-          `component doesn't have element. please call init() in its constructor.`,
-        );
+        return document.createElement('div');
+        // throw new Error(
+        //   `component doesn't have element. please call init() in its constructor.`,
+        // );
       }
 
       return this._$element;

@@ -14,5 +14,5 @@ export const getGithubTokenAPI = async () => {
 export const tryToSignup = async () => {
   const result = await GET(`/auth/github`);
 
-  return result;
+  console.log(result);
 };
