@@ -21,7 +21,7 @@ type Theaders = {
   authorization?: string;
 };
 
-const END_POINT = 'http://localhost:8000/api';
+const END_POINT = 'http://52.78.111.179:8000/api';
 
 const useFetch = async (url: string, method: Method, body?: {}) => {
   const headers: Theaders = {
