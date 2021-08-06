@@ -31,7 +31,12 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.use(cors());
+let corsOption = {
+  origin: 'http://localhost:8080',
+  credentials: true,
+};
+
+app.use(cors(corsOption));
 
 app.use(authMiddleWare);
 
