@@ -58,8 +58,7 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
         //window.location.href = `#${Path.signIn}`;
         throw new Error(result.message);
       case RES_FAIL_ALERT:
-        //
-        alert(result.message);
+        alertModal(result.message);
         throw new Error(result.message);
       case RES_SUCCESS:
         return result.data;
