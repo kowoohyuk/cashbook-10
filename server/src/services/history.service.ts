@@ -58,8 +58,11 @@ export const updateHistory = async (params: IHistory): Promise<boolean> => {
 
 export const createHistory = async (params: IHistory): Promise<boolean> => {
   if (!checkHistoryCreatable) return false;
-
-  const result = await History.create(params);
+  const date = new Date(params.paymentDate as string);
+  const result = await History.create({
+    ...params,
+    paymentDate: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+  });
 
   if (result) {
     return true;

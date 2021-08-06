@@ -41,11 +41,11 @@ export default class CalendarSection extends Component {
       amounts[date][Number(isIncome)] += amount;
     });
     amounts.forEach((amount, index) => {
-      const [inCome, outCome] = amount;
+      const [outCome, inCome] = amount;
       const content = [];
       if (inCome) {
         content.push(
-          `<div class="calendar-history income">${inCome.toLocaleString()}</div>`,
+          `<div class="calendar-history income">+${inCome.toLocaleString()}</div>`,
         );
       }
       if (outCome) {

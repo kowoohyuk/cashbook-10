@@ -28,7 +28,7 @@
 }
 .history-section {
   @include flex-center(column);
-  padding: 1.5rem;
+  padding: 1rem;
   gap: 1.5rem;
   overflow: auto;
 }

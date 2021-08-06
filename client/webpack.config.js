@@ -44,13 +44,14 @@ module.exports = {
         options: {
           name: 'assets/[name].[ext]?[hash]',
         },
-      },  
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./dist/
       template: 'src/index.html', //Name of template in ./src
+      favicon: 'favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
