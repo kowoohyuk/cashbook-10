@@ -1,3 +1,4 @@
+import { CONFIG } from '../config';
 import { alertModal } from '../utils/alert/alert';
 
 export const RES_SUCCESS: number = 200;
@@ -21,8 +22,6 @@ type Theaders = {
   authorization?: string;
 };
 
-const END_POINT = 'http://3.36.96.9:8000/api';
-
 const useFetch = async (url: string, method: Method, body?: {}) => {
   const headers: Theaders = {
     'Content-Type': 'application/json',
@@ -36,7 +35,7 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     body: body ? JSON.stringify(body) : undefined,
   };
 
-  const URL = END_POINT + url;
+  const URL = CONFIG.END_POINT + url;
 
   try {
     let statusCode = RES_SUCCESS;
@@ -55,7 +54,6 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
       case RES_FAIL:
         throw new Error(result.message);
       case RES_FAIL_REDIRECTION:
-        //window.location.href = `#${Path.signIn}`;
         throw new Error(result.message);
       case RES_FAIL_ALERT:
         alertModal(result.message);
