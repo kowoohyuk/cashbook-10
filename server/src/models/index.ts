@@ -10,8 +10,8 @@ dotenv.config();
 export const sequelize = new Sequelize({
   database: process.env.DATABASE,
   dialect: 'mysql',
-  username: process.env.USER,
-  password: process.env.PASSWORD,
+  username: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
   models: [User, Category, Payment, UserPayment, History],
 });
 
