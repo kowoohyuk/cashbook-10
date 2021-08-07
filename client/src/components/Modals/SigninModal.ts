@@ -140,7 +140,6 @@ export class SigninModal extends Modal<{}, SigninModalState> {
       });
     } else {
       localStorage.setItem('token', data.token);
-      localStorage.setItem('email', data.email);
       historyStore.dispatch(UPDATE_HISTORY);
 
       alertModal('로그인 성공');
@@ -169,7 +168,6 @@ export class SigninModal extends Modal<{}, SigninModalState> {
       );
     } else {
       localStorage.setItem('token', data.token);
-      localStorage.setItem('email', data.email);
       historyStore.dispatch(UPDATE_HISTORY);
       alertModal('로그인 성공');
       this.closeModal();

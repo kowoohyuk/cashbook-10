@@ -1,5 +1,6 @@
 import { CONFIG } from '../config';
 import { alertModal } from '../utils/alert/alert';
+import { getToken } from '../utils/auth';
 
 export const RES_SUCCESS: number = 200;
 export const RES_SUCCESS_REDIRECTION: number = 201;
@@ -27,7 +28,8 @@ const useFetch = async (url: string, method: Method, body?: {}) => {
     'Content-Type': 'application/json',
     credentials: 'include',
   };
-  const authorization = localStorage.getItem('token');
+  const authorization = localStorage.getItem('token') ?? getToken();
+
   if (authorization) headers.authorization = authorization;
   const option = {
     method: method,
