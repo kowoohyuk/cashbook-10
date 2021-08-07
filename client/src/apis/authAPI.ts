@@ -6,7 +6,7 @@ export const getVerifyAuthorization = async () => {
 };
 
 export const getGithubTokenAPI = async () => {
-  const url = `https://github.com/login/oauth/authorize?redirect_uri=http://localhost:8000/api/auth/github&client_id=8ec60b0200e356036306`;
+  const url = `https://github.com/login/oauth/authorize?redirect_uri=http://3.36.96.9:8000/api/auth/github&client_id=8ec60b0200e356036306`;
 
   location.href = url;
 };

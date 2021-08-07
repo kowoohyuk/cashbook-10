@@ -8,10 +8,10 @@ import History from './history';
 
 dotenv.config();
 export const sequelize = new Sequelize({
-  database: process.env.DATABASE,
+  database: 'cashbook',
   dialect: 'mysql',
-  username: process.env.USER,
-  password: process.env.PASSWORD,
+  username: 'root',
+  password: 'cash10cash',
   models: [User, Category, Payment, UserPayment, History],
 });
 
