@@ -198,10 +198,12 @@ export default class ChartSection extends Component<{}, TChartSectionState> {
     const $path = document.createElementNS(SVG_PATH, 'path');
     $path.setAttribute(
       'd',
-      `M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`,
+      `M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} ${
+        index ? 'L 0 0' : ''
+      }`,
     );
     $path.setAttribute('fill', 'none');
-    $path.setAttribute('stroke-width', '0.2');
+    $path.setAttribute('stroke-width', '0.15');
     $path.setAttribute('stroke', `${color}`);
     $path.setAttribute('stroke-dasharray', `${targetRad} ${targetRestRad}`);
     $path.setAttribute('stroke-dashoffset', `${targetRad}`);

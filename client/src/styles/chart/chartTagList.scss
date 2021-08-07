@@ -20,9 +20,11 @@
     }
     &__percent {
       @include bold(large);
+      font-weight: 600;
     }
     &__amount {
       @include bold(large);
+      font-weight: 600;
     }
     &:nth-child(n + 4) {
       display: none;
