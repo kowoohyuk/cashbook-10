@@ -176,7 +176,7 @@ export default class Calendar {
 
   private generateDayBlock(day = 0, index: number) {
     const blockDate = new Date(
-      `${this._dateObject.year}-${this._dateObject.month}-${day}`,
+      `${this._dateObject.year}-${this._dateObject.month}-${day} 13:00:00`,
     );
     const blockContents = this._contents[index];
     return `
