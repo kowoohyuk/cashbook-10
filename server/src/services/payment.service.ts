@@ -1,6 +1,7 @@
 import UserPayment from '../models/userPayment';
 import Payment, { DEFAULT_PAYMENT } from '../models/payment';
 import { Op } from 'sequelize';
+import { convertScriptText } from '../utils/convertScriptText';
 
 export const insertInitPayment = async (userId: number) => {
   const payments: Payment[] = await Payment.findAll({
@@ -33,6 +34,7 @@ const insertOrSelectPayment = async (name: string) => {
 };
 
 export const insertUserPayment = async (userId: number, name: string) => {
+  name = convertScriptText(name);
   const isExist = await checkExistUserPayment(userId, name);
   if (isExist) return null;
   const [payment] = await insertOrSelectPayment(name);
