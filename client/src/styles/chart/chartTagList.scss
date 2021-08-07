@@ -30,4 +30,23 @@
       display: none;
     }
   }
+  .open &__item {
+    display: grid;
+  }
+  &-toggle-button {
+    width: 85%;
+    color: #fff;
+    background-color: #94d3cc;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin: 2rem;
+    display: block;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.25s linear;
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
