@@ -113,7 +113,7 @@ export class AddHistoryModal extends Modal<HistoryProps, HistoryModalState> {
   }
 
   convertToNumber(str: string): number {
-    const MAX_LEN = 11;
+    const MAX_LEN = 8;
     const REGEX = new RegExp('[^0-9]', 'g');
 
     const num = parseInt(str.replace(REGEX, '').substring(0, MAX_LEN));
