@@ -3,7 +3,8 @@ import User from '../models/user';
 import { Request, Response } from 'express';
 import { generateToken } from '../utils/jwt';
 import { insertInitPayment } from './payment.service';
-import { checkExistUser } from './user.service';
+import { checkExistUser, signinUser } from './user.service';
+import { getCheckExistUser } from '../controllers/user.controller';
 
 export const getTokenFromGithubOAuth = async (req: Request) => {
   const code = req.query.code;
@@ -41,17 +42,18 @@ export const getJsonWebToken = async (githubID: string, node_id: string) => {
   if (id) {
     return generateToken({ id, email: githubID });
   } else {
-    return null;
+    const token = await signinUser(githubID, node_id);
+    return token.data.token;
   }
 };
 
 export const getUserId = async (id: string, node_id: string) => {
-  const existUser = await checkExistUser(id);
+  const isExist = await checkExistUser(id);
 
-  if (!existUser.data) {
+  if (!isExist.data) {
     return createNewGithubUser(id, node_id);
   } else {
-    return existUser.data.id;
+    return null;
   }
 };
 
