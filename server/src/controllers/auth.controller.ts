@@ -1,62 +1,37 @@
-import { NextFunction, Request, Response } from 'express';
-import axios from 'axios';
-import { checkExistUser, signupUser } from '../services/user.service';
+import { Request, Response } from 'express';
 import { httpResponse, STATUS } from '.';
-import User from '../models/user';
-import { generateToken } from '../utils/jwt';
-import { IAPIResultData } from '../services';
-import { insertInitPayment } from '../services/payment.service';
 
-export async function githubLogin(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+import {
+  getGithubUserInfo,
+  getJsonWebToken,
+  getTokenFromGithubOAuth,
+} from '../services/auth.service';
+
+const ERROR_MSG = {
+  FAIL_GET_ACCESS_TOKEN: '엑세스 토큰을 얻는데 실패하였습니다',
+};
+
+export async function githubLogin(req: Request, res: Response) {
+  const url = `https://github.com/login/oauth/authorize?redirect_uri=${process.env.GITHUB_REDIRECT_URI}&client_id=${process.env.GITHUB_CLIENT_ID}`;
+
+  res.redirect(url);
+}
+export async function githubAuth(req: Request, res: Response) {
   try {
-    const code = req.query.code;
+    const accessToken = await getTokenFromGithubOAuth(req);
 
-    const url = `https://github.com/login/oauth/access_token`;
+    if (!accessToken) throw new Error(ERROR_MSG.FAIL_GET_ACCESS_TOKEN);
 
-    const data = {
-      client_id: process.env.GITHUB_CLIENT_ID,
-      client_secret: process.env.GITHUB_CLIENT_SECRET,
-      code,
-    };
+    const { id, node_id } = await getGithubUserInfo(accessToken);
 
-    const response = await axios(url, { data });
+    if (!id || !node_id) throw new Error();
 
-    const accessToken = response.data.split('&')[0].split('=')[1];
+    const token = await getJsonWebToken(id, node_id);
 
-    const userInfo: any = await axios('https://api.github.com/user', {
-      headers: {
-        Authorization: `token ${accessToken}`,
-      },
-    });
-
-    const { id: email, node_id: pw } = userInfo.data;
-
-    //유저 있는지 체크
-    const isExist = await checkExistUser(email);
-    if (!isExist.data) {
-      const insertUserResult = await User.create({ email, pw });
-      const insertInitPaymentResult = await insertInitPayment(
-        insertUserResult.id,
-      );
-
-      const accessToken = generateToken({
-        id: insertUserResult.id,
-        email,
-      });
-
-      res.redirect(`http://3.36.96.9?token=${accessToken}`);
-    } else {
-      const accessToken = generateToken({
-        id: isExist.data.id,
-        email,
-      });
-      res.redirect(`http://3.36.96.9?token=${accessToken}`);
-    }
+    res.redirect(`${process.env.CLIENT_CALLBACK_URL}?token=${token}`);
   } catch (e) {
-    console.error(e);
+    httpResponse(res, STATUS.FAIL_ALERT, {
+      message: e.message,
+    });
   }
 }
