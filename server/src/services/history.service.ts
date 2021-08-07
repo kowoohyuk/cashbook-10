@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+import { convertScriptText } from '../utils/convertScriptText';
 import History, { IHistory } from '../models/history';
 ///// For test
 
@@ -59,6 +60,7 @@ export const updateHistory = async (params: IHistory): Promise<boolean> => {
 export const createHistory = async (params: IHistory): Promise<boolean> => {
   if (!checkHistoryCreatable) return false;
   const date = new Date(params.paymentDate as string);
+  params.content = convertScriptText(params.content);
   const result = await History.create({
     ...params,
     paymentDate: `${date.getFullYear()}-${
