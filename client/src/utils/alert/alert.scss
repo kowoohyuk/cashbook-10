@@ -15,7 +15,7 @@
   }
 }
 
-.hide {
+.hide-alert {
   animation: hide-modal 0.5s ease-out 1;
 }
 
@@ -26,6 +26,6 @@
   }
   to {
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(100%);
   }
 }
