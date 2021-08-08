@@ -16,9 +16,11 @@ export const alertModal = (
   $app && $app.appendChild($alert);
 
   setTimeout(() => hideAlert($alert), lifeTime);
-  $alert.addEventListener('animationend', () => $alert.remove());
 };
 
 const hideAlert = ($alert: HTMLElement) => {
   $alert.classList.add('hide');
+  $alert.addEventListener('animationstart', () => {
+    $alert.remove();
+  });
 };
