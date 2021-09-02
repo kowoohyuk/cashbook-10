@@ -23,7 +23,15 @@ jobs:
         run: |
           cd server/
           npm i
-      - name: Set .env File Server
+      - name: Create Server's Environment File
+      - name: Create .env file for server app
+        run: |
+          cd server/
+          touch .env
+          cat << EOF >> .env	
+          ${{ secrets.SERVER_ENV }}
+        working-directory: ./backend
+      - name: Start Server
         run: |
           cd server/
           touch .env
