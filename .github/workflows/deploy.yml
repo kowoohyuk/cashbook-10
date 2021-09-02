@@ -29,16 +29,7 @@ jobs:
           cat << EOF >> .env	
           ${{ secrets.SERVER_ENV }}
         working-directory: ./server
-      - name: Start Server
-        run: |
-          cd server/
-          touch .env
-          cat << EOF >> .env	
-          ${{ secrets.SERVER_ENV }}
-      - name: Build Server Files
-        run: |
-          cd server/
-          tsc
+          
       - name: Make Tar File
         run: tar -cpvzf ./$GITHUB_SHA.tgz *
         shell: bash
