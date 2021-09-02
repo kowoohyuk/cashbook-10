@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install Client Dependencies
         run: |
           cd client/
@@ -29,7 +29,7 @@ jobs:
           cat << EOF >> .env	
           ${{ secrets.SERVER_ENV }}
         working-directory: ./server
-          
+
       - name: Make Tar File
         run: tar -cpvzf ./$GITHUB_SHA.tgz *
         shell: bash
@@ -46,6 +46,6 @@ jobs:
           aws s3 cp \
             --region ap-northeast-2 \
             ./$GITHUB_SHA.tgz s3://cashbook-build/build/$GITHUB_SHA.tgz
-            
+
       - name: Code Deploy
         run: aws deploy create-deployment --application-name cashbook --file-exists-behavior OVERWRITE --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name cashbook --s3-location bucket=cashbook-build,bundleType=tgz,key=build/$GITHUB_SHA.tgz
