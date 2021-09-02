@@ -23,7 +23,6 @@ jobs:
         run: |
           cd server/
           npm i
-      - name: Create Server's Environment File
       - name: Create .env file for server app
         run: |
           touch .env
