@@ -23,11 +23,16 @@ jobs:
         run: |
           cd server/
           npm i
-      - name: Start Server
+      - name: Set .env File Server
         run: |
           cd server/
-          npm run start
-          
+          touch .env
+          cat << EOF >> .env	
+          ${{ secrets.SERVER_ENV }}
+      - name: Build Server Files
+        run: |
+          cd server/
+          tsc   
       - name: Make Tar File
         run: tar -cpvzf ./$GITHUB_SHA.tgz *
         shell: bash

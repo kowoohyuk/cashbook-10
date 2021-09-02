@@ -8,8 +8,6 @@ dist/
 .env
 .env.test
 
-config.ts
-
 # Dependency directories
 node_modules/
 sessions/
