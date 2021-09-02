@@ -32,7 +32,7 @@ jobs:
       - name: Build Server Files
         run: |
           cd server/
-          tsc   
+          tsc
       - name: Make Tar File
         run: tar -cpvzf ./$GITHUB_SHA.tgz *
         shell: bash
