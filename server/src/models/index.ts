@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize-typescript';
 import User from './user';
-import Category, { DEFAULT_CATEGORY } from './category';
-import Payment, { DEFAULT_PAYMENT } from './payment';
+import Category from './category';
+import Payment from './payment';
 import UserPayment from './userPayment';
 import History from './history';
+import { DEFAULT_CATEGORY, DEFAULT_PAYMENT } from './dummy';
 
 dotenv.config();
 export const sequelize = new Sequelize({
