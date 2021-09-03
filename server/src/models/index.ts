@@ -45,20 +45,21 @@ const init = async () => {
   await Category.sync().then(async () => {
     const categories = await Category.findAll();
 
-    if (categories.length === DEFAULT_CATEGORY.length) return;
+    if (categories.length >= DEFAULT_CATEGORY.length) return;
     Category.bulkCreate(DEFAULT_CATEGORY);
   });
 
   await Payment.sync().then(async () => {
     const payments = await Payment.findAll();
 
-    if (payments.length > DEFAULT_PAYMENT.length) return;
+    if (payments.length >= DEFAULT_PAYMENT.length) return;
     Payment.bulkCreate(DEFAULT_PAYMENT);
   });
 
   await History.sync().then(async () => {
     const histories = await History.findAll();
-    if (histories.length > DEFAULT_HISTORY_LENGTH) return;
+
+    if (histories.length >= DEFAULT_HISTORY_LENGTH) return;
     History.bulkCreate(
       getDummyHistories(
         userId,
