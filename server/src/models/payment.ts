@@ -17,21 +17,6 @@ export interface IPayment {
   name: string;
 }
 
-export const DEFAULT_PAYMENT = [
-  {
-    name: '현금',
-  },
-  {
-    name: '신용카드',
-  },
-  {
-    name: '체크카드',
-  },
-  {
-    name: '배민페이',
-  },
-];
-
 @Table({
   timestamps: false,
 })
