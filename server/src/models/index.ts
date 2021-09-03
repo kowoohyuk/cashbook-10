@@ -22,6 +22,22 @@ export const sequelize = new Sequelize({
 });
 
 const init = () => {
+  User.sync().then(async () => {
+    const DEFAULT_USER_ID = 0;
+    const user = await User.findOne({
+      where: {
+        id: DEFAULT_USER_ID,
+      },
+    });
+    if (user) return;
+
+    User.create({
+      id: DEFAULT_USER_ID,
+      email: 'dummy@cashbook.com',
+      pw: 'dummy@cashbook.com',
+    });
+  });
+
   Category.sync().then(async () => {
     const categories = await Category.findAll();
 
