@@ -1,3 +1,3 @@
 export const CONFIG = {
-  END_POINT: `http://localhost:8000/api`,
+  END_POINT: 'https://cashbook.leehov.in/api',
 };
