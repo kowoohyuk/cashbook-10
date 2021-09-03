@@ -83,9 +83,9 @@ export function getDummyHistories(
   return Array(DEFAULT_HISTORY_LENGTH)
     .fill('')
     .map((_, i) => ({
-      content: `'${contents[getRandomNumber(contents.length)]}'`,
+      content: `${contents[getRandomNumber(contents.length)]}`,
       amount: getRandomPrice(),
-      paymentDate: `'2021-${getRandomNumber(MONTH)}-${getRandomNumber(DAY)}'`,
+      paymentDate: `2021-${getRandomNumber(MONTH)}-${getRandomNumber(DAY)}`,
       isIncome: Boolean(i % 2),
       userId,
       paymentId: getRandomNumber(paymentLength),
