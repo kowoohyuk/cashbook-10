@@ -9,7 +9,7 @@ import {
   DEFAULT_CATEGORY,
   DEFAULT_PAYMENT,
   DEFAULT_HISTORY_LENGTH,
-  getDefaultHistories,
+  getDummyHistories,
 } from './dummy';
 
 dotenv.config();
@@ -54,10 +54,9 @@ const init = () => {
 
   History.sync().then(async () => {
     const histories = await History.findAll();
-
     if (histories.length > DEFAULT_HISTORY_LENGTH) return;
     History.bulkCreate(
-      getDefaultHistories(DEFAULT_CATEGORY.length, DEFAULT_PAYMENT.length),
+      getDummyHistories(DEFAULT_CATEGORY.length, DEFAULT_PAYMENT.length),
     );
   });
 };
