@@ -1,7 +1,8 @@
 import UserPayment from '../models/userPayment';
-import Payment, { DEFAULT_PAYMENT } from '../models/payment';
+import Payment from '../models/payment';
 import { Op } from 'sequelize';
 import { convertScriptText } from '../utils/convertScriptText';
+import { DEFAULT_PAYMENT } from '../models/dummy';
 
 export const insertInitPayment = async (userId: number) => {
   const payments: Payment[] = await Payment.findAll({
