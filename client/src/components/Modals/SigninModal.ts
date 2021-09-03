@@ -125,7 +125,6 @@ export class SigninModal extends Modal<{}, SigninModalState> {
 
   async handleGithuhSignin() {
     const result = await getGithubTokenAPI();
-    console.log(result);
   }
 
   async handleEasySignin() {
