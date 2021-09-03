@@ -69,6 +69,7 @@ export const DEFAULT_PAYMENT = [
 export const DEFAULT_HISTORY_LENGTH = 600;
 
 export function getDummyHistories(
+  userId: number,
   categoryLength: number,
   paymentLength: number,
 ) {
@@ -86,7 +87,7 @@ export function getDummyHistories(
       amount: getRandomPrice(),
       paymentDate: `'2021-${getRandomNumber(MONTH)}-${getRandomNumber(DAY)}'`,
       isIncome: Boolean(i % 2),
-      userId: 0,
+      userId,
       paymentId: getRandomNumber(paymentLength),
       categoryId: getRandomNumber(categoryLength),
     }));

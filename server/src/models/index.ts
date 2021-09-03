@@ -21,42 +21,50 @@ export const sequelize = new Sequelize({
   models: [User, Category, Payment, UserPayment, History],
 });
 
-const init = () => {
-  User.sync().then(async () => {
-    const DEFAULT_USER_ID = 0;
+const init = async () => {
+  let userId: number;
+  await User.sync().then(async () => {
+    const DEFAULT_USER_EMAIL = 'dummy@cashbook.com';
     const user = await User.findOne({
       where: {
-        id: DEFAULT_USER_ID,
+        email: DEFAULT_USER_EMAIL,
       },
     });
-    if (user) return;
+    if (user) {
+      userId = user.id;
+      return;
+    }
 
-    User.create({
-      id: DEFAULT_USER_ID,
-      email: 'dummy@cashbook.com',
-      pw: 'dummy@cashbook.com',
+    const dummyUser = await User.create({
+      email: DEFAULT_USER_EMAIL,
+      pw: DEFAULT_USER_EMAIL,
     });
+    userId = dummyUser.id;
   });
 
-  Category.sync().then(async () => {
+  await Category.sync().then(async () => {
     const categories = await Category.findAll();
 
     if (categories.length === DEFAULT_CATEGORY.length) return;
     Category.bulkCreate(DEFAULT_CATEGORY);
   });
 
-  Payment.sync().then(async () => {
+  await Payment.sync().then(async () => {
     const payments = await Payment.findAll();
 
     if (payments.length > DEFAULT_PAYMENT.length) return;
     Payment.bulkCreate(DEFAULT_PAYMENT);
   });
 
-  History.sync().then(async () => {
+  await History.sync().then(async () => {
     const histories = await History.findAll();
     if (histories.length > DEFAULT_HISTORY_LENGTH) return;
     History.bulkCreate(
-      getDummyHistories(DEFAULT_CATEGORY.length, DEFAULT_PAYMENT.length),
+      getDummyHistories(
+        userId,
+        DEFAULT_CATEGORY.length,
+        DEFAULT_PAYMENT.length,
+      ),
     );
   });
 };
