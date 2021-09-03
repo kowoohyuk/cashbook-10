@@ -38,8 +38,6 @@ export class PaymentDropdown extends Component<TDropProps, TDropdownState> {
 
   async initList() {
     const paymentList = await getUserPaymentListAPI();
-
-    console.log(paymentList);
     this.setState({
       paymentList,
     });
