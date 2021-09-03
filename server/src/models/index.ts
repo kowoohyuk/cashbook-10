@@ -5,7 +5,12 @@ import Category from './category';
 import Payment from './payment';
 import UserPayment from './userPayment';
 import History from './history';
-import { DEFAULT_CATEGORY, DEFAULT_PAYMENT } from './dummy';
+import {
+  DEFAULT_CATEGORY,
+  DEFAULT_PAYMENT,
+  DEFAULT_HISTORY_LENGTH,
+  getDefaultHistories,
+} from './dummy';
 
 dotenv.config();
 export const sequelize = new Sequelize({
@@ -29,6 +34,15 @@ const init = () => {
 
     if (payments.length > DEFAULT_PAYMENT.length) return;
     Payment.bulkCreate(DEFAULT_PAYMENT);
+  });
+
+  History.sync().then(async () => {
+    const histories = await History.findAll();
+
+    if (histories.length > DEFAULT_HISTORY_LENGTH) return;
+    History.bulkCreate(
+      getDefaultHistories(DEFAULT_CATEGORY.length, DEFAULT_PAYMENT.length),
+    );
   });
 };
 
